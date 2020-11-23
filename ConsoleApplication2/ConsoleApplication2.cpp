@@ -10,6 +10,7 @@ int main(){
     al_init();
     display = al_create_display(640, 480);
     al_rest(5.0);
+    std::cout << "Hello World2\n";
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
