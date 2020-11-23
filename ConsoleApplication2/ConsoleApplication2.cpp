@@ -9,7 +9,7 @@ int main(){
     ALLEGRO_DISPLAY* display = NULL;
     al_init();
     display = al_create_display(640, 480);
-    al_rest(5.0);
+    al_rest(10.0);
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
