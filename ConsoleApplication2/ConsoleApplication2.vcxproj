@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="App.cpp" />
     <ClCompile Include="ConsoleApplication2.cpp" />
     <ClCompile Include="Engine.cpp" />
   </ItemGroup>

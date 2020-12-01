@@ -1,23 +1,37 @@
 #include "Engine.h"
+#include <iostream>
 
-void app::App::Run(void) {
-	game.MainLoop();
-}
+namespace app {
+	
 
-void app::App::RunIteration(void){
-	game.MainLoopIteration();
-}
-app::Game& app::App::GetGame(void) {
-	return game;
-}
-
-const app::Game& app::App::GetGame(void) const {
-	return game;
-}
-
-void app::App::Main(void) {
-	Initialise();
-	Load();
-	Run();
-	Clear();
-}
+	void Game::Invoke(const Action& f) { if (f) f(); }
+	//template <typename Tfunc>
+	void Game::SetRender(Action& f) { render = f; }
+	void Game::SetDone(Pred& f) { done = f; }
+	// rest of setters are similary defined
+	void Game::Render(void) { Invoke(render); }
+	void Game::ProgressAnimations(void) { Invoke(anim); }
+	void Game::Input(void) { Invoke(input); }
+	void Game::AI(void) { Invoke(ai); }
+	void Game::Physics(void) { Invoke(physics); }
+	void Game::CollisionChecking(void) { Invoke(collisions); }
+	void Game::CommitDestructions(void) { Invoke(destruct); }
+	void Game::UserCode(void) { Invoke(user); }
+	bool Game::IsFinished(void) const { return done(); }
+	
+	void Game::MainLoop(void) {
+		while (!IsFinished())
+			MainLoopIteration();
+	};
+	
+	void Game::MainLoopIteration(void) {
+		Render();
+		Input();
+		ProgressAnimations();
+		AI();
+		Physics();
+		CollisionChecking();
+		CommitDestructions();
+		UserCode();
+	};
+};

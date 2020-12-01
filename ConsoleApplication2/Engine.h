@@ -6,25 +6,27 @@ namespace app {
 	public:
 		using Action = std::function<void(void)>;
 		using Pred = std::function<bool(void)>;
+
 	private:
 		Action render, anim, input, ai, physics, destruct, collisions, user;
 		Pred done;
-		void Invoke(const Action& f) { if (f) f(); }
+		void Invoke(const Action& f);
 	public:
-		template <typename Tfunc>
-		void SetRender(const Tfunc& f) { render = f; }
+		//template <typename Tfunc>
+		void SetRender(Action &f);
+		void SetDone(Pred& f);
 		// rest of setters are similary defined
-		void Render(void) { Invoke(render); }
-		void ProgressAnimations(void) { Invoke(anim); }
-		void Input(void) { Invoke(input); }
-		void AI(void) { Invoke(ai); }
-		void Physics(void) { Invoke(physics); }
-		void CollisionChecking(void) { Invoke(collisions); }
-		void CommitDestructions(void) { Invoke(destruct); }
-		void UserCode(void) { Invoke(user); }
-		bool IsFinished(void) const { return !done(); }
-		void MainLoop(void) {};
-		void MainLoopIteration(void) {};
+		void Render(void);
+		void ProgressAnimations(void);
+		void Input(void);
+		void AI(void);
+		void Physics(void);
+		void CollisionChecking(void);
+		void CommitDestructions(void);
+		void UserCode(void);
+		bool IsFinished(void) const;
+		void MainLoop(void);
+		void MainLoopIteration(void);
 	};
 
 
