@@ -49,7 +49,8 @@ class UnitTest : app::App {
 
 	std::function<bool(void)> done = [&] {
 		ALLEGRO_EVENT event;
-		if (al_peek_next_event(queue, &event))
+		//https://www.allegro.cc/manual/5/al_wait_for_event_timed
+		if (al_wait_for_event_timed(queue, &event, 0.001))
 			if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 				return true;
 		return false;
