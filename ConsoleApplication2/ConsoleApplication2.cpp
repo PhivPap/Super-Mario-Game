@@ -13,8 +13,8 @@
 #define DIS_HEIGHT 480
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
-#define VIEW_WINS_HEIGHT_DISPLACEMENT 16
-#define VIEW_WINS_WIDTH_DISPLACEMENT 16
+#define VIEW_WINS_HEIGHT_DISPLACEMENT 32
+#define VIEW_WINS_WIDTH_DISPLACEMENT 32
 
 #define SCROLL_DIST 8
 
@@ -80,36 +80,49 @@ class UnitTest : app::App {
 		if (al_get_next_event(keyboard_queue, &kb_event)) {
 			if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (kb_event.keyboard.keycode == ALLEGRO_KEY_UP) {
-					//std::cout << "up key" << std::endl;
 					ScrollWithBoundsCheck(0, -SCROLL_DIST, tile_win_moved);
 				}
 				else if (kb_event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
-					//std::cout << "down key" << std::endl;
 					ScrollWithBoundsCheck(0, SCROLL_DIST, tile_win_moved);
 				}
 				else if (kb_event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
-					//std::cout << "right key" << std::endl;
 					ScrollWithBoundsCheck(SCROLL_DIST, 0, tile_win_moved);
 				}
 				else if (kb_event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
-					//std::cout << "left key" << std::endl;
 					ScrollWithBoundsCheck(-SCROLL_DIST, 0, tile_win_moved);
 				}
 				else if (kb_event.keyboard.keycode == ALLEGRO_KEY_HOME) {
-					//al_set_window_position(display, 0, 0);
+					view_win.x = 0;
+					view_win.y = 0;
+					tile_view_win.x = 0;
+					tile_view_win.y = 0;
+					tile_win_moved = true;
 				}
 				else if (kb_event.keyboard.keycode == ALLEGRO_KEY_END) {
-
+					view_win.x = map_dim.w - DIS_WIDTH;
+					view_win.y = map_dim.h - DIS_HEIGHT;
+					tile_view_win.x = view_win.x - VIEW_WINS_WIDTH_DISPLACEMENT;
+					tile_view_win.y = view_win.y - VIEW_WINS_HEIGHT_DISPLACEMENT;
+					tile_win_moved = true;
 				}
 			}
 		}
+
 		if (al_get_next_event(mouse_queue, &mouse_event)) {
 			if (mouse_event.mouse.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 				if (mouse_event.mouse.button == 1) {
-					int dx, dy;
-					al_get_mouse_cursor_position(&dx, &dy);
-					std::cout << dx << " " << dy << std::endl;
-					ScrollWithBoundsCheck(dx, dy, tile_win_moved);
+					//al_hide_mouse_cursor(display);
+					//freeze Game (input, animations, physics, etc..). We don't care, mouse scrolling will be discarded prob.
+					while (mouse_event.mouse.type != ALLEGRO_EVENT_MOUSE_BUTTON_UP) { 
+						//move relative to view window centre (640/2 , 480/2)
+						int dx = (mouse_event.mouse.x - DIS_WIDTH / 2 < 0) ? -1 : 1; // move 1 pixel cuz we fast and map small.
+						int dy = (mouse_event.mouse.y - DIS_HEIGHT / 2 < 0) ? -1 : 1;
+						ScrollWithBoundsCheck(dx, dy, tile_win_moved);
+						TileTerrainDisplay();
+						al_get_next_event(mouse_queue, &mouse_event);
+						//uncomment for click smashing
+						//break; 
+					}
 				}
 			}
 		}
@@ -130,11 +143,11 @@ class UnitTest : app::App {
 			tile_view_win.y -= VIEW_WINS_HEIGHT_DISPLACEMENT;
 			moved = true;
 		}
-		if (view_win.x + view_win.w > tile_view_win.x + tile_view_win.w){
+		if (view_win.x + view_win.w > tile_view_win.x + tile_view_win.w) {
 			tile_view_win.x += VIEW_WINS_WIDTH_DISPLACEMENT;
 			moved = true;
 		}
-		if (view_win.y + view_win.h > tile_view_win.y + tile_view_win.h){
+		if (view_win.y + view_win.h > tile_view_win.y + tile_view_win.h) {
 			tile_view_win.y += VIEW_WINS_HEIGHT_DISPLACEMENT;
 			moved = true;
 		}
@@ -156,10 +169,9 @@ class UnitTest : app::App {
 		int val = d + viewStartCoord;
 		if (val < 0)
 			d = viewStartCoord;
-			//d = 0;
-		else if ((val + viewSize) >= map_dim)
+		else if ((val + viewSize) >= map_dim) {
 			d = map_dim - (viewStartCoord + viewSize);
-			//d = map_dim - viewSize;
+		}
 	}
 
 	void FilterScroll(int& dx, int& dy) {
