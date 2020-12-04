@@ -13,8 +13,10 @@ namespace app {
 		void Invoke(const Action& f);
 	public:
 		//template <typename Tfunc>
-		void SetRender(Action &f);
+		void SetRender(Action& f);
+		void SetInput(Action& f);
 		void SetDone(Pred& f);
+		
 		// rest of setters are similary defined
 		void Render(void);
 		void ProgressAnimations(void);

@@ -2,9 +2,6 @@
 #include <iostream>
 
 namespace app {
-
-
-
 	void App::Run(void) {
 		game.MainLoop();
 	}

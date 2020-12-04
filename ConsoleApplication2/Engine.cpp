@@ -8,6 +8,7 @@ namespace app {
 	//template <typename Tfunc>
 	void Game::SetRender(Action& f) { render = f; }
 	void Game::SetDone(Pred& f) { done = f; }
+	void Game::SetInput(Action& f) { input = f; }
 	// rest of setters are similary defined
 	void Game::Render(void) { Invoke(render); }
 	void Game::ProgressAnimations(void) { Invoke(anim); }
@@ -33,5 +34,6 @@ namespace app {
 		CollisionChecking();
 		CommitDestructions();
 		UserCode();
+		// FPS calculation ?
 	};
 };
