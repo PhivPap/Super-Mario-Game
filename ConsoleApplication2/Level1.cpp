@@ -1,42 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
-#include <vector> 
-#include <fstream>
-#include <chrono>
-
-#include "Engine.h"
-
-#define DIS_WIDTH 640
-#define DIS_HEIGHT 480
-#define TILE_WIDTH 16
-#define TILE_HEIGHT 16
-
-#define SCROLL_DIST 64
-
-#define TILESET_PATH "UnitTest1Media/overworld_tileset_grass.png"
-#define TILEMAP_PATH "UnitTest1Media/map1_Kachelebene_1.csv"
-
-//#define DIS_WIDTH_AS_TILES (DIS_WIDTH/TILE_WIDTH)
-//#define DIS_HEIGHT_AS_TILES (DIS_HEIGHT/TILE_HEIGHT)
-
-typedef unsigned char byte;
-typedef unsigned int uint;
-typedef long long unsigned llu;
-
-struct Rect {
-	uint x, y, w, h;
-};
-
-struct Point {
-	uint x, y;
-};
-
-struct Dim {
-	uint w, h;
-};
+#include "Level1.h"
 
 class UnitTest : app::App {
 
@@ -60,7 +22,6 @@ class UnitTest : app::App {
 
 	std::function<void(void)> render = [&] {
 		frames++;
-		
 		TileTerrainDisplay();
 	};
 
