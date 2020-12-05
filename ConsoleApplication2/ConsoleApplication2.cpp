@@ -13,10 +13,8 @@
 #define DIS_HEIGHT 480
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
-#define VIEW_WINS_HEIGHT_DISPLACEMENT 32
-#define VIEW_WINS_WIDTH_DISPLACEMENT 32
 
-#define SCROLL_DIST 8
+#define SCROLL_DIST 64
 
 #define TILESET_PATH "UnitTest1Media/overworld_tileset_grass.png"
 #define TILEMAP_PATH "UnitTest1Media/map1_Kachelebene_1.csv"
@@ -57,7 +55,7 @@ class UnitTest : app::App {
 	long long unsigned frames = 0;
 	uint counter = 0;
 	Rect view_win = { 0, 0, DIS_WIDTH, DIS_HEIGHT };
-	Rect tile_view_win = { 0, 0, DIS_WIDTH + VIEW_WINS_WIDTH_DISPLACEMENT, DIS_HEIGHT + VIEW_WINS_HEIGHT_DISPLACEMENT};
+	Rect tile_view_win = { 0, 0, DIS_WIDTH + TILE_WIDTH, DIS_HEIGHT + TILE_HEIGHT };
 	Dim map_dim = {0};
 
 	std::function<void(void)> render = [&] {
@@ -101,8 +99,8 @@ class UnitTest : app::App {
 				else if (kb_event.keyboard.keycode == ALLEGRO_KEY_END) {
 					view_win.x = map_dim.w - DIS_WIDTH;
 					view_win.y = map_dim.h - DIS_HEIGHT;
-					tile_view_win.x = view_win.x - VIEW_WINS_WIDTH_DISPLACEMENT;
-					tile_view_win.y = view_win.y - VIEW_WINS_HEIGHT_DISPLACEMENT;
+					tile_view_win.x = view_win.x - TILE_WIDTH;
+					tile_view_win.y = view_win.y - TILE_HEIGHT;
 					tile_win_moved = true;
 				}
 			}
@@ -136,19 +134,19 @@ class UnitTest : app::App {
 	bool TileAllignedViewBoundCheck() {
 		bool moved = false;
 		if (view_win.x < tile_view_win.x) {
-			tile_view_win.x -= VIEW_WINS_WIDTH_DISPLACEMENT;
+			tile_view_win.x = TILE_WIDTH * (uint)(view_win.x / TILE_WIDTH);
 			moved = true;
 		}
 		if (view_win.y < tile_view_win.y) {
-			tile_view_win.y -= VIEW_WINS_HEIGHT_DISPLACEMENT;
+			tile_view_win.y = TILE_HEIGHT * (uint)(view_win.y / TILE_HEIGHT);
 			moved = true;
 		}
 		if (view_win.x + view_win.w > tile_view_win.x + tile_view_win.w) {
-			tile_view_win.x += VIEW_WINS_WIDTH_DISPLACEMENT;
+			tile_view_win.x = TILE_WIDTH * (uint)(view_win.x / TILE_WIDTH);
 			moved = true;
 		}
 		if (view_win.y + view_win.h > tile_view_win.y + tile_view_win.h) {
-			tile_view_win.y += VIEW_WINS_HEIGHT_DISPLACEMENT;
+			tile_view_win.y = TILE_HEIGHT * (uint)(view_win.y / TILE_HEIGHT);
 			moved = true;
 		}
 		return moved;
@@ -168,10 +166,9 @@ class UnitTest : app::App {
 	static void FilterScrollDistance(uint viewStartCoord, uint viewSize, int& d, uint map_dim) {
 		int val = d + viewStartCoord;
 		if (val < 0)
-			d = viewStartCoord;
-		else if ((val + viewSize) >= map_dim) {
-			d = map_dim - (viewStartCoord + viewSize);
-		}
+			d = -(int)viewStartCoord;
+		else if ((val + viewSize) >= map_dim)
+			d = map_dim - (viewStartCoord + viewSize + 1);
 	}
 
 	void FilterScroll(int& dx, int& dy) {
