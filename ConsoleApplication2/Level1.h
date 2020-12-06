@@ -49,7 +49,7 @@ class UnitTest : app::App {
 	bool game_finished;
 	bool tile_win_moved;
 	std::chrono::steady_clock::time_point old_time, new_time;
-	long long unsigned frames;
+	llu frames;
 	uint counter;
 	Rect view_win;
 	Rect tile_view_win;
@@ -68,6 +68,7 @@ class UnitTest : app::App {
 	void ReadTextMap(std::vector<std::vector<byte>>& , Dim& );
 
 public:
+	UnitTest();
 	virtual void Initialise(void);
 	virtual void Load(void);
 	virtual void Clear(void);

@@ -150,6 +150,7 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
