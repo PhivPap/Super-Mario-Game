@@ -10,15 +10,15 @@
 
 #include "Engine.h"
 
-#define DIS_WIDTH 640
-#define DIS_HEIGHT 480
+#define DIS_WIDTH 1280
+#define DIS_HEIGHT 960
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
 
-#define SCROLL_DIST 128
+#define SCROLL_DIST 64
 
-#define TILESET_PATH "UnitTest1Media/overworld_tileset_grass.png"
-#define TILEMAP_PATH "UnitTest1Media/map1_Kachelebene_1.csv"
+#define TILESET_PATH "UnitTests/UnitTest1/media/overworld_tileset_grass.png"
+#define TILEMAP_PATH "UnitTests/UnitTest1/media/my_map.csv"
 
 typedef unsigned char byte;
 typedef unsigned int uint;

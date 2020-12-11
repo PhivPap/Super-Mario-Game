@@ -42,8 +42,8 @@ namespace app {
 		virtual void	Load(void) = 0;
 		virtual void	Run(void);
 		virtual void	RunIteration(void);
-		Game& GetGame(void);
-		const Game& GetGame(void) const;
+		Game&			GetGame(void);
+		const Game&		GetGame(void) const;
 		virtual void	Clear(void) = 0;
 		void Main(void);
 	};
