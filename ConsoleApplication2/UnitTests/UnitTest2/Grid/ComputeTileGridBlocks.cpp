@@ -1,10 +1,6 @@
 #include "ComputeTileGridBlocks.h"
 #include "Level1.h"
 
-#define MAX_WIDTH 1024 // tiles??
-#define MAX_HEIGHT 256 // tiles??
-// maybe get actual map size from level 1.
-
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ These are from Lecture 8: Slide 16. 
 
 #define GRID_ELEMENT_WIDTH 4 // in pixels
@@ -13,8 +9,6 @@
 #define GRID_BLOCK_COLUMNS (TILE_WIDTH / GRID_ELEMENT_WIDTH) // 16/4 = 4
 #define GRID_BLOCK_ROWS (TILE_HEIGHT / GRID_ELEMENT_HEIGHT) // 16/4 = 4
 #define GRID_ELEMENTS_PER_TILE (GRID_BLOCK_ROWS * GRID_BLOCK_COLUMNS) // <-- ??
-
-
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ These are from Lecture 8: Slide 33.
 
