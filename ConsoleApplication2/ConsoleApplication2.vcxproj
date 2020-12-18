@@ -158,11 +158,15 @@
     <ClCompile Include="Engine\App.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="UnitTests\UnitTest1\Level1.cpp" />
-    <ClCompile Include="UnitTests\UnitTest1\Main.cpp" />
+    <ClCompile Include="UnitTests\UnitTest2\ComputeTileGridBlocks.cpp" />
+    <ClCompile Include="UnitTests\UnitTest2\Level2.cpp" />
+    <ClCompile Include="UnitTests\UnitTest2\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="UnitTests\UnitTest1\Level1.h" />
+    <ClInclude Include="UnitTests\UnitTest2\ComputeTileGridBlocks.h" />
+    <ClInclude Include="UnitTests\UnitTest2\Level2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

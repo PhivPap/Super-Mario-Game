@@ -40,8 +40,14 @@
     <ClCompile Include="UnitTests\UnitTest1\Level1.cpp">
       <Filter>UnitTests\UnitTest1\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UnitTests\UnitTest1\Main.cpp">
-      <Filter>UnitTests\UnitTest1\Source Files</Filter>
+    <ClCompile Include="UnitTests\UnitTest2\ComputeTileGridBlocks.cpp">
+      <Filter>UnitTests\UnitTest2\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTests\UnitTest2\Level2.cpp">
+      <Filter>UnitTests\UnitTest2\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTests\UnitTest2\Main.cpp">
+      <Filter>UnitTests\UnitTest2\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +56,12 @@
     </ClInclude>
     <ClInclude Include="UnitTests\UnitTest1\Level1.h">
       <Filter>UnitTests\UnitTest1\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTests\UnitTest2\ComputeTileGridBlocks.h">
+      <Filter>UnitTests\UnitTest2\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTests\UnitTest2\Level2.h">
+      <Filter>UnitTests\UnitTest2\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
