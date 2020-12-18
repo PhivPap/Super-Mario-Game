@@ -238,6 +238,10 @@ void UnitTest::Clear(void) {
 	al_uninstall_mouse();
 }
 
+std::vector<std::vector<byte>>& UnitTest::getMapRef() {
+	return map;
+}
+
 void UnitTest::Main() {
 	app::App::Main();
 }

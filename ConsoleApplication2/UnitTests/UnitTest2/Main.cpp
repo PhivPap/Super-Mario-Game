@@ -1,10 +1,9 @@
 #include "Level2.h"
-//#include "ComputeTileGridBlocks.h"
+#include "Grid\ComputeTileGridBlocks.h"
 
 int main() {
-	//ComputeTileGridBlocks1(...);
-	//ComputeTileGridBlocks2(...);
-	//return;
-	UnitTest2 utest;
-	utest.Main();
+	ComputeTileGridBlocks();
+	return 0;
+	/*UnitTest2 utest;
+	utest.Main();*/
 }

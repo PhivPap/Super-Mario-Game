@@ -68,6 +68,7 @@ class UnitTest : app::App {
 	void ReadTextMap(std::vector<std::vector<byte>>& , Dim& );
 
 public:
+	std::vector<std::vector<byte>> &getMapRef();
 	UnitTest();
 	virtual void Initialise(void);
 	virtual void Load(void);

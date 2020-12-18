@@ -26,6 +26,9 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{97a628e5-0969-4e4c-bf57-f52f539b99ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UnitTests\UnitTest2\Grid">
+      <UniqueIdentifier>{8e8921e1-f5ff-4f7c-962c-0e35ba4d1aaa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -40,14 +43,14 @@
     <ClCompile Include="UnitTests\UnitTest1\Level1.cpp">
       <Filter>UnitTests\UnitTest1\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UnitTests\UnitTest2\ComputeTileGridBlocks.cpp">
-      <Filter>UnitTests\UnitTest2\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UnitTests\UnitTest2\Level2.cpp">
       <Filter>UnitTests\UnitTest2\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UnitTests\UnitTest2\Main.cpp">
       <Filter>UnitTests\UnitTest2\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.cpp">
+      <Filter>UnitTests\UnitTest2\Grid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,11 +60,11 @@
     <ClInclude Include="UnitTests\UnitTest1\Level1.h">
       <Filter>UnitTests\UnitTest1\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UnitTests\UnitTest2\ComputeTileGridBlocks.h">
-      <Filter>UnitTests\UnitTest2\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UnitTests\UnitTest2\Level2.h">
       <Filter>UnitTests\UnitTest2\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.h">
+      <Filter>UnitTests\UnitTest2\Grid</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
