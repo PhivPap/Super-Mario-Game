@@ -3,8 +3,8 @@
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ These are from Lecture 8: Slide 16. 
 
-#define GRID_ELEMENT_WIDTH 4 // in pixels
-#define GRID_ELEMENT_HEIGHT 4 // in pixels
+#define GRID_ELEMENT_WIDTH 16 // in pixels
+#define GRID_ELEMENT_HEIGHT 16 // in pixels
 
 #define GRID_BLOCK_COLUMNS (TILE_WIDTH / GRID_ELEMENT_WIDTH) // 16/4 = 4
 #define GRID_BLOCK_ROWS (TILE_HEIGHT / GRID_ELEMENT_HEIGHT) // 16/4 = 4
@@ -65,9 +65,9 @@ static void ComputeTileGridBlocks1(std::vector<std::vector<byte>>& map, std::vec
 		grid_elem_x = 0;
 		for (uint tile_x = 0; tile_x < MAX_WIDTH; tile_x++) {
 			grid[grid_elem_y][grid_elem_x] = tile_info_1[map[tile_y][tile_x]];
-			grid_elem_x += GRID_ELEMENT_WIDTH;
+			grid_elem_x += GRID_BLOCK_COLUMNS;
 		}
-		grid_elem_y += GRID_ELEMENT_HEIGHT;
+		grid_elem_y += GRID_BLOCK_ROWS;
 	}
 }
 

@@ -2,10 +2,18 @@
 
 namespace app {
 	
-	void Game::Invoke(const Action& f) { if (f) f(); }
+	void Game::Invoke(const Action& f_list) { 
+		if (!f_list.empty())
+			for (auto f : f_list)
+				f();
+	}
+	
+	void Game::addFirstRender(std::function<void(void)>& f) { render.push_front(f); }
+	void Game::addLastRender(std::function<void(void)>& f) { render.push_back(f); }
+	void Game::addFirstInput(std::function<void(void)>& f) { render.push_front(f); }
+	void Game::addLastInput(std::function<void(void)>& f) { render.push_back(f); }
+	
 	//template <typename Tfunc>
-	void Game::SetRender(Action& f) { render = f; }
-	void Game::SetInput(Action& f) { input = f; }
 	void Game::SetDone(Pred& f) { done = f; }
 	
 	// rest of setters are similary defined
@@ -19,6 +27,8 @@ namespace app {
 	void Game::UserCode(void) { Invoke(user); }
 	bool Game::IsFinished(void) const { return done(); }
 	
+
+
 	void Game::MainLoop(void) {
 		while (!IsFinished())
 			MainLoopIteration();

@@ -83,11 +83,13 @@ void UnitTest::TileTerrainDisplay() const {
 					0,
 					0,
 					0);
-	al_flip_display();
+	//al_flip_display();
 }
 
-void UnitTest::ReadTextMap(std::vector<std::vector<byte>>& map, Dim& map_dim) {
-	std::ifstream map_file(TILEMAP_PATH);
+int UnitTest::ReadCSV(std::vector<std::vector<byte>>& map, const char* fileName) {
+	std::ifstream map_file(fileName);
+	if (!map_file.is_open())
+		return 1;
 	std::string line;
 	std::string token = "";
 	while (getline(map_file, line)) {
@@ -109,9 +111,15 @@ void UnitTest::ReadTextMap(std::vector<std::vector<byte>>& map, Dim& map_dim) {
 		}
 		map.push_back(row);
 	}
+	map_file.close();
+	return 0;
+}
+
+void UnitTest::ReadTextMap(std::vector<std::vector<byte>>& map, Dim& map_dim) {
+	if (ReadCSV(map, TILEMAP_PATH) == 1)
+		exit(1);
 	map_dim.w = (uint)map[0].size() * TILE_WIDTH;
 	map_dim.h = (uint)map.size() * TILE_HEIGHT;
-	map_file.close();
 }
 
 
@@ -136,12 +144,16 @@ UnitTest::UnitTest() {
 		return game_finished;
 	};
 
-	render = [&] {
+	render_terrain = [&] {
 		frames++;
 		TileTerrainDisplay();
 	};
 
-	input = [&] {
+	flip_display = [] {
+		al_flip_display();
+	};
+
+	input_scroll = [&] {
 		ALLEGRO_EVENT display_event;
 		ALLEGRO_EVENT kb_event;
 		ALLEGRO_EVENT mouse_event;
@@ -222,9 +234,10 @@ void UnitTest::Initialise(void) {
 }
 void UnitTest::Load(void) {
 	ReadTextMap(map, map_dim);
-	game.SetRender(render);
+	game.addFirstRender(render_terrain);
+	game.addLastRender(flip_display);
 	game.SetDone(done);
-	game.SetInput(input);
+	game.addFirstInput(input_scroll);
 	old_time = std::chrono::high_resolution_clock::now();
 }
 

@@ -36,7 +36,7 @@ struct Dim {
 	uint w, h;
 };
 
-class UnitTest : app::App {
+class UnitTest : protected app::App {
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_BITMAP* tileset;
 	ALLEGRO_BITMAP* tile_alligned;
@@ -53,10 +53,11 @@ class UnitTest : app::App {
 	uint counter;
 	Rect view_win;
 	Rect tile_view_win;
-	Dim map_dim;
+	
 
-	std::function<void(void)> render;
-	std::function<void(void)> input;
+	std::function<void(void)> render_terrain;
+	std::function<void(void)> flip_display;
+	std::function<void(void)> input_scroll;
 	std::function<bool(void)> done;
 
 	bool TileAllignedViewBoundCheck();
@@ -65,9 +66,11 @@ class UnitTest : app::App {
 	static void FilterScrollDistance(uint, uint, int&, uint);
 	void FilterScroll(int&, int&);
 	void TileTerrainDisplay() const;
-	void ReadTextMap(std::vector<std::vector<byte>>& , Dim& );
+	void ReadTextMap(std::vector<std::vector<byte>>&, Dim&);
 
 public:
+	Dim map_dim;
+	static int ReadCSV(std::vector<std::vector<byte>>&, const char*); //csv to byte array.
 	std::vector<std::vector<byte>> &getMapRef();
 	UnitTest();
 	virtual void Initialise(void);

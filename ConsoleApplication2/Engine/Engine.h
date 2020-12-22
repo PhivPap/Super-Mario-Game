@@ -1,21 +1,25 @@
 #pragma once
 #include <functional>
+#include <list>
 
 namespace app {
 	class Game { // app::Game namespace, the mother application
 	public:
-		using Action = std::function<void(void)>;
+		using Action = std::list<std::function<void(void)>>;
 		using Pred = std::function<bool(void)>;
 
 	private:
 		Action render, anim, input, ai, physics, destruct, collisions, user;
 		Pred done;
-		void Invoke(const Action& f);
+		void Invoke(const Action& );
 	public:
 		//template <typename Tfunc>
-		void SetRender(Action& f);
-		void SetInput(Action& f);
-		void SetDone(Pred& f);
+		void addFirstRender(std::function<void(void)>&);
+		void addLastRender(std::function<void(void)>&);
+		void addFirstInput(std::function<void(void)>&);
+		void addLastInput(std::function<void(void)>&);
+
+		void SetDone(Pred&);
 		
 		// rest of setters are similary defined
 		void Render(void);
