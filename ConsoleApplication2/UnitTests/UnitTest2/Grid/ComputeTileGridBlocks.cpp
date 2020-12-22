@@ -14,14 +14,27 @@
 
 #define GRID1_OUT "UnitTests\\UnitTest2\\Grid\\grid1.csv"
 #define GRID2_OUT "UnitTests\\UnitTest2\\Grid\\grid2.csv"
+//#define TILES_AMOUNT 252
 
+#define GRID_EMPTY_TILE 0
+#define GRID_SOLID_TILE 1
+
+
+uint MAX_HEIGHT = -1;
+uint MAX_WIDTH = -1;
 uint GRID_MAX_HEIGHT = -1;
 uint GRID_MAX_WIDTH = -1;
 
+byte tile_info_1[] = {
+	#include "TileInfo1.txt"
+};
+
 // Inits grid to the correct size and the 2 vars above.
 static void Init(std::vector<std::vector<byte>> &map, std::vector<std::vector<byte>> &grid) {
-	GRID_MAX_HEIGHT = (uint)map.size() * GRID_BLOCK_ROWS;
-	GRID_MAX_WIDTH = (uint)map[0].size() * GRID_BLOCK_COLUMNS;
+	MAX_HEIGHT = (uint)map.size();
+	MAX_WIDTH = (uint)map[0].size();
+	GRID_MAX_HEIGHT = MAX_HEIGHT * GRID_BLOCK_ROWS;
+	GRID_MAX_WIDTH = MAX_WIDTH * GRID_BLOCK_COLUMNS;
 	std::cout << "GRID_MAX_HEIGHT = " << GRID_MAX_HEIGHT << std::endl << "GRID_MAX_WIDTH = " << GRID_MAX_WIDTH << std::endl;
 	for (uint i = 0; i < GRID_MAX_HEIGHT; i++) {
 		std::vector<byte> row(GRID_MAX_WIDTH);
@@ -43,13 +56,18 @@ static void WriteGrid(std::vector<std::vector<byte>>& grid, const char *fileName
 }
 
 
-static void ComputeTileGridBlocks1(std::vector<std::vector<byte>> &grid) {
+static void ComputeTileGridBlocks1(std::vector<std::vector<byte>>& map, std::vector<std::vector<byte>> &grid) {
 	// JUST A DEMO gia na dw ti vgazei sto grid1.csv
 	uint i = 0;
-	for (uint a = 0; a < GRID_MAX_HEIGHT; a++) {
-		for (uint b = 0; b < GRID_MAX_WIDTH; b++) {
-			grid[a][b] = i++;
+	uint grid_elem_x;
+	uint grid_elem_y = 0;
+	for (uint tile_y = 0; tile_y < MAX_HEIGHT; tile_y++) {
+		grid_elem_x = 0;
+		for (uint tile_x = 0; tile_x < MAX_WIDTH; tile_x++) {
+			grid[grid_elem_y][grid_elem_x] = tile_info_1[map[tile_y][tile_x]];
+			grid_elem_x += GRID_ELEMENT_WIDTH;
 		}
+		grid_elem_y += GRID_ELEMENT_HEIGHT;
 	}
 }
 
@@ -65,7 +83,7 @@ void ComputeTileGridBlocks() {
 	Init(map, grid);
 
 
-	ComputeTileGridBlocks1(grid);
+	ComputeTileGridBlocks1(map, grid);
 	WriteGrid(grid, GRID1_OUT);
 	/*ComputeTileGridBlocks2();
 	WriteGrid(grid, GRID2_OUT);*/
