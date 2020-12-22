@@ -10,8 +10,8 @@ namespace app {
 	
 	void Game::addFirstRender(std::function<void(void)>& f) { render.push_front(f); }
 	void Game::addLastRender(std::function<void(void)>& f) { render.push_back(f); }
-	void Game::addFirstInput(std::function<void(void)>& f) { render.push_front(f); }
-	void Game::addLastInput(std::function<void(void)>& f) { render.push_back(f); }
+	void Game::addFirstInput(std::function<void(void)>& f) { input.push_front(f); }
+	void Game::addLastInput(std::function<void(void)>& f) { input.push_back(f); }
 	
 	//template <typename Tfunc>
 	void Game::SetDone(Pred& f) { done = f; }

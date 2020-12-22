@@ -83,7 +83,6 @@ void UnitTest::TileTerrainDisplay() const {
 					0,
 					0,
 					0);
-	//al_flip_display();
 }
 
 int UnitTest::ReadCSV(std::vector<std::vector<byte>>& map, const char* fileName) {
