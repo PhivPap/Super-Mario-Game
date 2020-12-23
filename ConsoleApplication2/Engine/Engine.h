@@ -18,7 +18,7 @@ namespace app {
 		void addLastRender(std::function<void(void)>&);
 		void addFirstInput(std::function<void(void)>&);
 		void addLastInput(std::function<void(void)>&);
-
+		void clearInput();
 		void SetDone(Pred&);
 		
 		// rest of setters are similary defined

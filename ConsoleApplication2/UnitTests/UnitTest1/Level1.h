@@ -60,7 +60,7 @@ class UnitTest : protected app::App {
 	std::function<bool(void)> done;
 
 	bool TileAllignedViewBoundCheck();
-	void ScrollWithBoundsCheck(int, int, bool&);
+	
 	void Scroll(int, int);
 	static void FilterScrollDistance(uint, uint, int&, uint);
 	void FilterScroll(int&, int&);
@@ -68,6 +68,7 @@ class UnitTest : protected app::App {
 	void ReadTextMap(std::vector<std::vector<byte>>&, Dim&);
 
 protected:
+	void ScrollWithBoundsCheck(int, int, bool&);
 	ALLEGRO_EVENT_QUEUE* keyboard_queue;
 	Dim map_dim;
 public:
