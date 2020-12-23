@@ -164,7 +164,7 @@ UnitTest::UnitTest() {
 
 		tile_win_moved = false;
 		if (al_get_next_event(keyboard_queue, &kb_event)) {
-			if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
+			//if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (kb_event.keyboard.keycode == ALLEGRO_KEY_UP) {
 					ScrollWithBoundsCheck(0, -SCROLL_DIST, tile_win_moved);
 				}
@@ -191,7 +191,7 @@ UnitTest::UnitTest() {
 					tile_view_win.y = view_win.y - TILE_HEIGHT;
 					tile_win_moved = true;
 				}
-			}
+			//}
 		}
 
 		if (al_get_next_event(mouse_queue, &mouse_event)) {

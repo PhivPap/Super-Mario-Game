@@ -41,7 +41,6 @@ class UnitTest : protected app::App {
 	ALLEGRO_BITMAP* tileset;
 	ALLEGRO_BITMAP* tile_alligned;
 	ALLEGRO_EVENT_QUEUE* display_queue;
-	ALLEGRO_EVENT_QUEUE* keyboard_queue;
 	ALLEGRO_EVENT_QUEUE* mouse_queue;
 	ALLEGRO_TIMER* timer;
 	std::vector<std::vector<byte>> map;
@@ -68,8 +67,10 @@ class UnitTest : protected app::App {
 	void TileTerrainDisplay() const;
 	void ReadTextMap(std::vector<std::vector<byte>>&, Dim&);
 
-public:
+protected:
+	ALLEGRO_EVENT_QUEUE* keyboard_queue;
 	Dim map_dim;
+public:
 	static int ReadCSV(std::vector<std::vector<byte>>&, const char*); //csv to byte array.
 	std::vector<std::vector<byte>> &getMapRef();
 	UnitTest();

@@ -2,7 +2,7 @@
 #include "Level1.h"
 #include <allegro5/allegro_primitives.h>
 
-#define GRIDMAP_PATH "UnitTests//UnitTest2//Grid//grid1.csv"
+
 
 class UnitTest2 : protected UnitTest {
 	ALLEGRO_COLOR color;
@@ -11,9 +11,16 @@ class UnitTest2 : protected UnitTest {
 	
 
 	std::function<void(void)> render_rect;
-
-
+	std::function<void(void)> input_rect;
+	
+	
 	void ReadTextGrid(std::vector<std::vector<byte>>&, Dim&);
+	void FilterGridMotion(const Rect&, int&, int&);
+	void FilterGridMotionLeft(const Rect&, int&);
+	void FilterGridMotionRight(const Rect&, int&);
+	void FilterGridMotionUp(const Rect&, int&);
+	void FilterGridMotionDown(const Rect&, int&);
+	bool CanPassGridTile(Dim, Dim, byte);
 
 public:
 	UnitTest2();
