@@ -1,6 +1,6 @@
 #include "Level2.h"
 
-#define RECT_MOVE_DIST 16 // REMOVE?? in pixels
+#define RECT_MOVE_DIST 4 // REMOVE?? in pixels
 
 #define GRID_ELEMENT_WIDTH 16 // in pixels
 #define GRID_ELEMENT_HEIGHT 16 // in pixels
@@ -39,8 +39,17 @@ UnitTest2::UnitTest2() {
 		ALLEGRO_EVENT kb_event;
 		int dx, dy;
 		if(al_get_next_event(keyboard_rect_queue, &kb_event)){
+			if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
+				movement_keys[kb_event.keyboard.keycode] = true;
+			}
+			else if (kb_event.type == ALLEGRO_EVENT_KEY_UP) {
+				movement_keys[kb_event.keyboard.keycode] = false;
+			}
+
+
 			//if(kb_event.type == ALLEGRO_EVENT_KEY_DOWN){
 			//std::cout << "Lvl2: key down\n";
+				
 				if(kb_event.keyboard.keycode == ALLEGRO_KEY_W){
 					dx = 0;
 					dy = -RECT_MOVE_DIST;
@@ -68,6 +77,28 @@ UnitTest2::UnitTest2() {
 			//}
 		}
 	};
+
+	physics_rect = [&]() {
+		//update speed  >>>> without timer event FOR NOW <<<<
+		// like this:
+		/*if (movement_keys[ALLEGRO_KEY_W]) {
+			rect_mvmnt.y_speed -= YSPEED;
+		}
+		if (movement_keys[ALLEGRO_KEY_S]) {
+			rect_mvmnt.y_speed += YSPEED;
+		}
+		if (movement_keys[ALLEGRO_KEY_A]) {
+			rect_mvmnt.x_speed -= XSPEED;
+		}
+		if (movement_keys[ALLEGRO_KEY_D]) {
+			rect_mvmnt.x_speed += XSPEED;
+		}*/
+
+		
+		//update location based on speed (rect_mvmnt) with timer event
+
+	};
+
 }
 
 void UnitTest2::Initialise(void) {
