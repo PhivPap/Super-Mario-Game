@@ -8,7 +8,7 @@ class UnitTest2 : protected UnitTest {
 	ALLEGRO_COLOR color;
 	ALLEGRO_EVENT_QUEUE* keyboard_rect_queue;
 	Rect rectangle{224, 176, 16, 16 };
-	std::vector<std::vector<byte>> grid; //grid[row][col]
+	std::vector<std::vector<byte>> grid; //grid[row][col] 
 	
 
 	std::function<void(void)> render_rect;

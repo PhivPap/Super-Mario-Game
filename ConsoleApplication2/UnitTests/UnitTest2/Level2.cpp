@@ -30,7 +30,7 @@ UnitTest2::UnitTest2() {
 		int dx, dy;
 		if(al_get_next_event(keyboard_rect_queue, &kb_event)){
 			//if(kb_event.type == ALLEGRO_EVENT_KEY_DOWN){
-			std::cout << "Lvl2: key down\n";
+			//std::cout << "Lvl2: key down\n";
 				if(kb_event.keyboard.keycode == ALLEGRO_KEY_W){
 					dx = 0;
 					dy = -RECT_MOVE_DIST;
@@ -52,10 +52,10 @@ UnitTest2::UnitTest2() {
 				else if(kb_event.keyboard.keycode == ALLEGRO_KEY_D){
 					dx = RECT_MOVE_DIST;
 					dy = 0;
-					std::cout << "b4 rectangle.x: " << rectangle.x << std::endl;
+					//std::cout << "b4 rectangle.x: " << rectangle.x << std::endl;
 					FilterGridMotion(rectangle, dx, dy);
 					rectangle.x += dx;
-					std::cout << "aft3r rectangle.x: " << rectangle.x << std::endl;
+					//std::cout << "aft3r rectangle.x: " << rectangle.x << std::endl;
 				}
 			//}
 		}
@@ -102,19 +102,32 @@ void UnitTest2::FilterGridMotion(const Rect& r, int& dx, int& dy){
 		FilterGridMotionRight(r, dx);
 
 	if (dy < 0)
-		FilterGridMotionDown(r, dy);
-	else if (dy > 0)
 		FilterGridMotionUp(r, dy);
+	else if (dy > 0)
+		FilterGridMotionDown(r, dy);
 }
 
 void UnitTest2::FilterGridMotionLeft(const Rect& r, int& dx){
-	//not implemented
-	std::cout << "not implemented" << std::endl;
-	dx = 0;
+	int x1_next = r.x + dx;
+	if (x1_next < 0)
+		dx = -(int)r.x;
+	else {
+		uint new_col = x1_next / GRID_ELEMENT_WIDTH;
+		uint curr_col = r.x / GRID_ELEMENT_WIDTH;
+		if (new_col != curr_col) {
+			uint top_row = r.y / GRID_ELEMENT_HEIGHT;
+			uint bottom_row = (r.y + r.h - 1) / GRID_ELEMENT_HEIGHT;
+			for (uint row = top_row; row <= bottom_row; row++) {
+				if (!CanPassGridTile(row, new_col, GRID_SOLID_TILE)) {
+					dx = new_col * GRID_ELEMENT_WIDTH - r.x;
+					break;
+				}
+			}
+		}
+	}
 }
 
 void UnitTest2::FilterGridMotionRight(const Rect& r, int& dx){
-	std::cout << "motion right" << std::endl;
 	int x2 = r.x + r.w - 1;
 	int x2_next = x2 + dx;
 	if (x2_next >= map_dim.w)
@@ -126,8 +139,7 @@ void UnitTest2::FilterGridMotionRight(const Rect& r, int& dx){
 			uint top_row = r.y / GRID_ELEMENT_HEIGHT;
 			uint bottom_row = (r.y + r.h - 1) / GRID_ELEMENT_HEIGHT;
 			for (uint row = top_row; row <= bottom_row; row++) {
-				if (!CanPassGridTile(new_col, row, GRID_SOLID_TILE)) {
-					std::cout << "Must not be here\n";
+				if (!CanPassGridTile(row, new_col, GRID_SOLID_TILE)) {
 					dx = new_col * GRID_ELEMENT_WIDTH - x2 - 1;
 					break;
 				}
@@ -137,16 +149,49 @@ void UnitTest2::FilterGridMotionRight(const Rect& r, int& dx){
 }
 
 void UnitTest2::FilterGridMotionUp(const Rect& r, int& dy){
-	//not implemented
-	dy = 0;
+	int y1_next = r.y + dy;
+	if (y1_next < 0)
+		dy = -(int)r.y;
+	else {
+		uint new_row = y1_next / GRID_ELEMENT_WIDTH;
+		uint curr_row = r.y / GRID_ELEMENT_WIDTH;
+		
+		if (new_row != curr_row) {
+			uint left_col = r.x / GRID_ELEMENT_HEIGHT;
+			uint right_col = (r.x + r.w - 1) / GRID_ELEMENT_HEIGHT;
+			
+			for (uint col = left_col; col <= right_col; col++) {
+				if (!CanPassGridTile(new_row, col, GRID_SOLID_TILE)) {
+					dy = new_row * GRID_ELEMENT_HEIGHT - r.y;
+					break;
+				}
+			}
+		}
+	}
 }
 
 void UnitTest2::FilterGridMotionDown(const Rect& r, int& dy){
-	//not implemented
-	dy = 0;
+	int y2 = r.y + r.h - 1;
+	int y2_next = y2 + dy;
+	if (y2_next >= map_dim.h)
+		dy = map_dim.h - y2;
+	else {
+		uint new_row = y2_next / GRID_ELEMENT_HEIGHT;
+		uint curr_row = y2 / GRID_ELEMENT_HEIGHT;
+		if (new_row != curr_row) {
+			uint left_col = r.x / GRID_ELEMENT_WIDTH;
+			uint right_col = (r.x + r.w - 1) / GRID_ELEMENT_WIDTH;
+			for (uint col = left_col; col <= right_col; col++) {
+				if (!CanPassGridTile(new_row, col, GRID_SOLID_TILE)) {
+					dy = new_row * GRID_ELEMENT_HEIGHT - y2 - 1;
+					break;
+				}
+			}
+		}
+	}
 }
 
 bool UnitTest2::CanPassGridTile(uint row, uint col, byte flags){
-	return grid[col][row] == GRID_EMPTY_TILE;
+	return grid[row][col] == GRID_EMPTY_TILE;
 	//return false;
 }
