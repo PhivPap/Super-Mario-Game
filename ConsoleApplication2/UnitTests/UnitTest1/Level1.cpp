@@ -45,8 +45,9 @@ void UnitTest::FilterScroll(int& dx, int& dy) {
 	FilterScrollDistance(view_win.y, view_win.h, dy, map_dim.h);
 }
 
-void UnitTest::TileTerrainDisplay() const {
+void UnitTest::TileTerrainDisplay() {
 	if(tile_win_moved){
+		tile_win_moved = false;
 		auto start_row = tile_view_win.y / TILE_HEIGHT;
 		auto start_col = tile_view_win.x / TILE_WIDTH;
 		auto end_row = (tile_view_win.y + tile_view_win.h - 1) / TILE_HEIGHT;
@@ -144,11 +145,11 @@ UnitTest::UnitTest() {
 	};
 
 	render_terrain = [&] {
-		frames++;
 		TileTerrainDisplay();
 	};
 
-	flip_display = [] {
+	flip_display = [&] {
+		frames++;
 		al_flip_display();
 	};
 

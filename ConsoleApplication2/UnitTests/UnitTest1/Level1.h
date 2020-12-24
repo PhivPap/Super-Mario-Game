@@ -64,7 +64,7 @@ class UnitTest : protected app::App {
 	void Scroll(int, int);
 	static void FilterScrollDistance(uint, uint, int&, uint);
 	void FilterScroll(int&, int&);
-	void TileTerrainDisplay() const;
+	void TileTerrainDisplay();
 	void ReadTextMap(std::vector<std::vector<byte>>&, Dim&);
 
 protected:

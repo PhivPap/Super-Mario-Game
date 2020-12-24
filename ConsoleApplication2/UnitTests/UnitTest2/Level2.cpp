@@ -39,7 +39,7 @@ UnitTest2::UnitTest2() {
 		ALLEGRO_EVENT kb_event;
 		int dx, dy;
 		if(al_get_next_event(keyboard_rect_queue, &kb_event)){
-			if(kb_event.type == ALLEGRO_EVENT_KEY_DOWN){
+			//if(kb_event.type == ALLEGRO_EVENT_KEY_DOWN){
 			//std::cout << "Lvl2: key down\n";
 				if(kb_event.keyboard.keycode == ALLEGRO_KEY_W){
 					dx = 0;
@@ -62,18 +62,15 @@ UnitTest2::UnitTest2() {
 				else if(kb_event.keyboard.keycode == ALLEGRO_KEY_D){
 					dx = RECT_MOVE_DIST;
 					dy = 0;
-					//std::cout << "b4 rectangle.x: " << rectangle.x << std::endl;
 					FilterGridMotion(rectangle, dx, dy);
 					rectangle.x += dx;
-					//std::cout << "aft3r rectangle.x: " << rectangle.x << std::endl;
 				}
-			}
+			//}
 		}
 	};
 }
 
 void UnitTest2::Initialise(void) {
-
 	UnitTest::Initialise();
 	if (!al_init_primitives_addon())
 		exit(1);
@@ -105,7 +102,6 @@ void UnitTest2::Main() {
 }
 
 void UnitTest2::FilterGridMotion(const Rect& r, int& dx, int& dy){
-
 	if (dx < 0)
 		FilterGridMotionLeft(r, dx);
 	else if (dx > 0)
@@ -202,6 +198,5 @@ void UnitTest2::FilterGridMotionDown(const Rect& r, int& dy){
 }
 
 bool UnitTest2::CanPassGridTile(uint row, uint col, byte flags){
-	return grid[row][col] == GRID_EMPTY_TILE;
-	//return false;
+	return grid[row][col] == GRID_EMPTY_TILE; // fix me pls
 }
