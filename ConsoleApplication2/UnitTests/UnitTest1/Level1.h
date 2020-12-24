@@ -40,12 +40,12 @@ class UnitTest : protected app::App {
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_BITMAP* tileset;
 	ALLEGRO_BITMAP* tile_alligned;
-	ALLEGRO_EVENT_QUEUE* display_queue;
+	
 	ALLEGRO_EVENT_QUEUE* mouse_queue;
 	ALLEGRO_TIMER* timer;
 	std::vector<std::vector<byte>> map;
 	uint tileset_width;
-	bool game_finished;
+	
 	bool tile_win_moved;
 	std::chrono::steady_clock::time_point old_time, new_time;
 	llu frames;
@@ -70,6 +70,8 @@ class UnitTest : protected app::App {
 protected:
 	void ScrollWithBoundsCheck(int, int, bool&);
 	ALLEGRO_EVENT_QUEUE* keyboard_queue;
+	ALLEGRO_EVENT_QUEUE* display_queue;
+	bool game_finished;
 	Dim map_dim;
 public:
 	static int ReadCSV(std::vector<std::vector<byte>>&, const char*); //csv to byte array.

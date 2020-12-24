@@ -225,7 +225,7 @@ void UnitTest::Initialise(void) {
 	mouse_queue = al_create_event_queue();
 	display = al_create_display(DIS_WIDTH, DIS_HEIGHT);
 	al_register_event_source(display_queue, al_get_display_event_source(display));
-	al_register_event_source(keyboard_queue, al_get_keyboard_event_source());
+	//al_register_event_source(keyboard_queue, al_get_keyboard_event_source());
 	al_register_event_source(mouse_queue, al_get_mouse_event_source());
 	tileset = al_load_bitmap(TILESET_PATH);
 	tileset_width = al_get_bitmap_width(tileset) / TILE_WIDTH;
@@ -236,7 +236,7 @@ void UnitTest::Load(void) {
 	game.addFirstRender(render_terrain);
 	game.addLastRender(flip_display);
 	game.SetDone(done);
-	game.addFirstInput(input_scroll);
+	//game.addFirstInput(input_scroll);
 	old_time = std::chrono::high_resolution_clock::now();
 }
 

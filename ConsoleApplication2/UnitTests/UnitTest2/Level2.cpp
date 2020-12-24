@@ -1,6 +1,6 @@
 #include "Level2.h"
 
-#define RECT_MOVE_DIST 4 // REMOVE?? in pixels
+#define RECT_MOVE_DIST 16 // REMOVE?? in pixels
 
 #define GRID_ELEMENT_WIDTH 16 // in pixels
 #define GRID_ELEMENT_HEIGHT 16 // in pixels
@@ -26,10 +26,20 @@ UnitTest2::UnitTest2() {
 	};
 
 	input_rect = [&] {
+		ALLEGRO_EVENT display_event;
+
+
+		if (al_get_next_event(display_queue, &display_event)) {
+			if (display_event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+				game_finished = true;
+		}
+
+
+
 		ALLEGRO_EVENT kb_event;
 		int dx, dy;
 		if(al_get_next_event(keyboard_rect_queue, &kb_event)){
-			//if(kb_event.type == ALLEGRO_EVENT_KEY_DOWN){
+			if(kb_event.type == ALLEGRO_EVENT_KEY_DOWN){
 			//std::cout << "Lvl2: key down\n";
 				if(kb_event.keyboard.keycode == ALLEGRO_KEY_W){
 					dx = 0;
@@ -57,7 +67,7 @@ UnitTest2::UnitTest2() {
 					rectangle.x += dx;
 					//std::cout << "aft3r rectangle.x: " << rectangle.x << std::endl;
 				}
-			//}
+			}
 		}
 	};
 }
@@ -76,7 +86,7 @@ void UnitTest2::Initialise(void) {
 void UnitTest2::Load(void) {
 	game.addFirstRender(render_rect);
 	UnitTest::Load();
-	game.clearInput();
+	//game.clearInput();
 	game.addFirstInput(input_rect);
 	Dim d{0};
 	ReadTextGrid(grid, d);
@@ -119,7 +129,7 @@ void UnitTest2::FilterGridMotionLeft(const Rect& r, int& dx){
 			uint bottom_row = (r.y + r.h - 1) / GRID_ELEMENT_HEIGHT;
 			for (uint row = top_row; row <= bottom_row; row++) {
 				if (!CanPassGridTile(row, new_col, GRID_SOLID_TILE)) {
-					dx = new_col * GRID_ELEMENT_WIDTH - r.x;
+					dx = curr_col * GRID_ELEMENT_WIDTH - r.x;
 					break;
 				}
 			}
@@ -162,7 +172,7 @@ void UnitTest2::FilterGridMotionUp(const Rect& r, int& dy){
 			
 			for (uint col = left_col; col <= right_col; col++) {
 				if (!CanPassGridTile(new_row, col, GRID_SOLID_TILE)) {
-					dy = new_row * GRID_ELEMENT_HEIGHT - r.y;
+					dy = curr_row * GRID_ELEMENT_HEIGHT - r.y;
 					break;
 				}
 			}
