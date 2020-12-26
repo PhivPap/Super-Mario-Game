@@ -8,6 +8,10 @@
 #define GRID_EMPTY_TILE 0
 #define GRID_SOLID_TILE 1
 
+#define RECT_MAX_SPEED_X 120 // pixels per second. (p/s)
+#define RECT_MAX_SPEED_Y 120  // pixels per second. (p/s)
+#define RECT_UPDATE_POS 0.00834 // 120 times per second.
+
 void UnitTest2::ReadTextGrid(std::vector<std::vector<byte>>& grid, Dim& grid_dim){
 	if (UnitTest::ReadCSV(grid, GRID_PATH) == 1)
 		exit(1);
@@ -50,7 +54,7 @@ UnitTest2::UnitTest2() {
 			//if(kb_event.type == ALLEGRO_EVENT_KEY_DOWN){
 			//std::cout << "Lvl2: key down\n";
 				
-				if(kb_event.keyboard.keycode == ALLEGRO_KEY_W){
+				/*if(kb_event.keyboard.keycode == ALLEGRO_KEY_W){
 					dx = 0;
 					dy = -RECT_MOVE_DIST;
 					FilterGridMotion(rectangle, dx, dy);
@@ -73,58 +77,71 @@ UnitTest2::UnitTest2() {
 					dy = 0;
 					FilterGridMotion(rectangle, dx, dy);
 					rectangle.x += dx;
-				}
+				}*/
 			//}
 		}
 	};
 
 	physics_rect = [&]() {
-		//update speed  >>>> without timer event FOR NOW <<<<
-		// like this:
-		/*if (movement_keys[ALLEGRO_KEY_W]) {
-			rect_mvmnt.y_speed -= YSPEED;
-		}
-		if (movement_keys[ALLEGRO_KEY_S]) {
-			rect_mvmnt.y_speed += YSPEED;
-		}
-		if (movement_keys[ALLEGRO_KEY_A]) {
-			rect_mvmnt.x_speed -= XSPEED;
-		}
-		if (movement_keys[ALLEGRO_KEY_D]) {
-			rect_mvmnt.x_speed += XSPEED;
-		}*/
-
 		
+		// TEMPORARY CODE 
+		//update speed 
 		//update location based on speed (rect_mvmnt) with timer event
+		ALLEGRO_EVENT timer_event;
+		if (al_get_next_event(rect_timer_queue, &timer_event)) {
+			rect_mvmnt.y_speed = 0;
+			rect_mvmnt.x_speed = 0;
+			if (movement_keys[ALLEGRO_KEY_W]) {
+				rect_mvmnt.y_speed -= RECT_MAX_SPEED_Y;
+			}
+			if (movement_keys[ALLEGRO_KEY_S]) {
+				rect_mvmnt.y_speed += RECT_MAX_SPEED_Y;
+			}
+			if (movement_keys[ALLEGRO_KEY_A]) {
+				rect_mvmnt.x_speed -= RECT_MAX_SPEED_X;
+			}
+			if (movement_keys[ALLEGRO_KEY_D]) {
+				rect_mvmnt.x_speed += RECT_MAX_SPEED_X;
+			}
 
+			int dx, dy;
+			dx = rect_mvmnt.x_speed * RECT_UPDATE_POS;
+			dy = rect_mvmnt.y_speed * RECT_UPDATE_POS;
+			FilterGridMotion(rectangle, dx, dy);
+			rectangle.x += dx;
+			rectangle.y += dy;
+		}
 	};
 
 }
 
 void UnitTest2::Initialise(void) {
 	UnitTest::Initialise();
+	//al_install_system();
 	if (!al_init_primitives_addon())
 		exit(1);
 	color = al_map_rgb(255, 0, 0);
 	keyboard_rect_queue = al_create_event_queue();
+	rect_timer_queue = al_create_event_queue();
+	rect_pos_timer = al_create_timer(RECT_UPDATE_POS);
 	al_register_event_source(keyboard_rect_queue, al_get_keyboard_event_source());
+	al_register_event_source(rect_timer_queue, al_get_timer_event_source(rect_pos_timer));
+	al_start_timer(rect_pos_timer);
 	// do more here ...
 }
 
 void UnitTest2::Load(void) {
 	game.addFirstRender(render_rect);
-	UnitTest::Load();
-	//game.clearInput();
 	game.addFirstInput(input_rect);
+	game.addFirstPhysics(physics_rect);
 	Dim d{0};
 	ReadTextGrid(grid, d);
-	
-	
-	// do more here ...
+	UnitTest::Load();
 }
 
 void UnitTest2::Clear(void) {
 	UnitTest::Clear();
+	al_destroy_timer(rect_pos_timer);
 	// do more here ...
 }
 
