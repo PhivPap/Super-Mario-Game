@@ -18,6 +18,8 @@ namespace app {
 		void addLastRender(std::function<void(void)>&);
 		void addFirstInput(std::function<void(void)>&);
 		void addLastInput(std::function<void(void)>&);
+		void addFirstPhysics(std::function<void(void)>& f);
+		void addLastPhysics(std::function<void(void)>& f);
 		void clearInput();
 		void SetDone(Pred&);
 		

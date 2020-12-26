@@ -2,17 +2,24 @@
 #include "Level1.h"
 #include <allegro5/allegro_primitives.h>
 
-
+struct Movement {
+	double x_speed, y_speed;
+};
 
 class UnitTest2 : protected UnitTest {
 	ALLEGRO_COLOR color;
 	ALLEGRO_EVENT_QUEUE* keyboard_rect_queue;
+	ALLEGRO_EVENT_QUEUE* rect_timer_queue;
+	ALLEGRO_TIMER* rect_pos_timer;
 	Rect rectangle{224, 176, 16, 16 };
-	std::vector<std::vector<byte>> grid;
+	Movement rect_mvmnt{ 0,0 };
+	bool movement_keys[ALLEGRO_KEY_MAX] = { 0 };
+	std::vector<std::vector<byte>> grid; //grid[row][col] 
 	
 
 	std::function<void(void)> render_rect;
 	std::function<void(void)> input_rect;
+	std::function<void(void)> physics_rect;
 	
 	
 	void ReadTextGrid(std::vector<std::vector<byte>>&, Dim&);
