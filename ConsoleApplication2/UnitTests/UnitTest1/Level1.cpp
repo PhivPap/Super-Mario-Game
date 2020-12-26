@@ -122,7 +122,6 @@ void UnitTest::ReadTextMap(std::vector<std::vector<byte>>& map, Dim& map_dim) {
 	map_dim.h = (uint)map.size() * TILE_HEIGHT;
 }
 
-
 UnitTest::UnitTest() {
 	display = 0;
 	tileset = 0;
@@ -232,6 +231,7 @@ void UnitTest::Initialise(void) {
 	tileset_width = al_get_bitmap_width(tileset) / TILE_WIDTH;
 	tile_alligned = al_create_bitmap(tile_view_win.w, tile_view_win.h);
 }
+
 void UnitTest::Load(void) {
 	ReadTextMap(map, map_dim);
 	game.addFirstRender(render_terrain);

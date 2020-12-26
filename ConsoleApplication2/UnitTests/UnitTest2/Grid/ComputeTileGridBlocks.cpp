@@ -6,9 +6,18 @@
 #define GRID_ELEMENT_WIDTH 16 // in pixels
 #define GRID_ELEMENT_HEIGHT 16 // in pixels
 
-#define GRID_BLOCK_COLUMNS (TILE_WIDTH / GRID_ELEMENT_WIDTH) // 16/4 = 4
-#define GRID_BLOCK_ROWS (TILE_HEIGHT / GRID_ELEMENT_HEIGHT) // 16/4 = 4
-#define GRID_ELEMENTS_PER_TILE (GRID_BLOCK_ROWS * GRID_BLOCK_COLUMNS) // <-- ??
+#define GRID_BLOCK_COLUMNS		(TILE_WIDTH / GRID_ELEMENT_WIDTH)		// 16/4 = 4
+#define GRID_BLOCK_ROWS			(TILE_HEIGHT / GRID_ELEMENT_HEIGHT)		// 16/4 = 4
+#define GRID_ELEMENTS_PER_TILE	(GRID_BLOCK_ROWS * GRID_BLOCK_COLUMNS)	// <-- ?? 
+/*
+_________
+|_|_|_|_|
+|_|_|_|_|
+|_|_|_|_|
+|_|_|_|_|
+
+*/
+
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ These are from Lecture 8: Slide 33.
 
@@ -25,7 +34,7 @@ uint MAX_WIDTH = -1;
 uint GRID_MAX_HEIGHT = -1;
 uint GRID_MAX_WIDTH = -1;
 
-byte tile_info_1[] = {
+byte tileset_info_1[] = {
 	#include "TileInfo1.txt"
 };
 
@@ -57,22 +66,34 @@ static void WriteGrid(std::vector<std::vector<byte>>& grid, const char *fileName
 
 
 static void ComputeTileGridBlocks1(std::vector<std::vector<byte>>& map, std::vector<std::vector<byte>> &grid) {
-	// JUST A DEMO gia na dw ti vgazei sto grid1.csv
 	uint i = 0;
 	uint grid_elem_x;
 	uint grid_elem_y = 0;
 	for (uint tile_y = 0; tile_y < MAX_HEIGHT; tile_y++) {
 		grid_elem_x = 0;
 		for (uint tile_x = 0; tile_x < MAX_WIDTH; tile_x++) {
-			grid[grid_elem_y][grid_elem_x] = tile_info_1[map[tile_y][tile_x]];
+			grid[grid_elem_y][grid_elem_x] = tileset_info_1[map[tile_y][tile_x]];
 			grid_elem_x += GRID_BLOCK_COLUMNS;
 		}
 		grid_elem_y += GRID_BLOCK_ROWS;
 	}
 }
 
-static void ComputeTileGridBlocks2() {
-
+static void ComputeTileGridBlocks2 (
+			std::vector<std::vector<byte>>& map,
+			std::vector<std::vector<byte>>& grid,
+			ALLEGRO_BITMAP* tileset,
+			ALLEGRO_COLOR color,
+			byte solid_threshold
+) {
+	auto tile_elem = al_create_bitmap(TILE_WIDTH, TILE_HEIGHT);
+	auto grid_elem = al_create_bitmap(GRID_ELEMENT_WIDTH, GRID_ELEMENT_HEIGHT);
+	for(auto row = 0; row < MAX_HEIGHT; row++)
+		for (auto col = 0; row < MAX_WIDTH; col++) {
+			//TODO
+		}
+	al_destroy_bitmap(tile_elem);
+	al_destroy_bitmap(grid_elem);
 }
 
 void ComputeTileGridBlocks() {

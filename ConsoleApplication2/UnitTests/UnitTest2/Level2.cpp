@@ -1,12 +1,41 @@
 #include "Level2.h"
 
-#define RECT_MOVE_DIST 16 // REMOVE?? in pixels
+#define GRID_PATH "UnitTests//UnitTest2//Grid//grid1.csv"
+//#define GRID_PATH "UnitTests//UnitTest2//Grid//grid2.csv"
+ 
+ #define RECT_MOVE_DIST 16 // REMOVE?? in pixels
 
 #define GRID_ELEMENT_WIDTH 16 // in pixels
 #define GRID_ELEMENT_HEIGHT 16 // in pixels
-#define GRID_PATH "UnitTests//UnitTest2//Grid//grid1.csv"
+
+#if TILE_WIDTH % GRID_ELEMENT_WIDTH != 0
+#error "TILE_WIDTH % GRID_ELEMENT_WIDTH must be zero!"
+#endif
+
+#if TILE_HEIGHT % GRID_ELEMENT_HEIGHT != 0
+#error "TILE_HEIGHT % GRID_ELEMENT_HEIGHT must be zero!"
+#endif
+
+#define GRID_BLOCK_COLUMNS		(TILE_WIDTH / GRID_ELEMENT_WIDTH)
+#define GRID_BLOCK_ROWS			(TILE_HEIGHT / GRID_ELEMENT_HEIGHT)
+#define GRID_ELEMENTS_PER_TILE	(GRID_BLOCK_ROWS * GRID_BLOCK_COLUMNS)
+#define GRID_MAX_HEIGHT			(MAX_HEIGHT * GRID_BLOCK_ROWS)
+#define GRID_MAX_WIDTH			(MAX_WIDTH * GRID_BLOCK_COLUMNS)
+
+#define GRID_THIN_AIR_MASK		0x0000	// element is ignored
+#define GRID_LEFT_SOLID_MASK	0x0001	// bit 0
+#define GRID_RIGHT_SOLID_MASK	0x0002	// bit 1
+#define GRID_TOP_SOLID_MASK		0x0004	// bit 2
+#define GRID_BOTTOM_SOLID_MASK	0x0008	// bit 3
+#define GRID_GROUND_MASK		0x0010	// bit 4, keep objects top / bottom (gravity)
+#define GRID_FLOATING_MASK		0x0020	// bit 5, keep objects anywhere inside (gravity)
+
 #define GRID_EMPTY_TILE 0
 #define GRID_SOLID_TILE 1
+
+#define GRID_EMPTY_TILE GRID_THIN_AIR_MASK
+//#define GRID_SOLID_TILE \
+//(GRID_LEFT_SOLID_MASK | GRID_RIGHT_SOLID_MASK | GRID_TOP_SOLID_MASK | GRID_BOTTOM_SOLID_MASK)
 
 void UnitTest2::ReadTextGrid(std::vector<std::vector<byte>>& grid, Dim& grid_dim){
 	if (UnitTest::ReadCSV(grid, GRID_PATH) == 1)
@@ -136,7 +165,7 @@ void UnitTest2::FilterGridMotionLeft(const Rect& r, int& dx){
 void UnitTest2::FilterGridMotionRight(const Rect& r, int& dx){
 	int x2 = r.x + r.w - 1;
 	int x2_next = x2 + dx;
-	if (x2_next >= map_dim.w)
+	if (x2_next >= (int)map_dim.w)
 		dx = map_dim.w - x2;
 	else {
 		uint new_col = x2_next / GRID_ELEMENT_WIDTH;
@@ -161,11 +190,9 @@ void UnitTest2::FilterGridMotionUp(const Rect& r, int& dy){
 	else {
 		uint new_row = y1_next / GRID_ELEMENT_WIDTH;
 		uint curr_row = r.y / GRID_ELEMENT_WIDTH;
-		
 		if (new_row != curr_row) {
 			uint left_col = r.x / GRID_ELEMENT_HEIGHT;
 			uint right_col = (r.x + r.w - 1) / GRID_ELEMENT_HEIGHT;
-			
 			for (uint col = left_col; col <= right_col; col++) {
 				if (!CanPassGridTile(new_row, col, GRID_SOLID_TILE)) {
 					dy = curr_row * GRID_ELEMENT_HEIGHT - r.y;
@@ -179,7 +206,7 @@ void UnitTest2::FilterGridMotionUp(const Rect& r, int& dy){
 void UnitTest2::FilterGridMotionDown(const Rect& r, int& dy){
 	int y2 = r.y + r.h - 1;
 	int y2_next = y2 + dy;
-	if (y2_next >= map_dim.h)
+	if (y2_next >= (int)map_dim.h)
 		dy = map_dim.h - y2;
 	else {
 		uint new_row = y2_next / GRID_ELEMENT_HEIGHT;
@@ -199,4 +226,5 @@ void UnitTest2::FilterGridMotionDown(const Rect& r, int& dy){
 
 bool UnitTest2::CanPassGridTile(uint row, uint col, byte flags){
 	return grid[row][col] == GRID_EMPTY_TILE; // fix me pls
+	//return grid[row][col] & (flags != 0);
 }
