@@ -195,7 +195,7 @@ void UnitTest2::FilterGridMotionRight(const Rect& r, int& dx){
 	int x2 = r.x + r.w - 1;
 	int x2_next = x2 + dx;
 	if (x2_next >= (int)map_dim.w)
-		dx = map_dim.w - x2;
+		dx = map_dim.w - x2 - 1;
 	else {
 		uint new_col = x2_next / GRID_ELEMENT_WIDTH;
 		uint curr_col = x2 / GRID_ELEMENT_WIDTH;
@@ -236,7 +236,7 @@ void UnitTest2::FilterGridMotionDown(const Rect& r, int& dy){
 	int y2 = r.y + r.h - 1;
 	int y2_next = y2 + dy;
 	if (y2_next >= (int)map_dim.h)
-		dy = map_dim.h - y2;
+		dy = map_dim.h - y2 - 1;
 	else {
 		uint new_row = y2_next / GRID_ELEMENT_HEIGHT;
 		uint curr_row = y2 / GRID_ELEMENT_HEIGHT;
