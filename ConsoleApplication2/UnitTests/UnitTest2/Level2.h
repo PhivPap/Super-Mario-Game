@@ -15,7 +15,7 @@ class UnitTest2 : protected UnitTest {
 	Movement rect_mvmnt{ 0,0 };
 	bool movement_keys[ALLEGRO_KEY_MAX] = { 0 };
 	std::vector<std::vector<byte>> grid; //grid[row][col] 
-	
+	bool rect_filled = true;
 
 	std::function<void(void)> render_rect;
 	std::function<void(void)> input_rect;

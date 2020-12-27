@@ -41,7 +41,10 @@ void UnitTest2::ReadTextGrid(std::vector<std::vector<byte>>& grid, Dim& grid_dim
 
 UnitTest2::UnitTest2() {
 	render_rect = [&] {
-		al_draw_filled_rectangle(rectangle.x, rectangle.y, rectangle.x + rectangle.w, rectangle.y + rectangle.h, color);
+		if (rect_filled)
+			al_draw_filled_rectangle(rectangle.x, rectangle.y, rectangle.x + rectangle.w, rectangle.y + rectangle.h, color);
+		else
+			al_draw_rectangle(rectangle.x, rectangle.y, rectangle.x + rectangle.w, rectangle.y + rectangle.h, color, 0);
 	};
 
 	input_rect = [&] {
@@ -55,6 +58,8 @@ UnitTest2::UnitTest2() {
 		if(al_get_next_event(keyboard_rect_queue, &kb_event)){
 			if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
 				movement_keys[kb_event.keyboard.keycode] = true;
+				if (kb_event.keyboard.keycode == ALLEGRO_KEY_V)
+					rect_filled = !rect_filled;
 			}
 			else if (kb_event.type == ALLEGRO_EVENT_KEY_UP) {
 				movement_keys[kb_event.keyboard.keycode] = false;
