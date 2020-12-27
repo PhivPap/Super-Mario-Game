@@ -76,6 +76,7 @@ protected:
 public:
 	static int ReadCSV(std::vector<std::vector<byte>>&, const char*); //csv to byte array.
 	std::vector<std::vector<byte>> &getMapRef();
+	ALLEGRO_BITMAP* getTileset() const;
 	UnitTest();
 	virtual void Initialise(void);
 	virtual void Load(void);

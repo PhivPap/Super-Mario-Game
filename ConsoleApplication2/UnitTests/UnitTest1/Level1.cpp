@@ -255,6 +255,10 @@ std::vector<std::vector<byte>>& UnitTest::getMapRef() {
 	return map;
 }
 
+ALLEGRO_BITMAP* UnitTest::getTileset() const {
+	return tileset;
+}
+
 void UnitTest::Main() {
 	app::App::Main();
 }

@@ -30,16 +30,15 @@
 #define GRID_GROUND_MASK		0x0010	// bit 4, keep objects top / bottom (gravity)
 #define GRID_FLOATING_MASK		0x0020	// bit 5, keep objects anywhere inside (gravity)
 
-#define GRID_EMPTY_TILE 0
 #define GRID_SOLID_TILE 1
-
-#define RECT_MAX_SPEED_X 120 // pixels per second. (p/s)
-#define RECT_MAX_SPEED_Y 120  // pixels per second. (p/s)
-#define RECT_UPDATE_POS 0.00834 // 120 times per second.
 
 #define GRID_EMPTY_TILE GRID_THIN_AIR_MASK
 //#define GRID_SOLID_TILE \
 //(GRID_LEFT_SOLID_MASK | GRID_RIGHT_SOLID_MASK | GRID_TOP_SOLID_MASK | GRID_BOTTOM_SOLID_MASK)
+
+#define RECT_MAX_SPEED_X 120 // pixels per second. (p/s)
+#define RECT_MAX_SPEED_Y 120  // pixels per second. (p/s)
+#define RECT_UPDATE_POS 0.00834 // 120 times per second.
 
 void UnitTest2::ReadTextGrid(std::vector<std::vector<byte>>& grid, Dim& grid_dim){
 	if (UnitTest::ReadCSV(grid, GRID_PATH) == 1)
@@ -70,7 +69,7 @@ UnitTest2::UnitTest2() {
 
 
 		ALLEGRO_EVENT kb_event;
-		int dx, dy;
+		
 		if(al_get_next_event(keyboard_rect_queue, &kb_event)){
 			if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
 				movement_keys[kb_event.keyboard.keycode] = true;
