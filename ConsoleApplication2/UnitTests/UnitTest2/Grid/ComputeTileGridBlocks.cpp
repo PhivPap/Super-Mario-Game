@@ -10,6 +10,8 @@
 #define GRID_BLOCK_ROWS			(TILE_HEIGHT / GRID_ELEMENT_HEIGHT)		// 16/4 = 4
 #define GRID_ELEMENTS_PER_TILE	(GRID_BLOCK_ROWS * GRID_BLOCK_COLUMNS)	// <-- ?? 
 
+
+#define TILESET_WIDTH 12
 /*
 _________
 |_|_|_|_|
@@ -70,7 +72,7 @@ static bool ComputeIsGridIndexEmpty(ALLEGRO_BITMAP* grid_elem, const ALLEGRO_COL
 	for (auto y = 0; y < GRID_ELEMENT_HEIGHT; y++) {
 		for (auto x = 0; x < GRID_ELEMENT_WIDTH; x++) {
 			auto color = al_get_pixel(grid_elem, x, y);
-			if (memcmp(&color, &trans_color, sizeof(ALLEGRO_COLOR))) // diff colors
+			if (memcmp(&color, &trans_color, sizeof(ALLEGRO_COLOR)) != 0) // diff colors
 				n++;
 		}
 	}
@@ -79,22 +81,27 @@ static bool ComputeIsGridIndexEmpty(ALLEGRO_BITMAP* grid_elem, const ALLEGRO_COL
 
 
 static void ComputeGridBlock(uint grid_row, uint grid_col, std::vector<std::vector<byte>> &grid, 
-					ALLEGRO_BITMAP* tile_elem, 
+					uint tileset_index, 
 					ALLEGRO_BITMAP* grid_elem, 
 					ALLEGRO_BITMAP* tileset, 
 					const ALLEGRO_COLOR& trans_color, 
 					byte solid_threshold){
 
+	uint tileset_x = (tileset_index % TILESET_WIDTH) * TILE_WIDTH;
+	uint tileset_y = (uint)(tileset_index / TILESET_WIDTH) * TILE_HEIGHT;
+
 	for (uint row = 0; row < GRID_BLOCK_ROWS; row++) {
 		for (uint col = 0; col < GRID_BLOCK_COLUMNS; col++) {
 			al_set_target_bitmap(grid_elem);
 			al_draw_bitmap_region(
-				tile_elem,
-				col * GRID_ELEMENT_WIDTH,
-				row * GRID_ELEMENT_HEIGHT,
-				GRID_ELEMENT_WIDTH,
-				GRID_ELEMENT_HEIGHT,
+				tileset,
+				tileset_x + col * GRID_ELEMENT_WIDTH,
+				tileset_y + row * GRID_ELEMENT_HEIGHT,
+				80,
+				80,
 				0, 0, 0);
+			/*al_flip_display();
+			al_rest(10);*/
 			auto is_empty = ComputeIsGridIndexEmpty(grid_elem, trans_color, solid_threshold);
 			grid[grid_col + col][grid_row + row] = is_empty ? GRID_EMPTY_TILE : GRID_SOLID_TILE;
 		}
@@ -127,23 +134,24 @@ static void ComputeTileGridBlocks2 (
 ) {
 	auto tile_elem = al_create_bitmap(TILE_WIDTH, TILE_HEIGHT);
 	auto grid_elem = al_create_bitmap(GRID_ELEMENT_WIDTH, GRID_ELEMENT_HEIGHT);
-	auto grid_col = 0;
-	auto grid_row = 0;
-	for (auto map_row = 0; map_row < MAX_HEIGHT; map_row++) {
+	uint grid_col = 0;
+	uint grid_row = 0;
+	for (uint map_row = 0; map_row < MAX_HEIGHT; map_row++) {
 		grid_col = 0;
-		for (auto map_col = 0; map_col < MAX_WIDTH; map_col++) {
+		for (uint map_col = 0; map_col < MAX_WIDTH; map_col++) {
 			if (tileset_info[map[map_row][map_col]] == 0) {		// if tile has no collisions
-				for (auto i = grid_col; i < grid_col + GRID_BLOCK_COLUMNS; i++) {
-					for (auto j = grid_row; j < grid_row + GRID_BLOCK_ROWS; j++) {
+				for (uint i = grid_col; i < grid_col + GRID_BLOCK_COLUMNS; i++) {
+					for (uint j = grid_row; j < grid_row + GRID_BLOCK_ROWS; j++) {
 						grid[grid_row][grid_col] = 0;		// ALL GRID ELEMENTS OF TILE ARE 0.
 					}
 				}
 			}
 			else { // tile has some collisions
-				ComputeGridBlock(grid_row, grid_col, grid, tile_elem, grid_elem, tileset, trans_color, solid_threshold);
+				ComputeGridBlock(grid_row, grid_col, grid, map[map_row][map_col], grid_elem, tileset, trans_color, solid_threshold);
 			}
 			grid_col += GRID_BLOCK_COLUMNS;
 		}
+		std::cout << "Row " << map_row << " completed\n";
 		grid_row += GRID_BLOCK_ROWS;
 	}
 	al_destroy_bitmap(tile_elem);
