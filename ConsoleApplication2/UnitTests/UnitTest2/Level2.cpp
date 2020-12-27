@@ -5,8 +5,8 @@
  
  #define RECT_MOVE_DIST 16 // REMOVE?? in pixels
 
-#define GRID_ELEMENT_WIDTH 16 // in pixels
-#define GRID_ELEMENT_HEIGHT 16 // in pixels
+#define GRID_ELEMENT_WIDTH 4 // in pixels
+#define GRID_ELEMENT_HEIGHT 4 // in pixels
 
 #if TILE_WIDTH % GRID_ELEMENT_WIDTH != 0
 #error "TILE_WIDTH % GRID_ELEMENT_WIDTH must be zero!"

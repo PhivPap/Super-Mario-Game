@@ -97,13 +97,13 @@ static void ComputeGridBlock(uint grid_row, uint grid_col, std::vector<std::vect
 				tileset,
 				tileset_x + col * GRID_ELEMENT_WIDTH,
 				tileset_y + row * GRID_ELEMENT_HEIGHT,
-				80,
-				80,
+				GRID_ELEMENT_WIDTH,
+				GRID_ELEMENT_HEIGHT,
 				0, 0, 0);
 			/*al_flip_display();
 			al_rest(10);*/
 			auto is_empty = ComputeIsGridIndexEmpty(grid_elem, trans_color, solid_threshold);
-			grid[grid_col + col][grid_row + row] = is_empty ? GRID_EMPTY_TILE : GRID_SOLID_TILE;
+			grid[(llu)grid_row + (llu)row][(llu)grid_col + (llu)col] = is_empty ? GRID_EMPTY_TILE : GRID_SOLID_TILE;
 		}
 	}
 }
@@ -116,7 +116,13 @@ static void ComputeTileGridBlocks1(std::vector<std::vector<byte>>& map, std::vec
 	for (uint tile_y = 0; tile_y < MAX_HEIGHT; tile_y++) {
 		grid_elem_x = 0;
 		for (uint tile_x = 0; tile_x < MAX_WIDTH; tile_x++) {
-			grid[grid_elem_y][grid_elem_x] = tileset_info[map[tile_y][tile_x]];
+			byte tile_has_collision = tileset_info[map[tile_y][tile_x]];
+			//grid[grid_elem_y][grid_elem_x] = tileset_info[map[tile_y][tile_x]];
+			for (uint x = grid_elem_x; x < grid_elem_x + GRID_BLOCK_COLUMNS; x++) {
+				for (uint y = grid_elem_y; y < grid_elem_y + GRID_BLOCK_ROWS; y++) {
+					grid[y][x] = tile_has_collision;
+				}
+			}
 			grid_elem_x += GRID_BLOCK_COLUMNS;
 		}
 		grid_elem_y += GRID_BLOCK_ROWS;
