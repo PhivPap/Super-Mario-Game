@@ -81,9 +81,7 @@ void UnitTest::TileTerrainDisplay() {
 					view_win.y - tile_view_win.y,
 					DIS_WIDTH,
 					DIS_HEIGHT,
-					0,
-					0,
-					0);
+					0, 0, 0);
 }
 
 int UnitTest::ReadCSV(std::vector<std::vector<byte>>& map, const char* fileName) {
@@ -116,8 +114,10 @@ int UnitTest::ReadCSV(std::vector<std::vector<byte>>& map, const char* fileName)
 }
 
 void UnitTest::ReadTextMap(std::vector<std::vector<byte>>& map, Dim& map_dim) {
-	if (ReadCSV(map, TILEMAP_PATH) == 1)
+	if (ReadCSV(map, TILEMAP_PATH) == 1) {
+		std::cerr << "Could not open map file\n";
 		exit(1);
+	}
 	map_dim.w = (uint)map[0].size() * TILE_WIDTH;
 	map_dim.h = (uint)map.size() * TILE_HEIGHT;
 }

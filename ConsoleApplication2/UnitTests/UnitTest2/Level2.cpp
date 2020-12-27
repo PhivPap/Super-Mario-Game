@@ -22,54 +22,36 @@
 #define GRID_MAX_HEIGHT			(MAX_HEIGHT * GRID_BLOCK_ROWS)
 #define GRID_MAX_WIDTH			(MAX_WIDTH * GRID_BLOCK_COLUMNS)
 
-#define GRID_THIN_AIR_MASK		0x0000	// element is ignored
-#define GRID_LEFT_SOLID_MASK	0x0001	// bit 0
-#define GRID_RIGHT_SOLID_MASK	0x0002	// bit 1
-#define GRID_TOP_SOLID_MASK		0x0004	// bit 2
-#define GRID_BOTTOM_SOLID_MASK	0x0008	// bit 3
-#define GRID_GROUND_MASK		0x0010	// bit 4, keep objects top / bottom (gravity)
-#define GRID_FLOATING_MASK		0x0020	// bit 5, keep objects anywhere inside (gravity)
-
+#define GRID_EMPTY_TILE 0
 #define GRID_SOLID_TILE 1
 
-#define GRID_EMPTY_TILE GRID_THIN_AIR_MASK
-//#define GRID_SOLID_TILE \
-//(GRID_LEFT_SOLID_MASK | GRID_RIGHT_SOLID_MASK | GRID_TOP_SOLID_MASK | GRID_BOTTOM_SOLID_MASK)
+
 
 #define RECT_MAX_SPEED_X 120 // pixels per second. (p/s)
 #define RECT_MAX_SPEED_Y 120  // pixels per second. (p/s)
 #define RECT_UPDATE_POS 0.00834 // 120 times per second.
 
 void UnitTest2::ReadTextGrid(std::vector<std::vector<byte>>& grid, Dim& grid_dim){
-	if (UnitTest::ReadCSV(grid, GRID_PATH) == 1)
+	if (UnitTest::ReadCSV(grid, GRID_PATH) == 1) {
+		std::cerr << "Could not open grid file\n";
 		exit(1);
-
-	//grid_dim.w = map_dim.w;
-	//grid_dim.h = grid.size() * 
+	}
 }
 
 
 UnitTest2::UnitTest2() {
-	// no need to call previous constructor.
-	// constructors always called: base -> derived.
-	// do more here ...
 	render_rect = [&] {
 		al_draw_filled_rectangle(rectangle.x, rectangle.y, rectangle.x + rectangle.w, rectangle.y + rectangle.h, color);
 	};
 
 	input_rect = [&] {
 		ALLEGRO_EVENT display_event;
-
-
 		if (al_get_next_event(display_queue, &display_event)) {
 			if (display_event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 				game_finished = true;
 		}
 
-
-
 		ALLEGRO_EVENT kb_event;
-		
 		if(al_get_next_event(keyboard_rect_queue, &kb_event)){
 			if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
 				movement_keys[kb_event.keyboard.keycode] = true;
@@ -77,7 +59,6 @@ UnitTest2::UnitTest2() {
 			else if (kb_event.type == ALLEGRO_EVENT_KEY_UP) {
 				movement_keys[kb_event.keyboard.keycode] = false;
 			}
-
 
 			//if(kb_event.type == ALLEGRO_EVENT_KEY_DOWN){
 			//std::cout << "Lvl2: key down\n";
@@ -145,9 +126,7 @@ UnitTest2::UnitTest2() {
 
 void UnitTest2::Initialise(void) {
 	UnitTest::Initialise();
-	//al_install_system();
-	if (!al_init_primitives_addon())
-		exit(1);
+	al_init_primitives_addon();
 	color = al_map_rgb(255, 0, 0);
 	keyboard_rect_queue = al_create_event_queue();
 	rect_timer_queue = al_create_event_queue();
@@ -155,7 +134,6 @@ void UnitTest2::Initialise(void) {
 	al_register_event_source(keyboard_rect_queue, al_get_keyboard_event_source());
 	al_register_event_source(rect_timer_queue, al_get_timer_event_source(rect_pos_timer));
 	al_start_timer(rect_pos_timer);
-	// do more here ...
 }
 
 void UnitTest2::Load(void) {
@@ -170,7 +148,6 @@ void UnitTest2::Load(void) {
 void UnitTest2::Clear(void) {
 	UnitTest::Clear();
 	al_destroy_timer(rect_pos_timer);
-	// do more here ...
 }
 
 void UnitTest2::Main() {
@@ -272,6 +249,5 @@ void UnitTest2::FilterGridMotionDown(const Rect& r, int& dy){
 }
 
 bool UnitTest2::CanPassGridTile(uint row, uint col, byte flags){
-	return grid[row][col] == GRID_EMPTY_TILE; // fix me pls
-	//return grid[row][col] & (flags != 0);
+	return grid[row][col] == GRID_EMPTY_TILE;
 }

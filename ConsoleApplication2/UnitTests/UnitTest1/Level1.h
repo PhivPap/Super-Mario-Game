@@ -40,12 +40,10 @@ class UnitTest : protected app::App {
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_BITMAP* tileset;
 	ALLEGRO_BITMAP* tile_alligned;
-	
 	ALLEGRO_EVENT_QUEUE* mouse_queue;
 	ALLEGRO_TIMER* timer;
 	std::vector<std::vector<byte>> map;
 	uint tileset_width;
-	
 	bool tile_win_moved;
 	std::chrono::steady_clock::time_point old_time, new_time;
 	llu frames;
@@ -60,7 +58,6 @@ class UnitTest : protected app::App {
 	std::function<bool(void)> done;
 
 	bool TileAllignedViewBoundCheck();
-	
 	void Scroll(int, int);
 	static void FilterScrollDistance(uint, uint, int&, uint);
 	void FilterScroll(int&, int&);
