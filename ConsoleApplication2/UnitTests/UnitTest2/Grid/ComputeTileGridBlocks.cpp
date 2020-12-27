@@ -11,7 +11,7 @@
 #define GRID_ELEMENTS_PER_TILE	(GRID_BLOCK_ROWS * GRID_BLOCK_COLUMNS)	// <-- ?? 
 
 
-#define TILESET_WIDTH 12
+#define TILESET_WIDTH 19
 /*
 _________
 |_|_|_|_|
@@ -37,7 +37,7 @@ uint GRID_MAX_HEIGHT = -1;
 uint GRID_MAX_WIDTH = -1;
 
 byte tileset_info[] = {
-	#include "TileInfo1.txt"
+	#include "TileInfoMario.txt"
 };
 
 // Inits grid to the correct size and the 2 vars above.
@@ -62,7 +62,6 @@ static void WriteGrid(std::vector<std::vector<byte>>& grid, const char *fileName
 		}
 		grid_file << "\n";
 	}
-	std::cout << "writegrid" << std::endl;
 	grid_file.close();
 }
 
@@ -171,7 +170,7 @@ void ComputeTileGridBlocks() {
 	std::vector<std::vector<byte>> map = utest.getMapRef(); // this is a ref.
 	std::vector<std::vector<byte>> grid;
 	ALLEGRO_BITMAP* tileset = utest.getTileset();
-	ALLEGRO_COLOR trans_color = al_get_pixel(tileset, 16, 80); 
+	ALLEGRO_COLOR trans_color = al_get_pixel(tileset, 80, 32); 
 	Init(map, grid);
 	
 	ComputeTileGridBlocks1(map, grid);

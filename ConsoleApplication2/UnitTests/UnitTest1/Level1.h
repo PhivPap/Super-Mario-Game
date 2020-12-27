@@ -10,15 +10,15 @@
 
 #include "Engine.h"
 
-#define DIS_WIDTH 1280
-#define DIS_HEIGHT 960
+#define DIS_WIDTH 1440
+#define DIS_HEIGHT 464 // cannot be 480, but Y??
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
 
 #define SCROLL_DIST 64
 
-#define TILESET_PATH "UnitTests/UnitTest1/media/overworld_tileset_grass.png"
-#define TILEMAP_PATH "UnitTests/UnitTest1/media/my_map.csv"
+#define TILESET_PATH "UnitTests/UnitTest3/media/super_mario_tiles.png"
+#define TILEMAP_PATH "UnitTests/UnitTest3/media/mario_map_0.csv"
 
 typedef unsigned char byte;
 typedef unsigned int uint;
