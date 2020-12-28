@@ -11,7 +11,7 @@
 #include "Engine.h"
 
 #define DIS_WIDTH 1440
-#define DIS_HEIGHT 464 // cannot be 480, but Y??
+#define DIS_HEIGHT 480 // cannot be 480, but Y??
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
 
@@ -48,12 +48,12 @@ class UnitTest : protected app::App {
 	std::chrono::steady_clock::time_point old_time, new_time;
 	llu frames;
 	uint counter;
-	Rect view_win;
 	Rect tile_view_win;
 	
 
 	std::function<void(void)> render_terrain;
 	std::function<void(void)> flip_display;
+	std::function<void(void)> input_events0;
 	std::function<void(void)> input_scroll;
 	std::function<bool(void)> done;
 
@@ -68,8 +68,12 @@ protected:
 	void ScrollWithBoundsCheck(int, int, bool&);
 	ALLEGRO_EVENT_QUEUE* keyboard_queue;
 	ALLEGRO_EVENT_QUEUE* display_queue;
+	ALLEGRO_EVENT display_event, kb_event, mouse_event;
+	bool display_event_b, kb_event_b, mouse_event_b;
 	bool game_finished;
 	Dim map_dim;
+	Rect view_win;
+
 public:
 	static int ReadCSV(std::vector<std::vector<byte>>&, const char*); //csv to byte array.
 	std::vector<std::vector<byte>> &getMapRef();

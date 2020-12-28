@@ -136,7 +136,8 @@ UnitTest::UnitTest() {
 	frames = 0;
 	counter = 0;
 	view_win = { 0, 0, DIS_WIDTH, DIS_HEIGHT };
-	tile_view_win = { 0, 0, DIS_WIDTH + TILE_WIDTH, DIS_HEIGHT + TILE_HEIGHT };
+	//tile_view_win = { 0, 0, DIS_WIDTH + TILE_WIDTH, DIS_HEIGHT + TILE_HEIGHT };
+	tile_view_win = { 0, 0, DIS_WIDTH + TILE_WIDTH, DIS_HEIGHT };
 	map_dim = {0};
 	
 	done = [=] {
@@ -152,18 +153,20 @@ UnitTest::UnitTest() {
 		al_flip_display();
 	};
 
-	input_scroll = [&] {
-		ALLEGRO_EVENT display_event;
-		ALLEGRO_EVENT kb_event;
-		ALLEGRO_EVENT mouse_event;
+	input_events0 = [&] {
+		display_event_b = al_get_next_event(display_queue, &display_event);
+		kb_event_b = al_get_next_event(keyboard_queue, &kb_event);
+		mouse_event_b = al_get_next_event(mouse_queue, &mouse_event);
+	};
 
-		if (al_get_next_event(display_queue, &display_event)) {
+	input_scroll = [&] {
+		if (display_event_b) {
 			if (display_event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 				game_finished = true;
 		}
 
 		tile_win_moved = false;
-		if (al_get_next_event(keyboard_queue, &kb_event)) {
+		if (kb_event_b) {
 			//if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (kb_event.keyboard.keycode == ALLEGRO_KEY_UP) {
 					ScrollWithBoundsCheck(0, -SCROLL_DIST, tile_win_moved);
@@ -194,7 +197,7 @@ UnitTest::UnitTest() {
 			//}
 		}
 
-		if (al_get_next_event(mouse_queue, &mouse_event)) {
+		if (mouse_event_b) {
 			if (mouse_event.mouse.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 				if (mouse_event.mouse.button == 1) {
 					//al_hide_mouse_cursor(display);
@@ -225,7 +228,7 @@ void UnitTest::Initialise(void) {
 	mouse_queue = al_create_event_queue();
 	display = al_create_display(DIS_WIDTH, DIS_HEIGHT);
 	al_register_event_source(display_queue, al_get_display_event_source(display));
-	//al_register_event_source(keyboard_queue, al_get_keyboard_event_source());
+	al_register_event_source(keyboard_queue, al_get_keyboard_event_source());
 	al_register_event_source(mouse_queue, al_get_mouse_event_source());
 	tileset = al_load_bitmap(TILESET_PATH);
 	tileset_width = al_get_bitmap_width(tileset) / TILE_WIDTH;
@@ -237,7 +240,8 @@ void UnitTest::Load(void) {
 	game.addFirstRender(render_terrain);
 	game.addLastRender(flip_display);
 	game.SetDone(done);
-	//game.addFirstInput(input_scroll);
+	game.addFirstInput(input_events0);
+	game.addLastInput(input_scroll);
 	old_time = std::chrono::high_resolution_clock::now();
 }
 

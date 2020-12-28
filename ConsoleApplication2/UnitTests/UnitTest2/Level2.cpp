@@ -1,7 +1,7 @@
 #include "Level2.h"
 
-#define GRID_PATH "UnitTests//UnitTest2//Grid//grid1.csv"
-//#define GRID_PATH "UnitTests//UnitTest2//Grid//grid2.csv"
+//#define GRID_PATH "UnitTests//UnitTest2//Grid//grid1.csv"
+#define GRID_PATH "UnitTests//UnitTest2//Grid//grid2.csv"
  
  #define RECT_MOVE_DIST 16 // REMOVE?? in pixels
 
@@ -40,22 +40,26 @@ void UnitTest2::ReadTextGrid(std::vector<std::vector<byte>>& grid, Dim& grid_dim
 
 
 UnitTest2::UnitTest2() {
-	render_rect = [&] {
+	render_rect = [=] {
+		auto rect_x1 = rectangle.x - view_win.x;
+		auto rect_x2 = rectangle.x + rectangle.w - view_win.x;
+		auto rect_y1 = rectangle.y - view_win.y;
+		auto rect_y2 = rectangle.y + rectangle.h - view_win.y;
+		if (rect_x1 < 0 || rect_y1 < 0)
+			return;
+		if (rect_x2 > view_win.x + view_win.w || rect_y2 > view_win.y + view_win.h)
+			return;
+
+
+		
 		if (rect_filled)
-			al_draw_filled_rectangle(rectangle.x, rectangle.y, rectangle.x + rectangle.w, rectangle.y + rectangle.h, color);
+			al_draw_filled_rectangle(rectangle.x - view_win.x, rectangle.y - view_win.y, rectangle.x + rectangle.w - view_win.x, rectangle.y + rectangle.h - view_win.y, color);
 		else
-			al_draw_rectangle(rectangle.x, rectangle.y, rectangle.x + rectangle.w, rectangle.y + rectangle.h, color, 0);
+			al_draw_rectangle(rectangle.x - view_win.x, rectangle.y - view_win.y, rectangle.x + rectangle.w - view_win.x, rectangle.y + rectangle.h - view_win.y, color, 0);
 	};
 
 	input_rect = [&] {
-		ALLEGRO_EVENT display_event;
-		if (al_get_next_event(display_queue, &display_event)) {
-			if (display_event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-				game_finished = true;
-		}
-
-		ALLEGRO_EVENT kb_event;
-		if(al_get_next_event(keyboard_rect_queue, &kb_event)){
+		if(kb_event_b){
 			if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
 				movement_keys[kb_event.keyboard.keycode] = true;
 				if (kb_event.keyboard.keycode == ALLEGRO_KEY_V)
@@ -133,10 +137,8 @@ void UnitTest2::Initialise(void) {
 	UnitTest::Initialise();
 	al_init_primitives_addon();
 	color = al_map_rgb(255, 0, 0);
-	keyboard_rect_queue = al_create_event_queue();
 	rect_timer_queue = al_create_event_queue();
 	rect_pos_timer = al_create_timer(RECT_UPDATE_POS);
-	al_register_event_source(keyboard_rect_queue, al_get_keyboard_event_source());
 	al_register_event_source(rect_timer_queue, al_get_timer_event_source(rect_pos_timer));
 	al_start_timer(rect_pos_timer);
 }
