@@ -136,8 +136,8 @@ UnitTest::UnitTest() {
 	frames = 0;
 	counter = 0;
 	view_win = { 0, 0, DIS_WIDTH, DIS_HEIGHT };
-	//tile_view_win = { 0, 0, DIS_WIDTH + TILE_WIDTH, DIS_HEIGHT + TILE_HEIGHT };
-	tile_view_win = { 0, 0, DIS_WIDTH + TILE_WIDTH, DIS_HEIGHT };
+	tile_view_win = { 0, 0, DIS_WIDTH + TILE_WIDTH, DIS_HEIGHT + TILE_HEIGHT };
+	//tile_view_win = { 0, 0, DIS_WIDTH + TILE_WIDTH, DIS_HEIGHT - 1};
 	map_dim = {0};
 	
 	done = [=] {
@@ -167,7 +167,7 @@ UnitTest::UnitTest() {
 
 		tile_win_moved = false;
 		if (kb_event_b) {
-			//if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
+			if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (kb_event.keyboard.keycode == ALLEGRO_KEY_UP) {
 					ScrollWithBoundsCheck(0, -SCROLL_DIST, tile_win_moved);
 				}
@@ -194,7 +194,7 @@ UnitTest::UnitTest() {
 					tile_view_win.y = view_win.y - TILE_HEIGHT;
 					tile_win_moved = true;
 				}
-			//}
+			}
 		}
 
 		if (mouse_event_b) {

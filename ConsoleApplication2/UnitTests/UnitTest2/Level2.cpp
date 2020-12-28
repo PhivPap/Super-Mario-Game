@@ -3,7 +3,7 @@
 //#define GRID_PATH "UnitTests//UnitTest2//Grid//grid1.csv"
 #define GRID_PATH "UnitTests//UnitTest2//Grid//grid2.csv"
  
- #define RECT_MOVE_DIST 16 // REMOVE?? in pixels
+#define RECT_MOVE_DIST 16 // REMOVE?? in pixels
 
 #define GRID_ELEMENT_WIDTH 4 // in pixels
 #define GRID_ELEMENT_HEIGHT 4 // in pixels
@@ -41,21 +41,19 @@ void UnitTest2::ReadTextGrid(std::vector<std::vector<byte>>& grid, Dim& grid_dim
 
 UnitTest2::UnitTest2() {
 	render_rect = [=] {
-		auto rect_x1 = rectangle.x - view_win.x;
-		auto rect_x2 = rectangle.x + rectangle.w - view_win.x;
-		auto rect_y1 = rectangle.y - view_win.y;
-		auto rect_y2 = rectangle.y + rectangle.h - view_win.y;
+		int rect_x1 = rectangle.x - view_win.x;
+		int rect_x2 = rectangle.x + rectangle.w - view_win.x;
+		int rect_y1 = rectangle.y - view_win.y;
+		int rect_y2 = rectangle.y + rectangle.h - view_win.y;
 		if (rect_x1 < 0 || rect_y1 < 0)
 			return;
 		if (rect_x2 > view_win.x + view_win.w || rect_y2 > view_win.y + view_win.h)
 			return;
 
-
-		
 		if (rect_filled)
-			al_draw_filled_rectangle(rectangle.x - view_win.x, rectangle.y - view_win.y, rectangle.x + rectangle.w - view_win.x, rectangle.y + rectangle.h - view_win.y, color);
+			al_draw_filled_rectangle(rect_x1, rect_y1, rect_x2, rect_y2, color);
 		else
-			al_draw_rectangle(rectangle.x - view_win.x, rectangle.y - view_win.y, rectangle.x + rectangle.w - view_win.x, rectangle.y + rectangle.h - view_win.y, color, 0);
+			al_draw_rectangle(rect_x1, rect_y1, rect_x2, rect_y2, color, 0);
 	};
 
 	input_rect = [&] {

@@ -11,7 +11,7 @@
 #include "Engine.h"
 
 #define DIS_WIDTH 1440
-#define DIS_HEIGHT 480 // cannot be 480, but Y??
+#define DIS_HEIGHT 464 // cannot be 480, but Y??
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
 
