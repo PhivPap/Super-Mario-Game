@@ -155,16 +155,17 @@ UnitTest::UnitTest() {
 
 	input_events0 = [&] {
 		display_event_b = al_get_next_event(display_queue, &display_event);
-		kb_event_b = al_get_next_event(keyboard_queue, &kb_event);
-		mouse_event_b = al_get_next_event(mouse_queue, &mouse_event);
-	};
-
-	input_scroll = [&] {
 		if (display_event_b) {
 			if (display_event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 				game_finished = true;
 		}
+		kb_event_b = al_get_next_event(keyboard_queue, &kb_event);
+		mouse_event_b = al_get_next_event(mouse_queue, &mouse_event);
+	
+		
+	};
 
+	input_scroll = [&] {
 		tile_win_moved = false;
 		if (kb_event_b) {
 			if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
