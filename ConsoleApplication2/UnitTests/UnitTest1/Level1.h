@@ -11,7 +11,7 @@
 #include "Engine.h"
 
 #define DIS_WIDTH 1440
-#define DIS_HEIGHT 464 // cannot be 480, but Y??
+#define DIS_HEIGHT 464
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
 
@@ -26,6 +26,10 @@ typedef long long unsigned llu;
 
 struct Rect {
 	uint x, y, w, h;
+};
+
+struct Rect_f {
+	float x, y, w, h;
 };
 
 struct Point {
