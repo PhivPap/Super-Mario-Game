@@ -1,7 +1,6 @@
 #include "Level3.h"
 
 UnitTest3::UnitTest3(){
-
 }
 
 void UnitTest3::Initialise(void) {
