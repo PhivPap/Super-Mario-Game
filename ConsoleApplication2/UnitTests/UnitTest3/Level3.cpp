@@ -20,7 +20,7 @@ UnitTest3::UnitTest3(){
 				rect_mvmnt.x_speed += RECT_MAX_SPEED_X;
 			}
 
-			int dx, dy;
+			float dx, dy;
 			dx = rect_mvmnt.x_speed * RECT_UPDATE_POS;
 			dy = rect_mvmnt.y_speed * RECT_UPDATE_POS;
 			FilterGridMotion(rectangle, dx, dy);

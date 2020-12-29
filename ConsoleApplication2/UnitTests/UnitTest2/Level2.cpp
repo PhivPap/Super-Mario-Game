@@ -2,28 +2,8 @@
 
 //#define GRID_PATH "UnitTests//UnitTest2//Grid//grid1.csv"
 #define GRID_PATH "UnitTests//UnitTest2//Grid//grid2.csv"
- 
-#define RECT_MOVE_DIST 16 // REMOVE?? in pixels
 
-#define GRID_ELEMENT_WIDTH 4 // in pixels
-#define GRID_ELEMENT_HEIGHT 4 // in pixels
 
-#if TILE_WIDTH % GRID_ELEMENT_WIDTH != 0
-#error "TILE_WIDTH % GRID_ELEMENT_WIDTH must be zero!"
-#endif
-
-#if TILE_HEIGHT % GRID_ELEMENT_HEIGHT != 0
-#error "TILE_HEIGHT % GRID_ELEMENT_HEIGHT must be zero!"
-#endif
-
-#define GRID_BLOCK_COLUMNS		(TILE_WIDTH / GRID_ELEMENT_WIDTH)
-#define GRID_BLOCK_ROWS			(TILE_HEIGHT / GRID_ELEMENT_HEIGHT)
-#define GRID_ELEMENTS_PER_TILE	(GRID_BLOCK_ROWS * GRID_BLOCK_COLUMNS)
-#define GRID_MAX_HEIGHT			(MAX_HEIGHT * GRID_BLOCK_ROWS)
-#define GRID_MAX_WIDTH			(MAX_WIDTH * GRID_BLOCK_COLUMNS)
-
-#define GRID_EMPTY_TILE 0
-#define GRID_SOLID_TILE 1
 
 
 
@@ -62,35 +42,6 @@ UnitTest2::UnitTest2() {
 			else if (kb_event.type == ALLEGRO_EVENT_KEY_UP) {
 				movement_keys[kb_event.keyboard.keycode] = false;
 			}
-
-			//if(kb_event.type == ALLEGRO_EVENT_KEY_DOWN){
-			//std::cout << "Lvl2: key down\n";
-				
-				/*if(kb_event.keyboard.keycode == ALLEGRO_KEY_W){
-					dx = 0;
-					dy = -RECT_MOVE_DIST;
-					FilterGridMotion(rectangle, dx, dy);
-					rectangle.y += dy;
-				}
-				else if(kb_event.keyboard.keycode == ALLEGRO_KEY_S){
-					dx = 0;
-					dy = RECT_MOVE_DIST;
-					FilterGridMotion(rectangle, dx, dy);
-					rectangle.y += dy;
-				}
-				else if(kb_event.keyboard.keycode == ALLEGRO_KEY_A){
-					dx = -RECT_MOVE_DIST;
-					dy = 0;
-					FilterGridMotion(rectangle, dx, dy);
-					rectangle.x += dx;
-				}
-				else if(kb_event.keyboard.keycode == ALLEGRO_KEY_D){
-					dx = RECT_MOVE_DIST;
-					dy = 0;
-					FilterGridMotion(rectangle, dx, dy);
-					rectangle.x += dx;
-				}*/
-			//}
 		}
 	};
 
@@ -116,7 +67,7 @@ UnitTest2::UnitTest2() {
 				rect_mvmnt.x_speed += RECT_MAX_SPEED_X;
 			}
 
-			int dx, dy;
+			float dx, dy;
 			dx = rect_mvmnt.x_speed * RECT_UPDATE_POS;
 			dy = rect_mvmnt.y_speed * RECT_UPDATE_POS;
 			FilterGridMotion(rectangle, dx, dy);
@@ -159,7 +110,7 @@ void UnitTest2::Main() {
 	UnitTest::Main();
 }
 
-void UnitTest2::FilterGridMotion(const Rect& r, int& dx, int& dy){
+void UnitTest2::FilterGridMotion(const Rect_f& r, float& dx, float& dy){
 	if (dx < 0)
 		FilterGridMotionLeft(r, dx);
 	else if (dx > 0)
@@ -171,10 +122,10 @@ void UnitTest2::FilterGridMotion(const Rect& r, int& dx, int& dy){
 		FilterGridMotionDown(r, dy);
 }
 
-void UnitTest2::FilterGridMotionLeft(const Rect& r, int& dx){
-	int x1_next = r.x + dx;
+void UnitTest2::FilterGridMotionLeft(const Rect_f& r, float& dx){
+	float x1_next = r.x + dx;
 	if (x1_next < 0)
-		dx = -(int)r.x;
+		dx = -r.x;
 	else {
 		uint new_col = x1_next / GRID_ELEMENT_WIDTH;
 		uint curr_col = r.x / GRID_ELEMENT_WIDTH;
@@ -191,9 +142,9 @@ void UnitTest2::FilterGridMotionLeft(const Rect& r, int& dx){
 	}
 }
 
-void UnitTest2::FilterGridMotionRight(const Rect& r, int& dx){
-	int x2 = r.x + r.w - 1;
-	int x2_next = x2 + dx;
+void UnitTest2::FilterGridMotionRight(const Rect_f& r, float& dx){
+	float x2 = r.x + r.w - 1;
+	float x2_next = x2 + dx;
 	if (x2_next >= (int)map_dim.w)
 		dx = map_dim.w - x2 - 1;
 	else {
@@ -212,10 +163,10 @@ void UnitTest2::FilterGridMotionRight(const Rect& r, int& dx){
 	}
 }
 
-void UnitTest2::FilterGridMotionUp(const Rect& r, int& dy){
-	int y1_next = r.y + dy;
+void UnitTest2::FilterGridMotionUp(const Rect_f& r, float& dy){
+	float y1_next = r.y + dy;
 	if (y1_next < 0)
-		dy = -(int)r.y;
+		dy = -r.y;
 	else {
 		uint new_row = y1_next / GRID_ELEMENT_WIDTH;
 		uint curr_row = r.y / GRID_ELEMENT_WIDTH;
@@ -232,9 +183,9 @@ void UnitTest2::FilterGridMotionUp(const Rect& r, int& dy){
 	}
 }
 
-void UnitTest2::FilterGridMotionDown(const Rect& r, int& dy){
-	int y2 = r.y + r.h - 1;
-	int y2_next = y2 + dy;
+void UnitTest2::FilterGridMotionDown(const Rect_f& r, float& dy){
+	float y2 = r.y + r.h - 1;
+	float y2_next = y2 + dy;
 	if (y2_next >= (int)map_dim.h)
 		dy = map_dim.h - y2 - 1;
 	else {
