@@ -25,8 +25,15 @@ UnitTest3::UnitTest3(){
 			FilterGridMotion(rectangle, dx, dy);
 			rectangle.x += dx;
 			rectangle.y += dy;
-			if (rectangle.x < view_win.x)
+			if (rectangle.x < view_win.x) // cannot go left
 				rectangle.x = view_win.x;
+			// this below isnt real distance. its x coord compared to mid :O
+			int dist_to_mid = (rectangle.x + rectangle.w - view_win.x) - DIS_WIDTH / 2;
+			if (dist_to_mid > 0) { // if x2 of mario is further than the mid of view_win.
+				FilterScrollDistance(view_win.x, view_win.w, dist_to_mid, map_dim.w);
+				view_win.x += dist_to_mid;
+				tile_win_moved = TileAllignedViewBoundCheck();
+			}
 		}
 	};
 }
