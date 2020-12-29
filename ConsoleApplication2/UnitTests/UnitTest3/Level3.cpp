@@ -14,8 +14,8 @@ void UnitTest3::Load(void) {
 	game.PushbackRender(flip_display);
 	game.PushbackInput(input_events0);
 	game.PushbackInput(input_rect);
-	game.PushbackInput(input_scroll);
-	game.PushbackPhysics(physics_rect);
+	//game.PushbackInput(input_scroll);
+	//game.PushbackPhysics(physics_rect);
 }
 
 void UnitTest3::Clear(void) {
