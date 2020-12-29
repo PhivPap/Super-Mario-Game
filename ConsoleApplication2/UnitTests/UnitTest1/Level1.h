@@ -44,7 +44,7 @@ class UnitTest : protected app::App {
 	ALLEGRO_TIMER* timer;
 	std::vector<std::vector<byte>> map;
 	uint tileset_width;
-	bool tile_win_moved;
+	
 	std::chrono::steady_clock::time_point old_time, new_time;
 	llu frames;
 	uint counter;
@@ -52,9 +52,9 @@ class UnitTest : protected app::App {
 	
 	std::function<bool(void)> done;
 
-	bool TileAllignedViewBoundCheck();
+	
 	void Scroll(int, int);
-	static void FilterScrollDistance(uint, uint, int&, uint);
+	
 	void FilterScroll(int&, int&);
 	void TileTerrainDisplay();
 	void ReadTextMap(std::vector<std::vector<byte>>&, Dim&);
@@ -72,6 +72,10 @@ protected:
 	bool game_finished;
 	Dim map_dim;
 	Rect view_win;
+	bool tile_win_moved;
+
+	bool TileAllignedViewBoundCheck();
+	static void FilterScrollDistance(uint, uint, int&, uint);
 
 public:
 	static int ReadCSV(std::vector<std::vector<byte>>&, const char*); //csv to byte array.

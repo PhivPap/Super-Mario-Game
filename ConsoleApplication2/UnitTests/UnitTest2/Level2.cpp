@@ -25,9 +25,7 @@
 #define GRID_EMPTY_TILE 0
 #define GRID_SOLID_TILE 1
 
-#define RECT_MAX_SPEED_X 120 // pixels per second. (p/s)
-#define RECT_MAX_SPEED_Y 120  // pixels per second. (p/s)
-#define RECT_UPDATE_POS 0.00834 // 120 times per second.
+
 
 void UnitTest2::ReadTextGrid(std::vector<std::vector<byte>>& grid, Dim& grid_dim){
 	if (UnitTest::ReadCSV(grid, GRID_PATH) == 1) {
@@ -102,7 +100,7 @@ UnitTest2::UnitTest2() {
 		//update speed 
 		//update location based on speed (rect_mvmnt) with timer event
 		ALLEGRO_EVENT timer_event;
-		if (al_get_next_event(rect_timer_queue, &timer_event)) {
+		if (al_get_next_event(timer_queue0, &timer_event)) {
 			rect_mvmnt.y_speed = 0;
 			rect_mvmnt.x_speed = 0;
 			if (movement_keys[ALLEGRO_KEY_W]) {
@@ -133,9 +131,9 @@ void UnitTest2::Initialise(void) {
 	UnitTest::Initialise();
 	al_init_primitives_addon();
 	color = al_map_rgb(255, 0, 0);
-	rect_timer_queue = al_create_event_queue();
+	timer_queue0 = al_create_event_queue();
 	rect_pos_timer = al_create_timer(RECT_UPDATE_POS);
-	al_register_event_source(rect_timer_queue, al_get_timer_event_source(rect_pos_timer));
+	al_register_event_source(timer_queue0, al_get_timer_event_source(rect_pos_timer));
 	al_start_timer(rect_pos_timer);
 
 	Dim d{0};
