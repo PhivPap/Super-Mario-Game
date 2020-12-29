@@ -9,7 +9,7 @@ struct Movement {
 class UnitTest2 : protected UnitTest {
 	ALLEGRO_COLOR color;
 	ALLEGRO_EVENT_QUEUE* keyboard_rect_queue;
-	ALLEGRO_EVENT_QUEUE* rect_timer_queue;
+	ALLEGRO_EVENT_QUEUE* timer_queue0;
 	ALLEGRO_TIMER* rect_pos_timer;
 	Rect rectangle{224, 176, 16, 16 };
 	Movement rect_mvmnt{ 0,0 };
