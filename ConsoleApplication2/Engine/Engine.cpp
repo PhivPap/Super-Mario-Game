@@ -8,14 +8,9 @@ namespace app {
 				f();
 	}
 	
-	void Game::addFirstRender(std::function<void(void)>& f) { render.push_front(f); }
-	void Game::addLastRender(std::function<void(void)>& f) { render.push_back(f); }
-	void Game::addFirstInput(std::function<void(void)>& f) { input.push_front(f); }
-	void Game::addLastInput(std::function<void(void)>& f) { input.push_back(f); }
-	void Game::addFirstPhysics(std::function<void(void)>& f) { physics.push_front(f); }
-	void Game::addLastPhysics(std::function<void(void)>& f) { physics.push_back(f); }
-	void Game::clearInput() { input.clear(); }
-	//template <typename Tfunc>
+	void Game::PushbackRender(std::function<void(void)>& f) { render.push_back(f); }
+	void Game::PushbackInput(std::function<void(void)>& f) { input.push_back(f); }
+	void Game::PushbackPhysics(std::function<void(void)>& f) { physics.push_back(f); }
 	void Game::SetDone(Pred& f) { done = f; }
 	
 	// rest of setters are similary defined

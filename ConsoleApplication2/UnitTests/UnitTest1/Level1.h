@@ -50,11 +50,6 @@ class UnitTest : protected app::App {
 	uint counter;
 	Rect tile_view_win;
 	
-
-	std::function<void(void)> render_terrain;
-	std::function<void(void)> flip_display;
-	std::function<void(void)> input_events0;
-	std::function<void(void)> input_scroll;
 	std::function<bool(void)> done;
 
 	bool TileAllignedViewBoundCheck();
@@ -65,6 +60,10 @@ class UnitTest : protected app::App {
 	void ReadTextMap(std::vector<std::vector<byte>>&, Dim&);
 
 protected:
+	std::function<void(void)> render_terrain;
+	std::function<void(void)> flip_display;
+	std::function<void(void)> input_events0;
+	std::function<void(void)> input_scroll;
 	void ScrollWithBoundsCheck(int, int, bool&);
 	ALLEGRO_EVENT_QUEUE* keyboard_queue;
 	ALLEGRO_EVENT_QUEUE* display_queue;

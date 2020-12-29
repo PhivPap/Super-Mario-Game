@@ -25,8 +25,6 @@
 #define GRID_EMPTY_TILE 0
 #define GRID_SOLID_TILE 1
 
-
-
 #define RECT_MAX_SPEED_X 120 // pixels per second. (p/s)
 #define RECT_MAX_SPEED_Y 120  // pixels per second. (p/s)
 #define RECT_UPDATE_POS 0.00834 // 120 times per second.
@@ -57,7 +55,7 @@ UnitTest2::UnitTest2() {
 	};
 
 	input_rect = [&] {
-		if(kb_event_b){
+		if (kb_event_b) {
 			if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
 				movement_keys[kb_event.keyboard.keycode] = true;
 				if (kb_event.keyboard.keycode == ALLEGRO_KEY_V)
@@ -139,15 +137,19 @@ void UnitTest2::Initialise(void) {
 	rect_pos_timer = al_create_timer(RECT_UPDATE_POS);
 	al_register_event_source(rect_timer_queue, al_get_timer_event_source(rect_pos_timer));
 	al_start_timer(rect_pos_timer);
+
+	Dim d{0};
+	ReadTextGrid(grid, d);
 }
 
 void UnitTest2::Load(void) {
-	game.addFirstRender(render_rect);
-	game.addFirstInput(input_rect);
-	game.addFirstPhysics(physics_rect);
-	Dim d{0};
-	ReadTextGrid(grid, d);
-	UnitTest::Load();
+	game.PushbackRender(render_terrain);
+	game.PushbackRender(render_rect);
+	game.PushbackRender(flip_display);
+	game.PushbackInput(input_events0);
+	game.PushbackInput(input_rect);
+	game.PushbackInput(input_scroll);
+	game.PushbackPhysics(physics_rect);
 }
 
 void UnitTest2::Clear(void) {

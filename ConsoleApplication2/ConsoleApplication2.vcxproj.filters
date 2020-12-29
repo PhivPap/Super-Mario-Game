@@ -46,11 +46,12 @@
     <ClCompile Include="UnitTests\UnitTest2\Level2.cpp">
       <Filter>UnitTests\UnitTest2\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UnitTests\UnitTest2\Main.cpp">
-      <Filter>UnitTests\UnitTest2\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.cpp">
       <Filter>UnitTests\UnitTest2\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTests\UnitTest3\Level3.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Main.cpp">
+      <Filter>UnitTests\UnitTest2\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -66,5 +67,6 @@
     <ClInclude Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.h">
       <Filter>UnitTests\UnitTest2\Grid</Filter>
     </ClInclude>
+    <ClInclude Include="UnitTests\UnitTest3\Level3.h" />
   </ItemGroup>
 </Project>

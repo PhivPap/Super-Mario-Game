@@ -165,8 +165,7 @@ static void ComputeTileGridBlocks2 (
 
 void ComputeTileGridBlocks() {
 	UnitTest utest;
-	utest.Load(); // to load map
-	utest.Initialise();
+	utest.Initialise(); // to load  map and tileset
 	std::vector<std::vector<byte>> map = utest.getMapRef(); // this is a ref.
 	std::vector<std::vector<byte>> grid;
 	ALLEGRO_BITMAP* tileset = utest.getTileset();

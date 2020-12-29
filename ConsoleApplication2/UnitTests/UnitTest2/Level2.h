@@ -17,11 +17,6 @@ class UnitTest2 : protected UnitTest {
 	std::vector<std::vector<byte>> grid; //grid[row][col] 
 	bool rect_filled = true;
 
-	std::function<void(void)> render_rect;
-	std::function<void(void)> input_rect;
-	std::function<void(void)> physics_rect;
-	
-	
 	void ReadTextGrid(std::vector<std::vector<byte>>&, Dim&);
 	void FilterGridMotion(const Rect&, int&, int&);
 	void FilterGridMotionLeft(const Rect&, int&);
@@ -29,6 +24,12 @@ class UnitTest2 : protected UnitTest {
 	void FilterGridMotionUp(const Rect&, int&);
 	void FilterGridMotionDown(const Rect&, int&);
 	bool CanPassGridTile(uint, uint, byte);
+
+
+protected:
+	std::function<void(void)> render_rect;
+	std::function<void(void)> input_rect;
+	std::function<void(void)> physics_rect;	
 
 public:
 	UnitTest2();

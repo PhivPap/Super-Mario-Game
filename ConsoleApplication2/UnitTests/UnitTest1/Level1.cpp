@@ -233,16 +233,16 @@ void UnitTest::Initialise(void) {
 	tileset = al_load_bitmap(TILESET_PATH);
 	tileset_width = al_get_bitmap_width(tileset) / TILE_WIDTH;
 	tile_alligned = al_create_bitmap(tile_view_win.w, tile_view_win.h);
+	ReadTextMap(map, map_dim);
+	game.SetDone(done);
+	old_time = std::chrono::high_resolution_clock::now();
 }
 
 void UnitTest::Load(void) {
-	ReadTextMap(map, map_dim);
-	game.addFirstRender(render_terrain);
-	game.addLastRender(flip_display);
-	game.SetDone(done);
-	game.addFirstInput(input_events0);
-	game.addLastInput(input_scroll);
-	old_time = std::chrono::high_resolution_clock::now();
+	game.PushbackRender(render_terrain);
+	game.PushbackRender(flip_display);
+	game.PushbackInput(input_events0);
+	game.PushbackInput(input_scroll);
 }
 
 void UnitTest::Clear(void) {

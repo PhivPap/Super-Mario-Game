@@ -12,15 +12,12 @@ namespace app {
 		Action render, anim, input, ai, physics, destruct, collisions, user;
 		Pred done;
 		void Invoke(const Action& );
+	
 	public:
-		//template <typename Tfunc>
-		void addFirstRender(std::function<void(void)>&);
-		void addLastRender(std::function<void(void)>&);
-		void addFirstInput(std::function<void(void)>&);
-		void addLastInput(std::function<void(void)>&);
-		void addFirstPhysics(std::function<void(void)>& f);
-		void addLastPhysics(std::function<void(void)>& f);
-		void clearInput();
+		void PushbackRender(std::function<void(void)>&);
+		void PushbackInput(std::function<void(void)>&);
+		void PushbackPhysics(std::function<void(void)>&);
+		
 		void SetDone(Pred&);
 		
 		// rest of setters are similary defined
