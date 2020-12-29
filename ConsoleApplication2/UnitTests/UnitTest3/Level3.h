@@ -4,6 +4,8 @@
 class UnitTest3 : protected UnitTest2 {
 
 
+	std::function<void(void)> mario_physics;
+
 
 public:
 	UnitTest3();
