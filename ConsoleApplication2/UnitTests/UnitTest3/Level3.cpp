@@ -6,27 +6,29 @@ UnitTest3::UnitTest3(){
 		if (al_get_next_event(timer_queue0, &timer_event)) {
 			rect_mvmnt.y_speed = 0;
 			rect_mvmnt.x_speed = 0;
-		if (movement_keys[ALLEGRO_KEY_W]) {
-			rect_mvmnt.y_speed -= RECT_MAX_SPEED_Y;
-		}
-		if (movement_keys[ALLEGRO_KEY_S]) {
-			rect_mvmnt.y_speed += RECT_MAX_SPEED_Y;
-		}
-		if (movement_keys[ALLEGRO_KEY_A]) {
-			rect_mvmnt.x_speed -= RECT_MAX_SPEED_X;
-		}
-		if (movement_keys[ALLEGRO_KEY_D]) {
-			rect_mvmnt.x_speed += RECT_MAX_SPEED_X;
-		}
+			if (movement_keys[ALLEGRO_KEY_W]) {
+				rect_mvmnt.y_speed -= RECT_MAX_SPEED_Y;
+			}
+			if (movement_keys[ALLEGRO_KEY_S]) {
+				rect_mvmnt.y_speed += RECT_MAX_SPEED_Y;
+			}
+			if (movement_keys[ALLEGRO_KEY_A]) {
+				rect_mvmnt.x_speed -= RECT_MAX_SPEED_X;
+			}
+			if (movement_keys[ALLEGRO_KEY_D]) {
+				rect_mvmnt.x_speed += RECT_MAX_SPEED_X;
+			}
 
-		int dx, dy;
-		dx = rect_mvmnt.x_speed * RECT_UPDATE_POS;
-		dy = rect_mvmnt.y_speed * RECT_UPDATE_POS;
-		FilterGridMotion(rectangle, dx, dy);
-		rectangle.x += dx;
-		rectangle.y += dy;
-	}
-};
+			int dx, dy;
+			dx = rect_mvmnt.x_speed * RECT_UPDATE_POS;
+			dy = rect_mvmnt.y_speed * RECT_UPDATE_POS;
+			FilterGridMotion(rectangle, dx, dy);
+			rectangle.x += dx;
+			rectangle.y += dy;
+			if (rectangle.x < view_win.x)
+				rectangle.x = view_win.x;
+		}
+	};
 }
 
 void UnitTest3::Initialise(void) {
