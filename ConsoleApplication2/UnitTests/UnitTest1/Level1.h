@@ -10,7 +10,7 @@
 
 
 #include "Util.h"
-#include "MapInfoParser.h"
+#include "ConfigParser.h"
 #include "Engine.h"
 
 #define TILE_WIDTH 16
@@ -49,7 +49,7 @@ class UnitTest : protected app::App {
 
 protected:
 	uint DIS_WIDTH, DIS_HEIGHT;
-	MapInfoParser map_info_parser;
+	ConfigParser map_info_parser;
 	std::function<void(void)> render_terrain;
 	std::function<void(void)> flip_display;
 	std::function<void(void)> input_events0;

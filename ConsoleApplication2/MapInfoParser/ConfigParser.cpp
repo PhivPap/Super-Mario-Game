@@ -1,13 +1,25 @@
-#include "MapInfoParser.h"
+#include "ConfigParser.h"
 #include <fstream>
 #include <iostream>
-#include <vector>
 
-MapInfoParser::MapInfoParser() {
-
+ConfigParser::ConfigParser() {
 }
 
-static void splitLineWithChar(std::vector<std::string>& split_line, std::string line, char c) {
+//str is modified
+static void ReplaceSubStrings(std::string& str, std::string replace_this, std::string replace_with) {
+	size_t i = 0;
+	auto sub_str_len = replace_this.length();
+	if (sub_str_len == 0)
+		return;
+	while (true) {
+		i = str.find(replace_this, i);
+		if (i == std::string::npos)
+			break;
+		str.replace(i, sub_str_len, replace_with);
+	}
+}
+
+static void SplitLineWithChar(std::vector<std::string>& split_line, std::string line, char c) {
 	std::string item;
 	for (unsigned int i = 0; i < line.length(); i++) {
 		if (line[i] == c) {
@@ -22,7 +34,7 @@ static void splitLineWithChar(std::vector<std::string>& split_line, std::string 
 }
 
 
-void MapInfoParser::SetNewParser(const char* file_name) {
+void ConfigParser::SetNewParser(const char* file_name) {
 	map_info.clear();
 	std::ifstream map_info_file(file_name);
 	if (!map_info_file.is_open()) {
@@ -33,7 +45,12 @@ void MapInfoParser::SetNewParser(const char* file_name) {
 	std::string var;
 	std::string value;
 	while (getline(map_info_file, line)) {
-		if (line == "")
+		auto comment_idx = line.find("##");
+		if (comment_idx != std::string::npos) {
+			line = line.substr(0, comment_idx);
+		}
+		ReplaceSubStrings(line, " ", "");
+		if(line == "")
 			continue;
 		auto i = line.find_first_of(':');
 		if (i == std::string::npos || i == 0) {
@@ -49,7 +66,7 @@ void MapInfoParser::SetNewParser(const char* file_name) {
 }
 
 // !!CARE <><><><> REF?
-std::string MapInfoParser::GetStr(std::string key) {
+std::string ConfigParser::GetStr(std::string key) {
 	auto info = map_info.find(key);
 	if (info == map_info.end()) {
 		std::cerr << "No map info element with name: '" << key << "'\n";
@@ -58,28 +75,28 @@ std::string MapInfoParser::GetStr(std::string key) {
 	return info->second;
 }
 
-double MapInfoParser::GetDouble(std::string key) {
+double ConfigParser::GetDouble(std::string key) {
 	auto info_str = GetStr(key);
 	double info_dbl = std::stod(info_str); // throws exeption if cant convert	
 	return info_dbl;
 }
 
-unsigned int MapInfoParser::GetUint(std::string key) {
+unsigned int ConfigParser::GetUint(std::string key) {
 	auto info_str = GetStr(key);
 	unsigned int info_uint = std::stoul(info_str); // throws exeption if cant convert	
 	return info_uint;
 }
 
-int MapInfoParser::GetInt(std::string key) {
+int ConfigParser::GetInt(std::string key) {
 	auto info_str = GetStr(key);
 	int info_int = std::stoi(info_str); // throws exeption if cant convert	
 	return info_int;
 }
 
-Rect MapInfoParser::GetRect(std::string key) {
+Rect ConfigParser::GetRect(std::string key) {
 	auto info_str = GetStr(key);
 	std::vector<std::string> values;
-	splitLineWithChar(values, info_str, ',');
+	SplitLineWithChar(values, info_str, ',');
 	if (values.size() < 4) {
 		std::cerr << "Could not get Rect from '" << info_str << "'\n";
 		exit(1);
@@ -87,13 +104,21 @@ Rect MapInfoParser::GetRect(std::string key) {
 	return { std::stoul(values[0]), std::stoul(values[1]), std::stoul(values[2]), std::stoul(values[3])}; // gonna throw exept if cant convert
 }
 
-Point MapInfoParser::GetPoint(std::string key) {
+Point ConfigParser::GetPoint(std::string key) {
 	auto info_str = GetStr(key);
 	std::vector<std::string> values;
-	splitLineWithChar(values, info_str, ',');
+	SplitLineWithChar(values, info_str, ',');
 	if (values.size() < 2) {
 		std::cerr << "Could not get Point from '" << info_str << "'\n";
 		exit(1);
 	}
 	return { std::stoul(values[0]), std::stoul(values[1]) };
+}
+
+/* Returns value*/
+std::vector<std::string> ConfigParser::GetList(std::string key) {
+	auto info_str = GetStr(key);
+	std::vector<std::string> values;
+	SplitLineWithChar(values, info_str, ',');
+	return values;
 }

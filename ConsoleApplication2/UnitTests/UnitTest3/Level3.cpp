@@ -38,30 +38,6 @@ UnitTest3::UnitTest3(){
 		}
 	};
 
-	/*MapInfoParser mip("UnitTests/UnitTest3/media/Map0_info.txt");
-	Rect rect = mip.GetRect("rect_99");
-	Point point = mip.GetPoint("point_99");
-	double dbl = mip.GetDouble("double_99");
-	int in = mip.GetInt("int_99");
-	uint uin = mip.GetUint("uint_99");
-	std::string str = mip.GetStr("str_99");
-
-	std::cout << "rect.x: " << rect.x << std::endl;
-	std::cout << "rect.y: " << rect.y << std::endl;
-	std::cout << "rect.h: " << rect.h << std::endl;
-	std::cout << "rect.w: " << rect.w << std::endl;
-
-	std::cout << "point.x: " << point.x << std::endl;
-	std::cout << "point.y: " << point.y << std::endl;
-
-
-	std::cout << "dbl: " << dbl << std::endl;
-	std::cout << "in: " << in << std::endl;
-	std::cout << "uin: " << uin << std::endl;
-	std::cout << "str: " << str << std::endl;*/
-
-
-
 }
 
 void UnitTest3::Initialise(void) {
