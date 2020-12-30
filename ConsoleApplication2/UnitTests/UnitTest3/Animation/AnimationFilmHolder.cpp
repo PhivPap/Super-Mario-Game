@@ -1,5 +1,6 @@
 #include "AnimationFilmHolder.h"
 
+AnimationFilmHolder::AnimationFilmHolder() {}
 AnimationFilmHolder::~AnimationFilmHolder() { CleanUp(); }
 
 const AnimationFilmHolder& AnimationFilmHolder::Get(void) { 
