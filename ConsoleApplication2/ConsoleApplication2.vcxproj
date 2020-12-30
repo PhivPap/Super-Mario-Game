@@ -159,6 +159,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="UnitTests\UnitTest3\AnimationFilm.cpp" />
     <ClCompile Include="Engine\App.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="MapInfoParser\MapInfoParser.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="UnitTests\UnitTest3\AnimationFilm.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="MapInfoParser\MapInfoParser.h" />
     <ClInclude Include="UnitTests\UnitTest1\Level1.h" />
