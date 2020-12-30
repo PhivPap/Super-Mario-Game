@@ -8,9 +8,13 @@ TILESET_PATH: UnitTests/UnitTest3/media/super_mario_tiles.png
 TILEMAP_PATH: UnitTests/UnitTest3/media/mario_map_0.csv
 GRID_PATH: UnitTests//UnitTest2//Grid//grid2.csv
 
+## List of Film Names
 FILMS: COIN, Q_MARK, TURTLE
 
-COIN: UnitTests/UnitTest3/media/Coin_info.txt 10 
+## format: PATH_TO_FILE NumberOfFrames
+COIN: UnitTests/UnitTest3/media/bmps/coins.bmp 3
+
+
 Q_MARK: UnitTests/UnitTest3/media/Q_mark_info.txt
 TURTLE: UnitTests/UnitTest3/media/Turtle.txt
 

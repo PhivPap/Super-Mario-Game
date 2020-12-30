@@ -1,98 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="UnitTests">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="UnitTests\UnitTest2">
-      <UniqueIdentifier>{ea62448a-0d44-47af-9496-3cf7805ca90e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UnitTests\UnitTest2\Header Files">
-      <UniqueIdentifier>{35524aff-7ff0-4974-b7dd-e4b903a76509}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UnitTests\UnitTest2\Source Files">
-      <UniqueIdentifier>{ce2833d0-cbcf-4f5b-b0b6-b0092adc159c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine">
-      <UniqueIdentifier>{97a628e5-0969-4e4c-bf57-f52f539b99ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UnitTests\UnitTest2\Grid">
-      <UniqueIdentifier>{8e8921e1-f5ff-4f7c-962c-0e35ba4d1aaa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UnitTests\UnitTest3">
-      <UniqueIdentifier>{517c741b-c825-49f6-9a02-a2c7456afe8c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UnitTests\UnitTest1">
-      <UniqueIdentifier>{968dff78-3bfd-4941-8d3e-28ba683472a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UnitTests\UnitTest1\Header Files">
-      <UniqueIdentifier>{1c5c6d7b-30aa-4152-9f0e-aac8ec12705d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UnitTests\UnitTest1\Source Files">
-      <UniqueIdentifier>{861173d5-161e-4843-95bf-2afa899897b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ConfigParser">
-      <UniqueIdentifier>{99213576-7c88-4169-9ce3-9013f1462ae3}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="UnitTests\UnitTest3\AnimationFilm.cpp" />
+    <ClCompile Include="Engine\App.cpp" />
+    <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="MapInfoParser\ConfigParser.cpp" />
+    <ClCompile Include="UnitTests\UnitTest1\Level1.cpp" />
+    <ClCompile Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.cpp" />
+    <ClCompile Include="UnitTests\UnitTest2\Level2.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Main.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Level3.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationFilmHolder.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="UnitTests\UnitTest3\AnimationFilm.h" />
+    <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="MapInfoParser\ConfigParser.h" />
+    <ClInclude Include="UnitTests\UnitTest1\Level1.h" />
+    <ClInclude Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.h" />
+    <ClInclude Include="UnitTests\UnitTest2\Level2.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Level3.h" />
+    <ClInclude Include="Util.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationFilmHolder.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Engine\App.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Engine.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitTests\UnitTest1\Level1.cpp">
-      <Filter>UnitTests\UnitTest1\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitTests\UnitTest2\Level2.cpp">
-      <Filter>UnitTests\UnitTest2\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.cpp">
-      <Filter>UnitTests\UnitTest2\Grid</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitTests\UnitTest3\Main.cpp">
-      <Filter>UnitTests\UnitTest2\Source Files</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="UnitTests\UnitTest3\Level3.cpp">
-      <Filter>UnitTests\UnitTest3</Filter>
-    </ClCompile>
-    <ClCompile Include="MapInfoParser\ConfigParser.cpp">
-      <Filter>ConfigParser</Filter>
-    </ClCompile>
-=======
-    <ClCompile Include="UnitTests\UnitTest3\AnimationFilm.cpp" />
->>>>>>> animation_system
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Engine\Engine.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitTests\UnitTest1\Level1.h">
-      <Filter>UnitTests\UnitTest1\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitTests\UnitTest2\Level2.h">
-      <Filter>UnitTests\UnitTest2\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.h">
-      <Filter>UnitTests\UnitTest2\Grid</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="UnitTests\UnitTest3\Level3.h">
-      <Filter>UnitTests\UnitTest3</Filter>
-    </ClInclude>
-    <ClInclude Include="Util.h" />
-    <ClInclude Include="MapInfoParser\ConfigParser.h">
-      <Filter>ConfigParser</Filter>
-    </ClInclude>
-=======
-    <ClInclude Include="UnitTests\UnitTest3\Level3.h" />
-    <ClInclude Include="UnitTests\UnitTest3\AnimationFilm.h" />
->>>>>>> animation_system
   </ItemGroup>
 </Project>
