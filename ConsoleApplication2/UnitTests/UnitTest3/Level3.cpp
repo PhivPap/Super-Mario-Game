@@ -39,7 +39,7 @@ UnitTest3::UnitTest3(){
 	};
 
 	
-	// DUMMY CODE
+	// DUMMY CODE plz
 	auto animations = map_info_parser.GetList("ANIMATIONS");
 	ConfigParser coin_parser;
 	ConfigParser q_mark_parser;

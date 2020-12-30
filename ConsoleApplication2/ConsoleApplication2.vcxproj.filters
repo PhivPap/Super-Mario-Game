@@ -11,6 +11,7 @@
     <ClCompile Include="UnitTests\UnitTest3\Main.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationFilmHolder.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationFilm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UnitTests\UnitTest3\AnimationFilm.h" />
@@ -22,6 +23,7 @@
     <ClInclude Include="UnitTests\UnitTest3\Level3.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationFilmHolder.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationFilm.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
