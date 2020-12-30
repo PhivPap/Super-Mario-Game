@@ -1,5 +1,5 @@
 #include "Level3.h"
-#include "MapInfoParser.h"
+
 
 UnitTest3::UnitTest3(){
 	mario_physics = [&] {
@@ -38,7 +38,7 @@ UnitTest3::UnitTest3(){
 		}
 	};
 
-	MapInfoParser mip("UnitTests/UnitTest3/media/Map0_info.txt");
+	/*MapInfoParser mip("UnitTests/UnitTest3/media/Map0_info.txt");
 	Rect rect = mip.GetRect("rect_99");
 	Point point = mip.GetPoint("point_99");
 	double dbl = mip.GetDouble("double_99");
@@ -58,7 +58,7 @@ UnitTest3::UnitTest3(){
 	std::cout << "dbl: " << dbl << std::endl;
 	std::cout << "in: " << in << std::endl;
 	std::cout << "uin: " << uin << std::endl;
-	std::cout << "str: " << str << std::endl;
+	std::cout << "str: " << str << std::endl;*/
 
 
 

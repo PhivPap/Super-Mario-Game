@@ -3,6 +3,10 @@
 #include <iostream>
 #include <vector>
 
+MapInfoParser::MapInfoParser() {
+
+}
+
 static void splitLineWithChar(std::vector<std::string>& split_line, std::string line, char c) {
 	std::string item;
 	for (unsigned int i = 0; i < line.length(); i++) {
@@ -18,7 +22,8 @@ static void splitLineWithChar(std::vector<std::string>& split_line, std::string 
 }
 
 
-MapInfoParser::MapInfoParser(const char* file_name) {
+void MapInfoParser::SetNewParser(const char* file_name) {
+	map_info.clear();
 	std::ifstream map_info_file(file_name);
 	if (!map_info_file.is_open()) {
 		std::cerr << "Could not open map info file: '" << file_name << "'\n";

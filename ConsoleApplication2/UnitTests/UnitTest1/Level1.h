@@ -8,7 +8,9 @@
 #include <fstream>
 #include <chrono>
 
+
 #include "Util.h"
+#include "MapInfoParser.h"
 #include "Engine.h"
 
 #define DIS_WIDTH 1440
@@ -48,6 +50,7 @@ class UnitTest : protected app::App {
 	void ReadTextMap(std::vector<std::vector<byte>>&, Dim&);
 
 protected:
+	MapInfoParser map_info_parser;
 	std::function<void(void)> render_terrain;
 	std::function<void(void)> flip_display;
 	std::function<void(void)> input_events0;

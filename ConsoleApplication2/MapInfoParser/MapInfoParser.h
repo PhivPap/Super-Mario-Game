@@ -8,7 +8,8 @@ class MapInfoParser{
 	std::map<std::string, std::string> map_info;
 
 public:
-	MapInfoParser(const char* file_name);
+	MapInfoParser();
+	void SetNewParser(const char*);
 	std::string GetStr(std::string);
 	double GetDouble(std::string);
 	uint GetUint(std::string);

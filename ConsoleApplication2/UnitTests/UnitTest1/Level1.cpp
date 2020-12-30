@@ -1,5 +1,7 @@
 #include "Level1.h"
 
+#define MAP_INFO_PARSER "UnitTests/UnitTest3/media/Map0_info.txt"
+
 bool UnitTest::TileAllignedViewBoundCheck() {
 	bool moved = false;
 	if (view_win.x < tile_view_win.x) {
@@ -123,6 +125,7 @@ void UnitTest::ReadTextMap(std::vector<std::vector<byte>>& map, Dim& map_dim) {
 }
 
 UnitTest::UnitTest() {
+	map_info_parser.SetNewParser(MAP_INFO_PARSER);
 	display = 0;
 	tileset = 0;
 	tile_alligned = 0;
