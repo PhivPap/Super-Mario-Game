@@ -53,6 +53,7 @@
     <ClCompile Include="UnitTests\UnitTest3\Main.cpp">
       <Filter>UnitTests\UnitTest2\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UnitTests\UnitTest3\AnimationFilm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -68,5 +69,6 @@
       <Filter>UnitTests\UnitTest2\Grid</Filter>
     </ClInclude>
     <ClInclude Include="UnitTests\UnitTest3\Level3.h" />
+    <ClInclude Include="UnitTests\UnitTest3\AnimationFilm.h" />
   </ItemGroup>
 </Project>
