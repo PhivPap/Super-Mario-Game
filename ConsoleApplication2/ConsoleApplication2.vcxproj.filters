@@ -61,7 +61,7 @@
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp">
       <Filter>UnitTests\UnitTest3</Filter>
     </ClCompile>
-    <ClCompile Include="MapInfoParser.cpp">
+    <ClCompile Include="MapInfoParser\MapInfoParser.cpp">
       <Filter>MapInfoParser</Filter>
     </ClCompile>
   </ItemGroup>
@@ -81,7 +81,7 @@
     <ClInclude Include="UnitTests\UnitTest3\Level3.h">
       <Filter>UnitTests\UnitTest3</Filter>
     </ClInclude>
-    <ClInclude Include="MapInfoParser.h">
+    <ClInclude Include="MapInfoParser\MapInfoParser.h">
       <Filter>MapInfoParser</Filter>
     </ClInclude>
   </ItemGroup>

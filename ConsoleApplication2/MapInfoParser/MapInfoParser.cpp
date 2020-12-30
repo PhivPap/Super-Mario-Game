@@ -10,7 +10,19 @@ MapInfoParser::MapInfoParser(std::string file_name) {
 		exit(1);
 	}
 	std::string line;
+	std::string var;
+	std::string value;
 	while (getline(map_info_file, line)) {
+		if (line == "")
+			continue;
+		auto i = line.find_first_of(':');
+		if (i == std::string::npos || i == 0) {
+			std::cerr << "Care: map info file line: '" << line << "' didnt parse.\n";
+			continue;
+		}
+		var = line.substr(0, i);
+		value = line.substr(i + 1);
+		std::cout << var << " - " << value << std::endl;
 		// fill map.
 		/*	style of file:
 		* 
@@ -21,6 +33,7 @@ MapInfoParser::MapInfoParser(std::string file_name) {
 		*/
 	}
 	map_info_file.close();
+
 }
 
 // !!CARE <><><><> REF?

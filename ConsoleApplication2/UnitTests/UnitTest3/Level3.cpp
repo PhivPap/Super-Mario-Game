@@ -1,5 +1,5 @@
 #include "Level3.h"
-
+#include "MapInfoParser.h"
 
 UnitTest3::UnitTest3(){
 	ALLEGRO_EVENT timer_event;
@@ -37,6 +37,9 @@ UnitTest3::UnitTest3(){
 			}
 		}
 	};
+
+	MapInfoParser mip("UnitTests/UnitTest3/media/Map_info.txt");
+
 }
 
 void UnitTest3::Initialise(void) {

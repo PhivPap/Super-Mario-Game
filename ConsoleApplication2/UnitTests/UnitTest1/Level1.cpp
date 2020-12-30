@@ -161,8 +161,6 @@ UnitTest::UnitTest() {
 		}
 		kb_event_b = al_get_next_event(keyboard_queue, &kb_event);
 		mouse_event_b = al_get_next_event(mouse_queue, &mouse_event);
-	
-		
 	};
 
 	input_scroll = [&] {
