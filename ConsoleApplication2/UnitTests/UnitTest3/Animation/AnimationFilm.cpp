@@ -1,6 +1,4 @@
-#include "AnimationFil.h"
 #include "AnimationFilm.h"
-
 
 byte AnimationFilm::GetTotalFrames(void) const {
 	return boxes.size();
