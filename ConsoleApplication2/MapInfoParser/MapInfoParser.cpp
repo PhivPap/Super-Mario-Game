@@ -44,7 +44,7 @@ MapInfoParser::MapInfoParser(const char* file_name) {
 }
 
 // !!CARE <><><><> REF?
-std::string MapInfoParser::GetMapInfoStr(std::string key) {
+std::string MapInfoParser::GetStr(std::string key) {
 	auto info = map_info.find(key);
 	if (info == map_info.end()) {
 		std::cerr << "No map info element with name: '" << key << "'\n";
@@ -53,26 +53,26 @@ std::string MapInfoParser::GetMapInfoStr(std::string key) {
 	return info->second;
 }
 
-double MapInfoParser::GetMapInfoDouble(std::string key) {
-	auto info_str = GetMapInfoStr(key);
+double MapInfoParser::GetDouble(std::string key) {
+	auto info_str = GetStr(key);
 	double info_dbl = std::stod(info_str); // throws exeption if cant convert	
 	return info_dbl;
 }
 
-unsigned int MapInfoParser::GetMapInfoUint(std::string key) {
-	auto info_str = GetMapInfoStr(key);
+unsigned int MapInfoParser::GetUint(std::string key) {
+	auto info_str = GetStr(key);
 	unsigned int info_uint = std::stoul(info_str); // throws exeption if cant convert	
 	return info_uint;
 }
 
-int MapInfoParser::GetMapInfoInt(std::string key) {
-	auto info_str = GetMapInfoStr(key);
+int MapInfoParser::GetInt(std::string key) {
+	auto info_str = GetStr(key);
 	int info_int = std::stoi(info_str); // throws exeption if cant convert	
 	return info_int;
 }
 
-Rect MapInfoParser::GetMapInfoRect(std::string key) {
-	auto info_str = GetMapInfoStr(key);
+Rect MapInfoParser::GetRect(std::string key) {
+	auto info_str = GetStr(key);
 	std::vector<std::string> values;
 	splitLineWithChar(values, info_str, ',');
 	if (values.size() < 4) {
@@ -82,8 +82,8 @@ Rect MapInfoParser::GetMapInfoRect(std::string key) {
 	return { std::stoul(values[0]), std::stoul(values[1]), std::stoul(values[2]), std::stoul(values[3])}; // gonna throw exept if cant convert
 }
 
-Point MapInfoParser::GetMapInfoPoint(std::string key) {
-	auto info_str = GetMapInfoStr(key);
+Point MapInfoParser::GetPoint(std::string key) {
+	auto info_str = GetStr(key);
 	std::vector<std::string> values;
 	splitLineWithChar(values, info_str, ',');
 	if (values.size() < 2) {

@@ -39,12 +39,12 @@ UnitTest3::UnitTest3(){
 	};
 
 	MapInfoParser mip("UnitTests/UnitTest3/media/Map0_info.txt");
-	Rect rect = mip.GetMapInfoRect("rect_99");
-	Point point = mip.GetMapInfoPoint("point_99");
-	double dbl = mip.GetMapInfoDouble("double_99");
-	int in = mip.GetMapInfoInt("int_99");
-	uint uin = mip.GetMapInfoUint("uint_99");
-	std::string str = mip.GetMapInfoStr("str_99");
+	Rect rect = mip.GetRect("rect_99");
+	Point point = mip.GetPoint("point_99");
+	double dbl = mip.GetDouble("double_99");
+	int in = mip.GetInt("int_99");
+	uint uin = mip.GetUint("uint_99");
+	std::string str = mip.GetStr("str_99");
 
 	std::cout << "rect.x: " << rect.x << std::endl;
 	std::cout << "rect.y: " << rect.y << std::endl;

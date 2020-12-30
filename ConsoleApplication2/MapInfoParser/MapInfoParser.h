@@ -9,11 +9,11 @@ class MapInfoParser{
 
 public:
 	MapInfoParser(const char* file_name);
-	std::string GetMapInfoStr(std::string);
-	double GetMapInfoDouble(std::string);
-	uint GetMapInfoUint(std::string);
-	int GetMapInfoInt(std::string);
-	Rect GetMapInfoRect(std::string);
-	Point GetMapInfoPoint(std::string);
+	std::string GetStr(std::string);
+	double GetDouble(std::string);
+	uint GetUint(std::string);
+	int GetInt(std::string);
+	Rect GetRect(std::string);
+	Point GetPoint(std::string);
 };
 
