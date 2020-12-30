@@ -47,7 +47,7 @@ UnitTest3::UnitTest3(){
 	q_mark_parser.SetNewParser(map_info_parser.GetStr(animations[1]).c_str());
 	std::cout << coin_parser.GetStr("BMP_PATH") << std::endl;
 	std::cout << q_mark_parser.GetStr("BMP_PATH") << std::endl;
-
+	// test 1 -2  commit
 }
 
 void UnitTest3::Initialise(void) {
