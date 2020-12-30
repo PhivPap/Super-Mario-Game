@@ -9,10 +9,11 @@ TILEMAP_PATH: UnitTests/UnitTest3/media/mario_map_0.csv
 GRID_PATH: UnitTests//UnitTest2//Grid//grid2.csv
 
 
-ANIMATIONS: COIN, Q_MARK
+ANIMATIONS: COIN, Q_MARK, TURTLE
 
-COIN: Coin_info.txt
-Q_MARK: Q_mark_info.txt
+COIN: UnitTests/UnitTest3/media/Coin_info.txt
+Q_MARK: UnitTests/UnitTest3/media/Q_mark_info.txt
+TURTLE: UnitTests/UnitTest3/media/Turtle.txt
 
 COINO: 272, 352
 COIN1: 384, 288

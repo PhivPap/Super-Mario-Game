@@ -38,6 +38,16 @@ UnitTest3::UnitTest3(){
 		}
 	};
 
+	
+	// DUMMY CODE
+	auto animations = map_info_parser.GetList("ANIMATIONS");
+	ConfigParser coin_parser;
+	ConfigParser q_mark_parser;
+	coin_parser.SetNewParser(map_info_parser.GetStr(animations[0]).c_str());
+	q_mark_parser.SetNewParser(map_info_parser.GetStr(animations[1]).c_str());
+	std::cout << coin_parser.GetStr("BMP_PATH") << std::endl;
+	std::cout << q_mark_parser.GetStr("BMP_PATH") << std::endl;
+
 }
 
 void UnitTest3::Initialise(void) {
