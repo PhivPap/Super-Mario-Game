@@ -25,8 +25,10 @@
 		al_draw_bitmap_region(bitmap, src.x, src.y, src.w, src.h, at.x, at.y, 0);
 		// who should flip ?
 	}
+
 	void AnimationFilm::SetBitmap(ALLEGRO_BITMAP* b) {
-		assert(!bitmap); bitmap = b;
+		assert(!bitmap);
+		bitmap = b;
 	}
 
 	void AnimationFilm::Append(const Rect& r) {
