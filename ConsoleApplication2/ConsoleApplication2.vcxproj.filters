@@ -84,5 +84,6 @@
     <ClInclude Include="MapInfoParser\MapInfoParser.h">
       <Filter>MapInfoParser</Filter>
     </ClInclude>
+    <ClInclude Include="Util.h" />
   </ItemGroup>
 </Project>

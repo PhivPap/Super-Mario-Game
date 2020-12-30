@@ -1,9 +1,24 @@
 #include "MapInfoParser.h"
 #include <fstream>
 #include <iostream>
+#include <vector>
+
+static void splitLineWithChar(std::vector<std::string>& split_line, std::string line, char c) {
+	std::string item;
+	for (unsigned int i = 0; i < line.length(); i++) {
+		if (line[i] == c) {
+			split_line.push_back(item);
+			item.clear();
+			continue;
+		}
+		item += line[i];
+	}
+	if (item != "")
+		split_line.push_back(item);
+}
 
 
-MapInfoParser::MapInfoParser(std::string file_name) {
+MapInfoParser::MapInfoParser(const char* file_name) {
 	std::ifstream map_info_file(file_name);
 	if (!map_info_file.is_open()) {
 		std::cerr << "Could not open map info file: '" << file_name << "'\n";
@@ -22,15 +37,7 @@ MapInfoParser::MapInfoParser(std::string file_name) {
 		}
 		var = line.substr(0, i);
 		value = line.substr(i + 1);
-		std::cout << var << " - " << value << std::endl;
-		// fill map.
-		/*	style of file:
-		* 
-		* VARIABLE0:VALUE0
-		* VARIABLE1:VALUE1
-		*
-		* 
-		*/
+		map_info.insert(std::pair<std::string, std::string>(var,value));
 	}
 	map_info_file.close();
 
@@ -47,16 +54,41 @@ std::string MapInfoParser::GetMapInfoStr(std::string key) {
 }
 
 double MapInfoParser::GetMapInfoDouble(std::string key) {
-	//auto info = to_double(GetMapInfoStr(key));
-	return 0.0f;
+	auto info_str = GetMapInfoStr(key);
+	double info_dbl = std::stod(info_str); // throws exeption if cant convert	
+	return info_dbl;
 }
 
 unsigned int MapInfoParser::GetMapInfoUint(std::string key) {
-	//auto info = to_uint(GetMapInfoStr(key));
-	return 0;
+	auto info_str = GetMapInfoStr(key);
+	unsigned int info_uint = std::stoul(info_str); // throws exeption if cant convert	
+	return info_uint;
 }
 
 int MapInfoParser::GetMapInfoInt(std::string key) {
-	//auto info = to_int(GetMapInfoStr(key));
-	return 0;
+	auto info_str = GetMapInfoStr(key);
+	int info_int = std::stoi(info_str); // throws exeption if cant convert	
+	return info_int;
+}
+
+Rect MapInfoParser::GetMapInfoRect(std::string key) {
+	auto info_str = GetMapInfoStr(key);
+	std::vector<std::string> values;
+	splitLineWithChar(values, info_str, ',');
+	if (values.size() < 4) {
+		std::cerr << "Could not get Rect from '" << info_str << "'\n";
+		exit(1);
+	}
+	return { std::stoul(values[0]), std::stoul(values[1]), std::stoul(values[2]), std::stoul(values[3])}; // gonna throw exept if cant convert
+}
+
+Point MapInfoParser::GetMapInfoPoint(std::string key) {
+	auto info_str = GetMapInfoStr(key);
+	std::vector<std::string> values;
+	splitLineWithChar(values, info_str, ',');
+	if (values.size() < 2) {
+		std::cerr << "Could not get Point from '" << info_str << "'\n";
+		exit(1);
+	}
+	return { std::stoul(values[0]), std::stoul(values[1]) };
 }

@@ -8,6 +8,7 @@
 #include <fstream>
 #include <chrono>
 
+#include "Util.h"
 #include "Engine.h"
 
 #define DIS_WIDTH 1440
@@ -20,25 +21,8 @@
 #define TILESET_PATH "UnitTests/UnitTest3/media/super_mario_tiles.png"
 #define TILEMAP_PATH "UnitTests/UnitTest3/media/mario_map_0.csv"
 
-typedef unsigned char byte;
-typedef unsigned int uint;
-typedef long long unsigned llu;
 
-struct Rect {
-	uint x, y, w, h;
-};
 
-struct Rect_f {
-	float x, y, w, h;
-};
-
-struct Point {
-	uint x, y;
-};
-
-struct Dim {
-	uint w, h;
-};
 
 class UnitTest : protected app::App {
 	ALLEGRO_DISPLAY* display;

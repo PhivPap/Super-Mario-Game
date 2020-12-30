@@ -1,0 +1,12 @@
+DIS_WIDTH:1440
+DIS_HEIGHT:464
+TILESET_PATH:UnitTests/UnitTest3/media/super_mario_tiles.png
+TILEMAP_PATH:UnitTests/UnitTest3/media/mario_map_0.csv
+GRID_PATH:UnitTests//UnitTest2//Grid//grid2.csv
+
+rect_99:10,32,12,12
+point_99:100,200
+double_99:8585.123123
+int_99:123546
+uint_99:9876
+str_99:dummy_str99
