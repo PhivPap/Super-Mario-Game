@@ -116,7 +116,7 @@ int UnitTest::ReadCSV(std::vector<std::vector<byte>>& map, const char* fileName)
 }
 
 void UnitTest::ReadTextMap(std::vector<std::vector<byte>>& map, Dim& map_dim) {
-	if (ReadCSV(map, TILEMAP_PATH) == 1) {
+	if (ReadCSV(map, map_info_parser.GetStr("TILEMAP_PATH").c_str()) == 1) {
 		std::cerr << "Could not open map file\n";
 		exit(1);
 	}
@@ -126,6 +126,8 @@ void UnitTest::ReadTextMap(std::vector<std::vector<byte>>& map, Dim& map_dim) {
 
 UnitTest::UnitTest() {
 	map_info_parser.SetNewParser(MAP_INFO_PARSER);
+	DIS_WIDTH = map_info_parser.GetUint("DIS_WIDTH");
+	DIS_HEIGHT = map_info_parser.GetUint("DIS_HEIGHT");
 	display = 0;
 	tileset = 0;
 	tile_alligned = 0;
@@ -232,7 +234,7 @@ void UnitTest::Initialise(void) {
 	al_register_event_source(display_queue, al_get_display_event_source(display));
 	al_register_event_source(keyboard_queue, al_get_keyboard_event_source());
 	al_register_event_source(mouse_queue, al_get_mouse_event_source());
-	tileset = al_load_bitmap(TILESET_PATH);
+	tileset = al_load_bitmap(map_info_parser.GetStr("TILESET_PATH").c_str());
 	tileset_width = al_get_bitmap_width(tileset) / TILE_WIDTH;
 	tile_alligned = al_create_bitmap(tile_view_win.w, tile_view_win.h);
 	ReadTextMap(map, map_dim);

@@ -13,15 +13,13 @@
 #include "MapInfoParser.h"
 #include "Engine.h"
 
-#define DIS_WIDTH 1440
-#define DIS_HEIGHT 464
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
 
 #define SCROLL_DIST 64
 
-#define TILESET_PATH "UnitTests/UnitTest3/media/super_mario_tiles.png"
-#define TILEMAP_PATH "UnitTests/UnitTest3/media/mario_map_0.csv"
+//#define TILESET_PATH "UnitTests/UnitTest3/media/super_mario_tiles.png"
+//#define TILEMAP_PATH "UnitTests/UnitTest3/media/mario_map_0.csv"
 
 
 
@@ -50,6 +48,7 @@ class UnitTest : protected app::App {
 	void ReadTextMap(std::vector<std::vector<byte>>&, Dim&);
 
 protected:
+	uint DIS_WIDTH, DIS_HEIGHT;
 	MapInfoParser map_info_parser;
 	std::function<void(void)> render_terrain;
 	std::function<void(void)> flip_display;

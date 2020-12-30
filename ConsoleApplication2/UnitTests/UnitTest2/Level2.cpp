@@ -1,14 +1,14 @@
 #include "Level2.h"
 
 //#define GRID_PATH "UnitTests//UnitTest2//Grid//grid1.csv"
-#define GRID_PATH "UnitTests//UnitTest2//Grid//grid2.csv"
+//#define GRID_PATH "UnitTests//UnitTest2//Grid//grid2.csv"
 
 
 
 
 
 void UnitTest2::ReadTextGrid(std::vector<std::vector<byte>>& grid, Dim& grid_dim){
-	if (UnitTest::ReadCSV(grid, GRID_PATH) == 1) {
+	if (UnitTest::ReadCSV(grid, map_info_parser.GetStr("GRID_PATH").c_str()) == 1) {
 		std::cerr << "Could not open grid file\n";
 		exit(1);
 	}
