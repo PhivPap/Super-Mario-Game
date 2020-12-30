@@ -2,9 +2,8 @@
 #include "MapInfoParser.h"
 
 UnitTest3::UnitTest3(){
-	
+	ALLEGRO_EVENT timer_event;
 	mario_physics = [&] {
-		ALLEGRO_EVENT timer_event;
 		if (al_get_next_event(timer_queue0, &timer_event)) {
 			rect_mvmnt.y_speed = 0;
 			rect_mvmnt.x_speed = 0;
