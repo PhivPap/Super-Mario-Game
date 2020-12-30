@@ -32,7 +32,7 @@
     <Filter Include="UnitTests\UnitTest1\Source Files">
       <UniqueIdentifier>{861173d5-161e-4843-95bf-2afa899897b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MapInfoParser">
+    <Filter Include="ConfigParser">
       <UniqueIdentifier>{99213576-7c88-4169-9ce3-9013f1462ae3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -62,8 +62,8 @@
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp">
       <Filter>UnitTests\UnitTest3</Filter>
     </ClCompile>
-    <ClCompile Include="MapInfoParser\MapInfoParser.cpp">
-      <Filter>MapInfoParser</Filter>
+    <ClCompile Include="MapInfoParser\ConfigParser.cpp">
+      <Filter>ConfigParser</Filter>
     </ClCompile>
 =======
     <ClCompile Include="UnitTests\UnitTest3\AnimationFilm.cpp" />
@@ -86,8 +86,9 @@
     <ClInclude Include="UnitTests\UnitTest3\Level3.h">
       <Filter>UnitTests\UnitTest3</Filter>
     </ClInclude>
-    <ClInclude Include="MapInfoParser\MapInfoParser.h">
-      <Filter>MapInfoParser</Filter>
+    <ClInclude Include="Util.h" />
+    <ClInclude Include="MapInfoParser\ConfigParser.h">
+      <Filter>ConfigParser</Filter>
     </ClInclude>
 =======
     <ClInclude Include="UnitTests\UnitTest3\Level3.h" />

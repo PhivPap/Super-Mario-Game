@@ -1,5 +1,0 @@
-DIS_WIDTH:1440
-DIS_HEIGHT:464
-TILESET_PATH:UnitTests/UnitTest3/media/super_mario_tiles.png
-TILEMAP_PATH:UnitTests/UnitTest3/media/mario_map_0.csv
-GRID_PATH:UnitTests//UnitTest2//Grid//grid2.csv

@@ -31,11 +31,6 @@ static_assert(RECT_MAX_SPEED_X * RECT_UPDATE_POS < GRID_ELEMENT_WIDTH, "Increase
 static_assert(RECT_MAX_SPEED_Y* RECT_UPDATE_POS < GRID_ELEMENT_HEIGHT, "Increase pos update frequency or decrease MAX_Y_SPEED.\n");
 
 
-
-struct Movement {
-	double x_speed, y_speed;
-};
-
 class UnitTest2 : protected UnitTest {
 	ALLEGRO_COLOR color;
 	ALLEGRO_EVENT_QUEUE* keyboard_rect_queue;

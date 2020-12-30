@@ -1,9 +1,9 @@
 #include "Level3.h"
-#include "MapInfoParser.h"
+
 
 UnitTest3::UnitTest3(){
-	ALLEGRO_EVENT timer_event;
 	mario_physics = [&] {
+		ALLEGRO_EVENT timer_event;
 		if (al_get_next_event(timer_queue0, &timer_event)) {
 			rect_mvmnt.y_speed = 0;
 			rect_mvmnt.x_speed = 0;
@@ -38,7 +38,15 @@ UnitTest3::UnitTest3(){
 		}
 	};
 
-	MapInfoParser mip("UnitTests/UnitTest3/media/Map_info.txt");
+	
+	// DUMMY CODE
+	auto animations = map_info_parser.GetList("ANIMATIONS");
+	ConfigParser coin_parser;
+	ConfigParser q_mark_parser;
+	coin_parser.SetNewParser(map_info_parser.GetStr(animations[0]).c_str());
+	q_mark_parser.SetNewParser(map_info_parser.GetStr(animations[1]).c_str());
+	std::cout << coin_parser.GetStr("BMP_PATH") << std::endl;
+	std::cout << q_mark_parser.GetStr("BMP_PATH") << std::endl;
 
 }
 

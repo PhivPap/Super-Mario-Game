@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,7 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,7 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -162,7 +162,7 @@
     <ClCompile Include="UnitTests\UnitTest3\AnimationFilm.cpp" />
     <ClCompile Include="Engine\App.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
-    <ClCompile Include="MapInfoParser\MapInfoParser.cpp" />
+    <ClCompile Include="MapInfoParser\ConfigParser.cpp" />
     <ClCompile Include="UnitTests\UnitTest1\Level1.cpp" />
     <ClCompile Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.cpp" />
     <ClCompile Include="UnitTests\UnitTest2\Level2.cpp" />
@@ -172,11 +172,12 @@
   <ItemGroup>
     <ClInclude Include="UnitTests\UnitTest3\AnimationFilm.h" />
     <ClInclude Include="Engine\Engine.h" />
-    <ClInclude Include="MapInfoParser\MapInfoParser.h" />
+    <ClInclude Include="MapInfoParser\ConfigParser.h" />
     <ClInclude Include="UnitTests\UnitTest1\Level1.h" />
     <ClInclude Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.h" />
     <ClInclude Include="UnitTests\UnitTest2\Level2.h" />
     <ClInclude Include="UnitTests\UnitTest3\Level3.h" />
+    <ClInclude Include="Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
