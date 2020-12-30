@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="Engine\App.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="MapInfoParser.cpp" />
     <ClCompile Include="UnitTests\UnitTest1\Level1.cpp" />
     <ClCompile Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.cpp" />
     <ClCompile Include="UnitTests\UnitTest2\Level2.cpp" />
@@ -169,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="MapInfoParser.h" />
     <ClInclude Include="UnitTests\UnitTest1\Level1.h" />
     <ClInclude Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.h" />
     <ClInclude Include="UnitTests\UnitTest2\Level2.h" />
