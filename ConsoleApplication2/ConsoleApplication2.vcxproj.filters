@@ -64,6 +64,8 @@
     <ClCompile Include="MapInfoParser\ConfigParser.cpp">
       <Filter>ConfigParser</Filter>
     </ClCompile>
+    <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationFilm.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationFilmHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -85,5 +87,7 @@
     <ClInclude Include="MapInfoParser\ConfigParser.h">
       <Filter>ConfigParser</Filter>
     </ClInclude>
+    <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationFilm.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationFilmHolder.h" />
   </ItemGroup>
 </Project>
