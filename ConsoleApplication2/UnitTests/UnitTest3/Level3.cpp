@@ -40,64 +40,18 @@ UnitTest3::UnitTest3(){
 
 	
 	// DUMMY CODE
-	/*auto animations = map_info_parser.GetList("ANIMATIONS");
+	auto animations = map_info_parser.GetList("ANIMATIONS");
 	ConfigParser coin_parser;
 	ConfigParser q_mark_parser;
 	coin_parser.SetNewParser(map_info_parser.GetStr(animations[0]).c_str());
 	q_mark_parser.SetNewParser(map_info_parser.GetStr(animations[1]).c_str());
 	std::cout << coin_parser.GetStr("BMP_PATH") << std::endl;
-	std::cout << q_mark_parser.GetStr("BMP_PATH") << std::endl;*/
+	std::cout << q_mark_parser.GetStr("BMP_PATH") << std::endl;
 	// test 1 -2  commit
-}
-
-#include "Animation/AnimationFilmHolder.h"
-
-void hello(const char* s) { std::cout << s << std::endl; }
-
-void test(const std::function<void(const char* s)>& loader) {
-	loader("cpp is lit");
 }
 
 void UnitTest3::Initialise(void) {
 	UnitTest2::Initialise();
-
-/* Demo program of parsing a .data file with films information*/
-#if 0
-#define FILMS_DATA_PATH "UnitTests/UnitTest3/media/films.data"
-	
-	// struct test represents animation film data
-	struct test { 
-		std::string id;
-		std::string path;
-		std::vector<Rect> rects;
-	};
-
-	std::list<struct test> list; // list to hold animation films data
-	ConfigParser film_parser;
-	film_parser.SetNewParser(FILMS_DATA_PATH);
-
-	for (auto& i : film_parser.GetList("FILMS")) { // for each film
-		struct test tmp;
-		tmp.id = film_parser.GetStr(film_parser.GetList(i)[0]);
-		tmp.path = film_parser.GetStr(film_parser.GetList(i)[1]);		
-		auto s = film_parser.GetList(film_parser.GetList(i)[2]); 
-		
-		for (auto& j : s) { // iterate through rects
-			tmp.rects.push_back(film_parser.GetRect(j)); // get rekt xd
-		}
-
-		list.push_back(tmp);
-	}
-
-	// validation
-	for (auto i : list) {
-		std::cout << "id: " << i.id << ", path: " << i.path << "\nrects: ";
-		for (auto j : i.rects)
-			std::cout << "[" << j.x << "," << j.y << "," << j.w << "," << j.h << "], ";
-		std::cout << std::endl << std::endl;
-	}
-#endif
-
 }
 
 void UnitTest3::Load(void) {
