@@ -2,11 +2,18 @@
 #include "Level1.h"
 
 class AnimationFilm {
+	
 	std::vector<Rect> boxes;
 	ALLEGRO_BITMAP* bitmap;
 	std::string id;
 
 public:
+	struct Data {
+		std::string			id;
+		std::string			path;
+		std::vector<Rect>	rects;
+	};
+
 	byte GetTotalFrames(void) const;
 	ALLEGRO_BITMAP* GetBitmap(void) const;
 	std::string GetId(void) const;
