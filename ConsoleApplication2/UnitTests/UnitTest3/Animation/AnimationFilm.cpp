@@ -1,5 +1,13 @@
 #include "AnimationFilm.h"
 
+AnimationFilm::AnimationFilm(const std::string& _id) : id(_id) {} // why we want this tho ?
+
+AnimationFilm::AnimationFilm(ALLEGRO_BITMAP* _bitmap, const std::vector<Rect>& _boxes, const std::string& _id)
+	: bitmap(_bitmap), boxes(_boxes), id(_id)
+{
+	al_convert_mask_to_alpha(bitmap, al_map_rgb(255, 0, 255)); // set transparent color for all animation film bitmaps
+}
+
 byte AnimationFilm::GetTotalFrames(void) const {
 	return boxes.size();
 }
@@ -32,12 +40,4 @@ void AnimationFilm::SetBitmap(ALLEGRO_BITMAP* b) {
 
 void AnimationFilm::Append(const Rect& r) {
 	boxes.push_back(r);
-}
-
-AnimationFilm::AnimationFilm(const std::string& _id) : id(_id) {} // why we want this tho ?
-
-AnimationFilm::AnimationFilm(ALLEGRO_BITMAP* _bitmap, const std::vector<Rect>& _boxes, const std::string& _id)
-	: bitmap(_bitmap), boxes(_boxes), id(_id)
-{
-	al_convert_mask_to_alpha(bitmap, al_map_rgb(255, 0, 255)); // set transparent color for all animation film bitmaps
 }
