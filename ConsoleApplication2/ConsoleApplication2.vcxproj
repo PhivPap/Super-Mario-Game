@@ -159,6 +159,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="UnitTests\UnitTest3\Animation\BitmapLoader.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationFilmHolder.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationFilm.cpp" />
     <ClCompile Include="Engine\App.cpp" />
@@ -171,6 +172,8 @@
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Util.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animation\BitmapLoader.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationFilmHolder.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationFilm.h" />
     <ClInclude Include="Engine\Engine.h" />
@@ -179,7 +182,7 @@
     <ClInclude Include="UnitTests\UnitTest2\Grid\ComputeTileGridBlocks.h" />
     <ClInclude Include="UnitTests\UnitTest2\Level2.h" />
     <ClInclude Include="UnitTests\UnitTest3\Level3.h" />
-    <ClInclude Include="Util.h" />
+    <ClInclude Include="Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

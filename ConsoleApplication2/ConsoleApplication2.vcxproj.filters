@@ -66,6 +66,7 @@
     </ClCompile>
     <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationFilm.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationFilmHolder.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animation\BitmapLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -83,11 +84,13 @@
     <ClInclude Include="UnitTests\UnitTest3\Level3.h">
       <Filter>UnitTests\UnitTest3</Filter>
     </ClInclude>
-    <ClInclude Include="Util.h" />
     <ClInclude Include="MapInfoParser\ConfigParser.h">
       <Filter>ConfigParser</Filter>
     </ClInclude>
     <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationFilm.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationFilmHolder.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animation\BitmapLoader.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="Util.h" />
   </ItemGroup>
 </Project>
