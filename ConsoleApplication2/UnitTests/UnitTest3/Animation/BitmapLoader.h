@@ -14,5 +14,5 @@ public:
 	ALLEGRO_BITMAP* Load(const std::string& path);
 	void CleanUp(void);
 	BitmapLoader(void);
-	~BitmapLoader();
+	~BitmapLoader(void);
 };

@@ -2,8 +2,7 @@
 #include <iostream>
 
 BitmapLoader::BitmapLoader(void) {}
-
-BitmapLoader::~BitmapLoader() { CleanUp(); }
+BitmapLoader::~BitmapLoader(void) {}
 
 ALLEGRO_BITMAP* BitmapLoader::GetBitmap(const std::string& path) const {
 	auto i = bitmaps.find(path);
