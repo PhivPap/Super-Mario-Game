@@ -1,37 +1,25 @@
 ## TODO : put correct data
+## -- FILM FORMAT --
+## FILMS: <comma separated list of all films to be read>
+## film: film_id , film_path, rectangles
+## rectangles: <comma separted list of all rect id's to be read>
+## rect: x , y, w, h
 
 FILMS: COIN, QMARK, TURTLE
 
-COIN: cid, cpath, crects
-cid: "cid"
-cpath: "cpath"
+COIN: "cid", UnitTests/UnitTest3/media/bmps/coins.bmp, crects
 crects: c_rect0, c_rect1, c_rect2
 c_rect0: 1, 2, 3, 4
 c_rect1: 5, 6, 7, 8
 c_rect2: 9, 10, 11, 12
 
-QMARK: qid, qpath, qrects
-qid: "qid"
-qpath: "qpath"
+QMARK: "qid", UnitTests/UnitTest3/media/bmps/question_marks.bmp, qrects
 qrects: qrect0, qrect1, qrect2 
 qrect0: 100, 101, 102, 103
 qrect1: 104, 105, 106, 107
 qrect2: 108, 109, 110, 111
 
-TURTLE: tid, tpath, trects
-tid: "tid"
-tpath: "tpath"
+TURTLE: "tid", UnitTests/UnitTest3/media/bmps/green_koopa_troopa.bmp, trects
 trects: trect0, trect1
 trect0: 200, 201, 202, 203
 trect1: 204, 205, 206, 207
-
-
-## How json would look like 
-##"films" : {
-##	"player.punch" :{
-##		"bmp" : "punch.bmp",
-##			"frames" : [
-##				{ "x":5, "y":5,"w":34,"h":60 },
-##			]
-##	},
-##}
