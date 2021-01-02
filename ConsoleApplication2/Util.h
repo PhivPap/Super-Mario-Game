@@ -1,29 +1,27 @@
 #pragma once
-#ifndef Util
-#define Util
+#include "ConfigParser.h"
+#include "Animation/AnimationFilm.h"
 
-typedef unsigned char byte;
-typedef unsigned int uint;
-typedef long long unsigned llu;
+//TODO: move CSV parser here ?
 
-struct Rect {
-	uint x, y, w, h;
-};
+// output	: container of all AnimationFilm Data
+// path		: the path to films.data file
+static inline void FilmParser(std::list <AnimationFilm::Data>& output, const char* path) {
+	assert(path);
+	ConfigParser film_parser;
+	film_parser.SetNewParser(path);
+	auto f = film_parser.GetList("FILMS");
+	for (auto& i : f) { // for each film (coins, mario..)
+		AnimationFilm::Data data;
+		auto d		= film_parser.GetList(i);
+		data.id		= d[0];
+		data.path	= d[1];
+		auto r		= film_parser.GetList(d[2]);
 
-struct Rect_f {
-	float x, y, w, h;
-};
+		for (auto& j : r) { // iterate through rects
+			data.rects.push_back(film_parser.GetRect(j));
+		}
 
-struct Point {
-	uint x, y;
-};
-
-struct Dim {
-	uint w, h;
-};
-
-struct Movement {
-	double x_speed, y_speed;
-};
-
-#endif // !Util
+		output.push_back(data);
+	}
+}
