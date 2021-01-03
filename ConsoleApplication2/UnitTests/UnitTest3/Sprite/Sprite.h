@@ -3,6 +3,7 @@
 #include "Types.h"
 #include "AnimationFilm.h"
 #include "MotionQuantizer.h"
+#include "Clipper.h"
 
 class Sprite {
 
@@ -37,6 +38,6 @@ public:
 	void SetVisibility(bool);
 	bool isVisible(void) const;
 	bool CollisionCheck(const Sprite*) const;
-	void Display(ALLEGRO_BITMAP, const Rect&, const Clipper&) const;
+	void Display(ALLEGRO_BITMAP*, const Rect&, const Clipper&) const;
 };
 

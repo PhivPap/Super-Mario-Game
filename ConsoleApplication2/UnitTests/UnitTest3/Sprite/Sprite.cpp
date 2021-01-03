@@ -70,7 +70,17 @@ bool Sprite::CollisionCheck(const Sprite*) const {
 	assert(0);
 	//TODO
 }
-void Sprite::Display(ALLEGRO_BITMAP, const Rect&, const Clipper&) const {
-	assert(0);
-	//TODO
+void Sprite::Display(ALLEGRO_BITMAP* dest, const Rect& dpy_area, const Clipper& clipper) const {
+	Rect clipped_box;
+	Point dpy_pos;
+	if (clipper.Clip(GetBox(), dpy_area, &dpy_pos, &clipped_box)) {
+		Rect clipped_frame{
+			frame_box.x + clipped_box.x,
+			frame_box.y + clipped_box.y,
+			clipped_box.w,
+			clipped_box.h
+		};
+
+
+	}
 }
