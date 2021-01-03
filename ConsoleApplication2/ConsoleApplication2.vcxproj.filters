@@ -67,6 +67,7 @@
     <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationFilm.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationFilmHolder.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animation\BitmapLoader.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Sprites\Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -92,5 +93,6 @@
     <ClInclude Include="UnitTests\UnitTest3\Animation\BitmapLoader.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Util.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Sprites\Sprite.h" />
   </ItemGroup>
 </Project>
