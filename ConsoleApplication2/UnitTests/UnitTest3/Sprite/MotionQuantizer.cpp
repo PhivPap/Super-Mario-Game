@@ -15,7 +15,7 @@ MotionQuantizer& MotionQuantizer::SetMover(Mover& mover) {
 	return *this;
 }
 
-void MotionQuantizer::Move(const Rect& r, int& dx, int& dy) {
+void MotionQuantizer::Move(const Rect& r, int& dx, int& dy) { // takes ref??
 	if (!used)
 		mover(r, dx, dy);
 	else {

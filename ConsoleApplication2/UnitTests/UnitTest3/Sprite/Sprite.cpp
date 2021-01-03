@@ -1,5 +1,10 @@
 #include "Sprite.h"
 
+Sprite::Sprite(int x, int y, AnimationFilm* film, const std::string& type_id = "") : x(x), y(y), curr_film(film), type_id(type_id) {
+	frame_no = curr_film->GetTotalFrames(); 
+	SetFrame(0);
+}
+
 void Sprite::SetMover(const Mover& f) {
 	quantizer.SetMover(mover = f); // <-- ... ok dude
 }
@@ -9,7 +14,7 @@ const Rect Sprite::GetBox(void) const {
 }
 
 void Sprite::Move(int dx, int dy) {
-	quantizer.Move(GetBox(), &dx, &dy); // why pass pointer?
+	quantizer.Move(GetBox(), dx, dy);
 }
 
 void Sprite::SetPos(int x, int y) {
