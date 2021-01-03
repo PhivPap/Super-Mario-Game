@@ -28,7 +28,7 @@ uint Sprite::GetZorder(void) {
 void Sprite::SetFrame(byte i) {
 	if (i != frame_no) {
 		assert(i < curr_film->GetTotalFrames());
-		frame_box = curr_file->GetFrameBox(frame_no = i);
+		frame_box = curr_film->GetFrameBox(frame_no = i);
 	}
 }
 

@@ -2,13 +2,13 @@
 #include <functional>
 #include "Types.h"
 #include "AnimationFilm.h"
-
+#include "MotionQuantizer.h"
 
 class Sprite {
 
 
 public:
-	using Mover = std::function<void(const Rect&, int* dx, int* dy)>;
+	using Mover = std::function<void(const Rect&, int&, int&)>;
 protected:
 	byte frame_no = 0;
 	Rect frame_box;
