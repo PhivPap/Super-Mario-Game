@@ -159,6 +159,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="UnitTests\UnitTest3\Sprite\SpriteManager.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Sprite\CollisionChecker.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingCircle.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingBox.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingArea.cpp" />
@@ -178,6 +180,8 @@
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="UnitTests\UnitTest3\Sprite\SpriteManager.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Sprite\CollisionChecker.h" />
     <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingCircle.h" />
     <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingBox.h" />
     <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingArea.h" />
