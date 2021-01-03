@@ -1,6 +1,6 @@
 #include "Clipper.h"
 
-template <class T> bool clip_rect(
+template <typename T> bool clip_rect(
 	T x, T y, T w, T h,
 	T wx, T wy, T ww, T wh,
 	T& cx, T& cy, T& cw, T& ch ) {
@@ -40,5 +40,4 @@ bool Clipper::Clip(const Rect& r, const Rect& dpy_area, Point* dpy_pos, Rect* cl
 
 		return true;
 	}
-
 }

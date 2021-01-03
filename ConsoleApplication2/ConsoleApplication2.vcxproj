@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,7 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,7 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,6 +159,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingCircle.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingBox.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingArea.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Sprite\Clipper.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Sprite\MotionQuantizer.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Sprite\Sprite.cpp" />
@@ -175,6 +178,9 @@
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingCircle.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingBox.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingArea.h" />
     <ClInclude Include="UnitTests\UnitTest3\Sprite\Clipper.h" />
     <ClInclude Include="UnitTests\UnitTest3\Sprite\MotionQuantizer.h" />
     <ClInclude Include="UnitTests\UnitTest3\Sprite\Sprite.h" />

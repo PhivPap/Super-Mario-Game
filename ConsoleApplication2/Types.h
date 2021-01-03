@@ -19,6 +19,10 @@ struct Point {
 	uint x, y;
 };
 
+struct Point_f {
+	float x, y;
+};
+
 struct Dim {
 	uint w, h;
 };

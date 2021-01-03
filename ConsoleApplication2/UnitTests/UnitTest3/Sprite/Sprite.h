@@ -4,10 +4,9 @@
 #include "AnimationFilm.h"
 #include "MotionQuantizer.h"
 #include "Clipper.h"
+#include "BoundingArea.h"
 
 class Sprite {
-
-
 public:
 	using Mover = std::function<void(const Rect&, int&, int&)>;
 protected:

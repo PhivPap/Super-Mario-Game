@@ -70,6 +70,9 @@
     <ClCompile Include="UnitTests\UnitTest3\Sprite\Sprite.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Sprite\MotionQuantizer.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Sprite\Clipper.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingArea.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingBox.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingCircle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -98,5 +101,8 @@
     <ClInclude Include="UnitTests\UnitTest3\Sprite\Sprite.h" />
     <ClInclude Include="UnitTests\UnitTest3\Sprite\MotionQuantizer.h" />
     <ClInclude Include="UnitTests\UnitTest3\Sprite\Clipper.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingArea.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingBox.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingCircle.h" />
   </ItemGroup>
 </Project>
