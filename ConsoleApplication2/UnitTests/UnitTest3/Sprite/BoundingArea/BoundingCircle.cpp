@@ -3,7 +3,7 @@
 //#include "BoudingPolygon.h"
 #include <math.h>
 
-static inline double DistBetweenPoints(Point_f p1, Point_f p2) {
+static inline double DistBetweenPoints(const Point_f p1, const Point_f p2) {
 	auto tmp0 = p1.y - p2.y;
 	auto tmp1 = p1.x - p2.x;
 	tmp0 *= tmp0;
@@ -12,7 +12,7 @@ static inline double DistBetweenPoints(Point_f p1, Point_f p2) {
 }
 
 bool BoundingCircle::Intersects(const BoundingBox& box) const {
-	auto centers_dist = DistBetweenPoints(box.GetCenter(), {x, y});
+	auto centers_dist = DistBetweenPoints(box.GetCenter(), {(float)x, (float)y});
 	if (centers_dist > r + (box.GetDiagonalLen() / 2))
 		return false;
 	
@@ -36,7 +36,7 @@ bool BoundingCircle::Intersects(const BoundingBox& box) const {
 }
 
 bool BoundingCircle::Intersects(const BoundingCircle& circle) const {
-	auto centers_dist = DistBetweenPoints({ x, y }, { circle.x, circle.y });
+	auto centers_dist = DistBetweenPoints({ (float)x, (float)y }, { (float)circle.x, (float)circle.y });
 	if (centers_dist < r + circle.r)
 		return true;
 	return false;
@@ -49,13 +49,13 @@ bool BoundingCircle::Intersects(const BoundingCircle& circle) const {
 
 
 bool BoundingCircle::In(uint x, uint y) const {
-	auto points_dist = DistBetweenPoints({this->x, this->y }, {x, y});
+	auto points_dist = DistBetweenPoints({ (float)this->x, (float)this->y }, { (float)x, (float)y});
 	return points_dist < r;
 }
 
 
 bool BoundingCircle::Intersects(const BoundingArea& area) const {
-	area.Intersects(*this);
+	return area.Intersects(*this);
 }
 
 BoundingCircle* BoundingCircle::Clone(void) const {

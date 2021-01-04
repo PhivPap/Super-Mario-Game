@@ -7,7 +7,7 @@ template <typename T> bool clip_rect(
 
 	cw = T(std::min(wx + ww, x + w)) - (cx = T(std::max(wx, x)));
 	ch = T(std::min(wy + wh, y + h)) - (cy = T(std::max(wy, y)));
-	return *cw > 0 && *ch > 0;
+	return cw > 0 && ch > 0;
 }
 
 static inline bool clip_rect(const Rect& r, const Rect& area, Rect& result) {

@@ -18,7 +18,7 @@ void Sprite::SetMover(const Mover& f) {
 }
 
 const Rect Sprite::GetBox(void) const {
-	return { x, y, frame_box.w, frame_box.h }; // do we need x,y ??
+	return { (uint)x, (uint)y, frame_box.w, frame_box.h }; // do we need x,y ??
 }
 
 void Sprite::Move(int dx, int dy) {
@@ -76,6 +76,7 @@ bool Sprite::isVisible(void) const {
 }
 bool Sprite::CollisionCheck(const Sprite*) const {
 	assert(0);
+	return false;
 	//TODO
 }
 void Sprite::Display(ALLEGRO_BITMAP* dest, const Rect& dpy_area, const Clipper& clipper) const {
