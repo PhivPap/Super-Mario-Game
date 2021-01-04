@@ -10,6 +10,6 @@ public:
 	void				SetId(const std::string&);
 	virtual Animation*	Clone(void) const = 0;
 	Animation(const std::string&);
-	virtual ~Animation();
+	virtual ~Animation(void);
 };
 

@@ -3,12 +3,14 @@
 #include "Types.h"
 
 class Clipper {
-public: 
-	using View = std::function<const Rect& (void)>;
+//public: 
+	//using View = std::function<const Rect& (void)>;
 private:
-	View view;
+	//View view;
+	static Rect* view_window;
 public:
-	Clipper& SetView(View&);
-	bool Clip(const Rect&, const Rect&, Point*, Rect*) const;
+	//Clipper& SetView(View&);
+	static void InitViewWindow(Rect*);
+	bool Clip(const Rect&, const Rect&, Point*, Rect_i*) const;
 };
 

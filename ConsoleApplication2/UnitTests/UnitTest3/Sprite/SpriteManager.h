@@ -12,6 +12,7 @@ public:
 	void Add(Sprite* s);
 	void Remove(Sprite* s);
 	const SpriteList& GetDisplayList(void);
+	const SpriteList& GetTypeList(const std::string&);
 	static SpriteManager& GetSingleton(void);
 	static const SpriteManager& GetSingletonConst(void);
 };

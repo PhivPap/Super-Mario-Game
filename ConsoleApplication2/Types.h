@@ -11,6 +11,10 @@ struct Rect {
 	uint x, y, w, h;
 };
 
+struct Rect_i {
+	int x, y, w, h;
+};
+
 struct Rect_f {
 	float x, y, w, h;
 };

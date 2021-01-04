@@ -21,5 +21,6 @@ public:
 	Me&			SetForever(void);
 	Animation*	Clone(void) const;
 	MovingAnimation(const std::string&, uint, int, int, uint);
+	~MovingAnimation(void);
 };
 

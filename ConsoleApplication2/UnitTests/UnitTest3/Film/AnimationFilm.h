@@ -19,6 +19,7 @@ public:
 	std::string GetId(void) const;
 	const Rect& GetFrameBox(byte) const;
 	void DisplayFrame(ALLEGRO_BITMAP*, const Point&, byte) const;
+	void DisplayFrame(ALLEGRO_BITMAP*, const Point&, const Rect&) const;
 	void SetBitmap(ALLEGRO_BITMAP*);
 	void Append(const Rect&);
 	AnimationFilm(const std::string&);

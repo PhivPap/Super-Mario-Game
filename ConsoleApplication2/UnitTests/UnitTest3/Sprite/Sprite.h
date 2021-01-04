@@ -14,14 +14,14 @@ protected:
 	Rect frame_box;
 	int x = 0, y = 0;
 	bool is_visible = false;
-	AnimationFilm* curr_film = nullptr;
+	const AnimationFilm* curr_film = nullptr;
 	BoundingArea* bounding_area = nullptr;
 	uint z_order = 0;
 	std::string type_id, state_id;
 	Mover mover;
 	MotionQuantizer quantizer;
 public:
-	Sprite(int, int, AnimationFilm*, const std::string&);
+	Sprite(int, int, const AnimationFilm*, const std::string&);
 	~Sprite();
 	void SetMover(const Mover&);
 	const Rect GetBox(void) const;

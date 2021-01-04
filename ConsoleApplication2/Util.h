@@ -1,6 +1,6 @@
 #pragma once
 #include "ConfigParser.h"
-#include "Animation/AnimationFilm.h"
+#include "AnimationFilm.h"
 
 //TODO: move CSV parser here ?
 

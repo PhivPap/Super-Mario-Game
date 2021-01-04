@@ -7,14 +7,14 @@
 
 FILMS: COIN, QMARK, TURTLE
 
-COIN: "cid", UnitTests/UnitTest3/media/bmps/coins.bmp, crects
+COIN: coin, UnitTests/UnitTest3/media/bmps/coins.bmp, crects
 crects: c_rect0, c_rect1, c_rect2
-c_rect0: 1, 2, 3, 4
-c_rect1: 5, 6, 7, 8
-c_rect2: 9, 10, 11, 12
+c_rect0: 0, 0, 16, 16
+c_rect1: 16, 0, 16, 16
+c_rect2: 32, 0, 16, 16
 
 QMARK: "qid", UnitTests/UnitTest3/media/bmps/question_marks.bmp, qrects
-qrects: qrect0, qrect1, qrect2 
+qrects: qrect0, qrect1, qrect2
 qrect0: 100, 101, 102, 103
 qrect1: 104, 105, 106, 107
 qrect2: 108, 109, 110, 111

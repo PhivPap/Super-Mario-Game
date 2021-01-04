@@ -131,7 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)UnitTests\UnitTest3\Film;$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,7 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)UnitTests\UnitTest3\Film;$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

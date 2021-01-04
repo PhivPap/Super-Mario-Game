@@ -2,6 +2,8 @@
 
 using Frames = std::vector<uint>;
 
+FrameListAnimation::~FrameListAnimation(void) {}
+
 FrameListAnimation::FrameListAnimation(const std::string& _id, const Frames& _frames, uint r, int dx, int dy, uint d)
 	: frames(_frames), MovingAnimation(id, r, dx, dy, d) {}
 

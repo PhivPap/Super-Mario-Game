@@ -1,5 +1,7 @@
 #include "MovingAnimation.h"
 
+MovingAnimation::~MovingAnimation(void) {}
+
 MovingAnimation::MovingAnimation(const std::string& _id, uint _reps, int _dx, int _dy, uint _delay)
 	: Animation(_id), reps(_reps), dx(_dx), dy(_dy), delay(_delay) {}
 

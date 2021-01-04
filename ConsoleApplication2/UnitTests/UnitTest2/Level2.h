@@ -23,8 +23,8 @@
 #define GRID_EMPTY_TILE 0
 #define GRID_SOLID_TILE 1
 
-#define RECT_MAX_SPEED_X 300 // pixels per second. (p/s)
-#define RECT_MAX_SPEED_Y 300  // pixels per second. (p/s)
+#define RECT_MAX_SPEED_X 100 // pixels per second. (p/s)
+#define RECT_MAX_SPEED_Y 100  // pixels per second. (p/s)
 #define RECT_UPDATE_POS 0.00834 // 120 times per second.
 
 static_assert(RECT_MAX_SPEED_X * RECT_UPDATE_POS < GRID_ELEMENT_WIDTH, "Increase pos update frequency or decrease MAX_X_SPEED.\n");

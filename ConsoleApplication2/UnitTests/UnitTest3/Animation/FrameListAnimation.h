@@ -14,4 +14,5 @@ public:
 	void			SetFrames(const Frames&);
 	Animation*		Clone(void) const;
 	FrameListAnimation(const std::string&, const Frames&, uint, int, int, uint);
+	~FrameListAnimation(void);
 };

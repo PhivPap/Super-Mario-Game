@@ -24,3 +24,5 @@ Animation* FrameRangeAnimation::Clone(void) const {
 
 FrameRangeAnimation::FrameRangeAnimation(const std::string& _id, uint s, uint e, uint r, int dx, int dy, int d)
 	: start(s), end(e), MovingAnimation(id, r, dx, dy, d) {}
+
+FrameRangeAnimation::~FrameRangeAnimation(void) {}

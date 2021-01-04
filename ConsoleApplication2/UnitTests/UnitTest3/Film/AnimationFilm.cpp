@@ -26,11 +26,16 @@ const Rect& AnimationFilm::GetFrameBox(byte frameNo) const {
 }
 
 void AnimationFilm::DisplayFrame(ALLEGRO_BITMAP* dest, const Point& at, byte frameNo) const {
-	// allegro 5 has no fucking masked blit nice -.-
-	al_set_target_bitmap(dest);
+	assert(0);
+	//al_set_target_bitmap(dest);
 	Rect src = GetFrameBox(frameNo);
 	al_draw_bitmap_region(bitmap, src.x, src.y, src.w, src.h, at.x, at.y, 0);
 	// who should flip ?
+}
+
+void AnimationFilm::DisplayFrame(ALLEGRO_BITMAP* dest, const Point& at, const Rect& src) const {
+	//al_set_target_bitmap(dest);
+	al_draw_bitmap_region(bitmap, src.x, src.y, src.w, src.h, at.x, at.y, 0);
 }
 
 void AnimationFilm::SetBitmap(ALLEGRO_BITMAP* b) {

@@ -11,12 +11,13 @@ GRID_PATH: UnitTests//UnitTest2//Grid//grid2.csv
 
 ANIMATIONS: COIN, Q_MARK, TURTLE
 
-COIN: UnitTests/UnitTest3/media/Coin_info.txt
-Q_MARK: UnitTests/UnitTest3/media/Q_mark_info.txt
-TURTLE: UnitTests/UnitTest3/media/Turtle.txt
+COIN: COIN0 , COIN1
+## Q_MARK:
+## TURTLE:
 
-COINO: 272, 352
-COIN1: 384, 288
+COIN0: 272, 352
+COIN1: 1344, 256
+##COIN1: 384, 288
 
-Q_MARK0: 272, 352
-Q_MARK1: 384, 288
+##Q_MARK0: 272, 352
+##Q_MARK1: 384, 288

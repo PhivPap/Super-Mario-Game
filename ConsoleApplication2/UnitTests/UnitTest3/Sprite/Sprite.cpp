@@ -1,7 +1,9 @@
 #include "Sprite.h"
 #include "SpriteManager.h"
 
-Sprite::Sprite(int x, int y, AnimationFilm* film, const std::string& type_id = "") : x(x), y(y), curr_film(film), type_id(type_id) {
+Sprite::Sprite(int x, int y, const AnimationFilm* film, const std::string& type_id = "")
+	: x(x), y(y), curr_film(film), type_id(type_id)
+{
 	frame_no = curr_film->GetTotalFrames(); 
 	SetFrame(0);
 
@@ -74,13 +76,15 @@ void Sprite::SetVisibility(bool v) {
 bool Sprite::isVisible(void) const {
 	return is_visible;
 }
+
 bool Sprite::CollisionCheck(const Sprite*) const {
 	assert(0);
 	return false;
 	//TODO
 }
+
 void Sprite::Display(ALLEGRO_BITMAP* dest, const Rect& dpy_area, const Clipper& clipper) const {
-	Rect clipped_box;
+	Rect_i clipped_box;
 	Point dpy_pos;
 	if (clipper.Clip(GetBox(), dpy_area, &dpy_pos, &clipped_box)) {
 		Rect clipped_frame{
@@ -89,7 +93,6 @@ void Sprite::Display(ALLEGRO_BITMAP* dest, const Rect& dpy_area, const Clipper& 
 			clipped_box.w,
 			clipped_box.h
 		};
-
-
+		curr_film->DisplayFrame(dest, dpy_pos, clipped_frame);
 	}
 }
