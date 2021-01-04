@@ -22,6 +22,7 @@ protected:
 	MotionQuantizer quantizer;
 public:
 	Sprite(int, int, AnimationFilm*, const std::string&);
+	~Sprite();
 	void SetMover(const Mover&);
 	const Rect GetBox(void) const;
 	void Move(int, int);

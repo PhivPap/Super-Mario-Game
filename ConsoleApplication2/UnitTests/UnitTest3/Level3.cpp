@@ -1,5 +1,34 @@
 #include "Level3.h"
 
+#include "Util.h"
+#include "Sprite.h"
+
+
+void UnitTest3::LoadSpriteList(std::vector<std::string>& list, const AnimationFilm* sprite_film, const std::string& sprite_type) {
+	Sprite* created_sprite;
+	for (auto& str : list) {
+		auto sprite_loc = map_info_parser.GetPoint(str);
+		// sprite constuctor doesnt take const. change constuctor?
+		created_sprite = new Sprite(sprite_loc.x, sprite_loc.y, sprite_film, sprite_type);
+
+		// do more here? Set Mover etc.
+	}
+}
+
+void UnitTest3::SpriteLoader() {
+	auto& film_holder = AnimationFilmHolder::Get();
+
+	auto sprite_list = map_info_parser.GetList("COIN");
+	auto sprite_film = film_holder.GetFilm("\"cid\""); // <-- change this.
+	LoadSpriteList(sprite_list, sprite_film, "coin");
+
+	sprite_list = map_info_parser.GetList("QMARK");
+	sprite_film = film_holder.GetFilm("\"qid\"");  // <-- change this.
+	LoadSpriteList(sprite_list, sprite_film, "q_mark");
+
+	// ....
+
+}
 
 UnitTest3::UnitTest3(){
 	mario_physics = [&] {
@@ -39,8 +68,7 @@ UnitTest3::UnitTest3(){
 	};
 }
 
-#include "Animation/AnimationFilmHolder.h"
-#include "Util.h"
+
 void UnitTest3::Initialise(void) {
 	UnitTest2::Initialise();
 

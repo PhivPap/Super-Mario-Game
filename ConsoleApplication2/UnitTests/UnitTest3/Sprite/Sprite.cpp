@@ -1,8 +1,16 @@
 #include "Sprite.h"
+#include "SpriteManager.h"
 
 Sprite::Sprite(int x, int y, AnimationFilm* film, const std::string& type_id = "") : x(x), y(y), curr_film(film), type_id(type_id) {
 	frame_no = curr_film->GetTotalFrames(); 
 	SetFrame(0);
+
+	SpriteManager::GetSingleton().Add(this);
+}
+
+Sprite::~Sprite() {
+	// do things here?
+	SpriteManager::GetSingleton().Remove(this);
 }
 
 void Sprite::SetMover(const Mover& f) {
