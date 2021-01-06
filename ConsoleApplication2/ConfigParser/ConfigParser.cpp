@@ -38,7 +38,7 @@ void ConfigParser::SetNewParser(const char* file_name) {
 	map_info.clear();
 	std::ifstream map_info_file(file_name);
 	if (!map_info_file.is_open()) {
-		std::cerr << "Could not open map info file: '" << file_name << "'\n";
+		std::cerr << "Could not open config file: '" << file_name << "'\n";
 		exit(1);
 	}
 	std::string line;
@@ -54,7 +54,7 @@ void ConfigParser::SetNewParser(const char* file_name) {
 			continue;
 		auto i = line.find_first_of(':');
 		if (i == std::string::npos || i == 0) {
-			std::cerr << "Care: map info file line: '" << line << "' didnt parse.\n";
+			std::cerr << "Care: config file line: '" << line << "' didnt parse.\n";
 			continue;
 		}
 		var = line.substr(0, i);
@@ -69,7 +69,7 @@ void ConfigParser::SetNewParser(const char* file_name) {
 std::string ConfigParser::GetStr(std::string key) {
 	auto info = map_info.find(key);
 	if (info == map_info.end()) {
-		std::cerr << "No map info element with name: '" << key << "'\n";
+		std::cerr << "No config file element with name: '" << key << "'\n";
 		exit(1);
 	}
 	return info->second;

@@ -61,9 +61,6 @@
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp">
       <Filter>UnitTests\UnitTest3</Filter>
     </ClCompile>
-    <ClCompile Include="MapInfoParser\ConfigParser.cpp">
-      <Filter>ConfigParser</Filter>
-    </ClCompile>
     <ClCompile Include="UnitTests\UnitTest3\Sprite\Sprite.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Sprite\MotionQuantizer.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Sprite\Clipper.cpp" />
@@ -85,6 +82,9 @@
     <ClCompile Include="UnitTests\UnitTest3\Animator\FrameRangeAnimator.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animator\FrameListAnimator.cpp" />
     <ClCompile Include="SystemClock.cpp" />
+    <ClCompile Include="ConfigParser\ConfigParser.cpp">
+      <Filter>ConfigParser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -101,9 +101,6 @@
     </ClInclude>
     <ClInclude Include="UnitTests\UnitTest3\Level3.h">
       <Filter>UnitTests\UnitTest3</Filter>
-    </ClInclude>
-    <ClInclude Include="MapInfoParser\ConfigParser.h">
-      <Filter>ConfigParser</Filter>
     </ClInclude>
     <ClInclude Include="Types.h" />
     <ClInclude Include="Util.h" />
@@ -128,6 +125,9 @@
     <ClInclude Include="UnitTests\UnitTest3\Animator\FrameRangeAnimator.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animator\FrameListAnimator.h" />
     <ClInclude Include="SystemClock.h" />
+    <ClInclude Include="ConfigParser\ConfigParser.h">
+      <Filter>ConfigParser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="UnitTests\UnitTest3\NewFile.txt" />

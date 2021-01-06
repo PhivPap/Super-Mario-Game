@@ -12,7 +12,7 @@ void FrameListAnimator::Progress(timestamp_t currTime) {
 		}
 		else
 			++frame_no_idx;
-		
+		sprite->SetFrame(GetCurrFrame());
 		lastTime += anim->GetDelay();
 		NotifyAction(*anim);
 		if (frame_no_idx == frames_len && !anim->IsForever()) {

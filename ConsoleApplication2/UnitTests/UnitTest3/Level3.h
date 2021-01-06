@@ -5,6 +5,8 @@
 #include "Sprite.h"
 #include "FrameRangeAnimation.h"
 #include "FrameRangeAnimator.h"
+#include "FrameListAnimation.h"
+#include "FrameListAnimator.h"
 #include "AnimatorManager.h"
 
 class UnitTest3 : protected UnitTest2 {
@@ -17,7 +19,7 @@ class UnitTest3 : protected UnitTest2 {
 	AnimatorManager&	animator_manager;
 	Clipper				default_clipper;
 	void				SpriteLoader(void);
-	void				LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&);
+	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&);
 
 public:
 	UnitTest3();

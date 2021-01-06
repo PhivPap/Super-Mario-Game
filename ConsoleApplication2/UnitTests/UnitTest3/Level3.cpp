@@ -7,37 +7,73 @@
 //	animator->sprite->SetFrame(((FrameRangeAnimator*)animator)->GetCurrFrame());
 //}
 
-void tmp(const AnimationFilm* sprite_film){
-	Sprite* created_sprite = new Sprite(272, 352, sprite_film, "coin");
-	auto coin_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames() - 1, 0, 0, 0, 300);
-	auto a_coin_animator = new FrameRangeAnimator(created_sprite);
+//void tmp(const AnimationFilm* sprite_film){
+//	Sprite* created_sprite = new Sprite(272, 352, sprite_film, "coin");
+//	auto coin_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames() - 1, 0, 0, 0, 300);
+//	auto a_coin_animator = new FrameRangeAnimator(created_sprite);
+//
+//	
+//	//a_coin_animator->SetOnAction(NextFrame);
+//	a_coin_animator->Start(coin_animation, SystemClock::Get().milli_secs());
+//}
 
-	
-	//a_coin_animator->SetOnAction(NextFrame);
-	a_coin_animator->Start(coin_animation, SystemClock::Get().milli_secs());
+
+
+/*
+* T1: Animator sub class
+* T2: Animation sub class
+* 
+* For each sprite in list, creates new Animator, 
+* adds sprite to the animator,
+* add animation to the animator.
+*/
+template <class T1, class T2>
+void CreateAnimators(std::list<Sprite*> sprites, T2* animation) {
+	for (auto* sprite : sprites) {
+		auto animator = new T1(sprite);
+		animator->Start(animation, SystemClock::Get().milli_secs());
+	}
 }
 
 
-void UnitTest3::LoadSpriteList(std::vector<std::string>& list, const AnimationFilm* sprite_film, const std::string& sprite_type) {
-	//Sprite* created_sprite;
-	//auto sprite_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames() - 1, 0, 0, 0, 300);
-	//for (auto& str : list) {
-	//	auto sprite_loc = map_info_parser.GetPoint(str);
-	//	created_sprite = new Sprite(sprite_loc.x, sprite_loc.y, sprite_film, sprite_type);
-	//	auto a_coin_animator = new FrameRangeAnimator(created_sprite);
-	//	// do more here? Set Mover etc.
-	//}
+std::list<Sprite*> UnitTest3::LoadSpriteList(std::vector<std::string>& list, const AnimationFilm* sprite_film, const std::string& sprite_type) {
+	std::list<Sprite*> sprites;
+	Sprite* created_sprite;
+	for (auto& str : list) {
+		auto sprite_loc = map_info_parser.GetPoint(str);
+		created_sprite = new Sprite(sprite_loc.x, sprite_loc.y, sprite_film, sprite_type);
+		// do more here? Set Mover etc.
+
+		sprites.push_front(created_sprite);
+	}
+	return sprites;
 }
 
 void UnitTest3::SpriteLoader() {
 	auto& film_holder = AnimationFilmHolder::Get();	
 
-	auto sprite_list = map_info_parser.GetList("COIN");
+	auto sprite_list_str = map_info_parser.GetList("COIN");
 	auto sprite_film = film_holder.GetFilm("coin");
+	auto sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "coin");									// Get a sprite list of all coins.
+	auto fr_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames() - 1, 0, 0, 0, 300);	// Same animation ptr for all coin animators.
+	CreateAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);																	// Create Animators for all coins.
+
+
+	sprite_list_str = map_info_parser.GetList("Q_MARK");
+	sprite_film = film_holder.GetFilm("q_mark");
+	sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "q_mark");
+	fr_animation = new FrameRangeAnimation("q_mark", 0, sprite_film->GetTotalFrames() - 1, 0, 0, 0, 300);
+	CreateAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);
+
+	sprite_list_str = map_info_parser.GetList("GOOMBA");
+	sprite_film = film_holder.GetFilm("goomba");
+	sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "goomba");
+	auto fl_animation = new FrameListAnimation("goomba", {0,1}, 0, 0, 0, 1000);
+	CreateAnimators<FrameListAnimator, FrameListAnimation>(sprites_loaded, fl_animation);
+
 	//auto coin_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames(), 0, 0, 0, 500);
 	//auto a_coin_animator = new FrameRangeAnimator();
-	tmp(sprite_film);
-	//LoadSpriteList(sprite_list, sprite_film, "coin");
+	//tmp(sprite_film);
 
 	//sprite_list = map_info_parser.GetList("QMARK");
 	//sprite_film = film_holder.GetFilm("\"qid\"");  // <-- change this.
