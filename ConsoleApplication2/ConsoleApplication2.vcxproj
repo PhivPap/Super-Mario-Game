@@ -131,7 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)UnitTests\UnitTest3\Film;$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)UnitTests\UnitTest3\Film;$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,7 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)UnitTests\UnitTest3\Film;$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)UnitTests\UnitTest3\Film;$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)MapInfoParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,6 +159,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SystemClock.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\FrameListAnimator.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\AnimatorManager.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\FrameRangeAnimator.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\MovingAnimator.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\Animator.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animation\FrameListAnimation.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animation\FrameRangeAnimation.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animation\MovingAnimation.cpp" />
@@ -184,6 +190,12 @@
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SystemClock.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\FrameListAnimator.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\AnimatorManager.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\FrameRangeAnimator.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\MovingAnimator.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\Animator.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animation\FrameListAnimation.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animation\FrameRangeAnimation.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animation\MovingAnimation.h" />
@@ -207,6 +219,9 @@
     <ClInclude Include="UnitTests\UnitTest2\Level2.h" />
     <ClInclude Include="UnitTests\UnitTest3\Level3.h" />
     <ClInclude Include="Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="UnitTests\UnitTest3\NewFile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

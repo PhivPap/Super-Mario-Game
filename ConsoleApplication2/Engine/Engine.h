@@ -17,6 +17,7 @@ namespace app {
 		void PushbackRender(std::function<void(void)>&);
 		void PushbackInput(std::function<void(void)>&);
 		void PushbackPhysics(std::function<void(void)>&);
+		void PushbackAnim(std::function<void(void)>&);
 		
 		void SetDone(Pred&);
 		

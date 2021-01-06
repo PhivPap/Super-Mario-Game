@@ -1,24 +1,43 @@
 #include "Level3.h"
 
 #include "Util.h"
-#include "Sprite.h"
+#include "SystemClock.h"
+
+//void NextFrame(Animator* animator, const Animation& animation){
+//	animator->sprite->SetFrame(((FrameRangeAnimator*)animator)->GetCurrFrame());
+//}
+
+void tmp(const AnimationFilm* sprite_film){
+	Sprite* created_sprite = new Sprite(272, 352, sprite_film, "coin");
+	auto coin_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames() - 1, 0, 0, 0, 300);
+	auto a_coin_animator = new FrameRangeAnimator(created_sprite);
+
+	
+	//a_coin_animator->SetOnAction(NextFrame);
+	a_coin_animator->Start(coin_animation, SystemClock::Get().milli_secs());
+}
 
 
 void UnitTest3::LoadSpriteList(std::vector<std::string>& list, const AnimationFilm* sprite_film, const std::string& sprite_type) {
-	Sprite* created_sprite;
-	for (auto& str : list) {
-		auto sprite_loc = map_info_parser.GetPoint(str);
-		created_sprite = new Sprite(sprite_loc.x, sprite_loc.y, sprite_film, sprite_type);
-		// do more here? Set Mover etc.
-	}
+	//Sprite* created_sprite;
+	//auto sprite_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames() - 1, 0, 0, 0, 300);
+	//for (auto& str : list) {
+	//	auto sprite_loc = map_info_parser.GetPoint(str);
+	//	created_sprite = new Sprite(sprite_loc.x, sprite_loc.y, sprite_film, sprite_type);
+	//	auto a_coin_animator = new FrameRangeAnimator(created_sprite);
+	//	// do more here? Set Mover etc.
+	//}
 }
 
 void UnitTest3::SpriteLoader() {
-	auto& film_holder = AnimationFilmHolder::Get();
+	auto& film_holder = AnimationFilmHolder::Get();	
 
 	auto sprite_list = map_info_parser.GetList("COIN");
 	auto sprite_film = film_holder.GetFilm("coin");
-	LoadSpriteList(sprite_list, sprite_film, "coin");
+	//auto coin_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames(), 0, 0, 0, 500);
+	//auto a_coin_animator = new FrameRangeAnimator();
+	tmp(sprite_film);
+	//LoadSpriteList(sprite_list, sprite_film, "coin");
 
 	//sprite_list = map_info_parser.GetList("QMARK");
 	//sprite_film = film_holder.GetFilm("\"qid\"");  // <-- change this.
@@ -28,7 +47,11 @@ void UnitTest3::SpriteLoader() {
 
 }
 
-UnitTest3::UnitTest3() : sprite_manager(SpriteManager::GetSingleton()) {
+UnitTest3::UnitTest3() : sprite_manager(SpriteManager::GetSingleton()), animator_manager(AnimatorManager::GetSingleton()) {
+
+	animator_refresh = [&] {
+		animator_manager.Progress(SystemClock::Get().milli_secs());
+	};
 
 	display_sprites = [&] {
 		auto& display_list = sprite_manager.GetDisplayList();
@@ -98,7 +121,7 @@ void UnitTest3::Load(void) {
 	//game.PushbackInput(input_scroll);
 	//game.PushbackPhysics(physics_rect);
 	game.PushbackPhysics(mario_physics);
-
+	game.PushbackAnim(animator_refresh);
 	UnitTest3::SpriteLoader();
 }
 

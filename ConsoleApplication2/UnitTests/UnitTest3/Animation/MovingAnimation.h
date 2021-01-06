@@ -1,6 +1,7 @@
 #pragma once
 #include "Types.h"
 #include "Animation.h"
+
 class MovingAnimation : public Animation {
 protected:
 	uint	reps = 1; // 0=forever

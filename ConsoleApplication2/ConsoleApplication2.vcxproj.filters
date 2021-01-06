@@ -79,6 +79,12 @@
     <ClCompile Include="UnitTests\UnitTest3\Film\AnimationFilm.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Film\AnimationFilmHolder.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Film\BitmapLoader.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\Animator.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\MovingAnimator.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\AnimatorManager.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\FrameRangeAnimator.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\FrameListAnimator.cpp" />
+    <ClCompile Include="SystemClock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -116,5 +122,14 @@
     <ClInclude Include="UnitTests\UnitTest3\Film\AnimationFilm.h" />
     <ClInclude Include="UnitTests\UnitTest3\Film\AnimationFilmHolder.h" />
     <ClInclude Include="UnitTests\UnitTest3\Film\BitmapLoader.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\Animator.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\MovingAnimator.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\AnimatorManager.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\FrameRangeAnimator.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\FrameListAnimator.h" />
+    <ClInclude Include="SystemClock.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="UnitTests\UnitTest3\NewFile.txt" />
   </ItemGroup>
 </Project>
