@@ -8,12 +8,16 @@
 #include "FrameListAnimation.h"
 #include "FrameListAnimator.h"
 #include "AnimatorManager.h"
+#include "TickAnimation.h"
+#include "TickAnimator.h"
 
 class UnitTest3 : protected UnitTest2 {
 
 	std::function<void(void)> mario_physics;
 	std::function<void(void)> display_sprites;
 	std::function<void(void)> animator_refresh;
+
+	std::list<Sprite*> moving_sprites;
 
 	SpriteManager&		sprite_manager;
 	AnimatorManager&	animator_manager;

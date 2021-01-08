@@ -1,7 +1,5 @@
 #include "FrameRangeAnimator.h"
 
-FrameRangeAnimator::FrameRangeAnimator(Sprite* sprite) : Animator(sprite) {}
-
 void FrameRangeAnimator::Progress(timestamp_t currTime) {
 	while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
 		if (currFrame == anim->GetEndFrame()) {
@@ -10,12 +8,12 @@ void FrameRangeAnimator::Progress(timestamp_t currTime) {
 		}
 		else
 			++currFrame;
-		sprite->SetFrame(currFrame);
+
 		lastTime += anim->GetDelay();
 		NotifyAction(*anim);
 		if (currFrame == anim->GetEndFrame())
 			if (!anim->IsForever() && ++currRep == anim->GetReps()) {
-				state = ANIMSTATE_T::ANIMATOR_FINISHED;
+				state = ANIMATORSTATE_T::ANIMATOR_FINISHED;
 				NotifyStopped();
 				return;
 			}
@@ -33,7 +31,7 @@ uint FrameRangeAnimator::GetCurrRep(void) const {
 void FrameRangeAnimator::Start(FrameRangeAnimation* a, timestamp_t t) {
 	anim = a;
 	lastTime = t;
-	state = ANIMSTATE_T::ANIMATOR_RUNNING;
+	state = ANIMATORSTATE_T::ANIMATOR_RUNNING;
 	currFrame = anim->GetStartFrame();
 	currRep = 0;
 	NotifyStarted();

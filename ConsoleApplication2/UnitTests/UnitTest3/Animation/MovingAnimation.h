@@ -5,15 +5,13 @@
 class MovingAnimation : public Animation {
 protected:
 	uint	reps = 1; // 0=forever
-	int		dx = 0, dy = 0;
+	//int		dx = 0, dy = 0;
+	Velocity velocity;
 	uint	delay = 0;
 
 public:
 	using Me = MovingAnimation;
-	int			GetDx(void) const;
-	Me&			SetDx(int);
-	int			GetDy(void) const;
-	Me&			SetDy(int);
+	const Velocity& GetVelocity(void) const;
 	uint		GetDelay(void) const;
 	Me&			SetDelay(uint);
 	uint		GetReps(void) const;
@@ -21,7 +19,7 @@ public:
 	bool		IsForever(void) const;
 	Me&			SetForever(void);
 	Animation*	Clone(void) const;
-	MovingAnimation(const std::string&, uint, int, int, uint);
+	MovingAnimation(const std::string&, uint, const Velocity&, uint);
 	~MovingAnimation(void);
 };
 

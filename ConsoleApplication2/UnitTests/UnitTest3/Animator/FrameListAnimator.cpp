@@ -1,8 +1,6 @@
 #include "FrameListAnimator.h"
 
 
-FrameListAnimator::FrameListAnimator(Sprite* sprite) : Animator(sprite) {}
-
 void FrameListAnimator::Progress(timestamp_t currTime) {
 	auto frames_len =anim->GetFrames().size() - 1;
 	while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
@@ -12,12 +10,12 @@ void FrameListAnimator::Progress(timestamp_t currTime) {
 		}
 		else
 			++frame_no_idx;
-		sprite->SetFrame(GetCurrFrame());
+
 		lastTime += anim->GetDelay();
 		NotifyAction(*anim);
 		if (frame_no_idx == frames_len && !anim->IsForever()) {
 			//if (!anim->IsForever() && ++currRep == anim->GetReps()) {
-			state = ANIMSTATE_T::ANIMATOR_FINISHED;
+			state = ANIMATORSTATE_T::ANIMATOR_FINISHED;
 			NotifyStopped();
 			return;
 		}
@@ -31,7 +29,7 @@ uint FrameListAnimator::GetCurrFrame(void) const {
 void FrameListAnimator::Start(FrameListAnimation* a, timestamp_t t) {
 	anim = a;
 	lastTime = t;
-	state = ANIMSTATE_T::ANIMATOR_RUNNING;
+	state = ANIMATORSTATE_T::ANIMATOR_RUNNING;
 	frame_no_idx = 0;
 //	currRep = 0;
 	NotifyStarted();

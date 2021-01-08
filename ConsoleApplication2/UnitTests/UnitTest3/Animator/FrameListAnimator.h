@@ -14,5 +14,4 @@ public:
 	//uint GetCurrRep(void) const;
 	void Start(FrameListAnimation*, timestamp_t);
 	FrameListAnimator(void) = default;
-	FrameListAnimator(Sprite*);
 };

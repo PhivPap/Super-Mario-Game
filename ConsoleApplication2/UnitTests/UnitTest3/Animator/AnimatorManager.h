@@ -12,11 +12,11 @@ private:
     AnimatorManager(AnimatorManager&&) = delete;
 
 public:
-    void Register(Animator*);
-    void Cancel(Animator*);
-    void MarkAsRunning(Animator*);
-    void MarkAsSuspended(Animator*);
-    void Progress(timestamp_t);
-    static AnimatorManager& GetSingleton(void);
-    static const AnimatorManager& GetSingletonConst(void);
+    void                            Register(Animator*);
+    void                            Cancel(Animator*);
+    void                            MarkAsRunning(Animator*);
+    void                            MarkAsSuspended(Animator*);
+    void                            Progress(timestamp_t);
+    static AnimatorManager&         GetSingleton(void);
+    static const AnimatorManager&   GetSingletonConst(void);
 };

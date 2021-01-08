@@ -160,6 +160,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SystemClock.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\TickAnimator.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animation\TickAnimation.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animator\FrameListAnimator.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animator\AnimatorManager.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animator\FrameRangeAnimator.cpp" />
@@ -191,6 +193,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClock.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\TickAnimator.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animation\TickAnimation.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animator\FrameListAnimator.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animator\AnimatorManager.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animator\FrameRangeAnimator.h" />

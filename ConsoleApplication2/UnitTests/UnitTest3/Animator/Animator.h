@@ -9,7 +9,7 @@ typedef enum class animatorstate_t {
 	ANIMATOR_FINISHED	= 0,
 	ANIMATOR_RUNNING	= 1,
 	ANIMATOR_STOPPED	= 2
-} ANIMSTATE_T;
+} ANIMATORSTATE_T;
 
 class Animator {
 public:
@@ -18,7 +18,6 @@ public:
 	using OnAction	= std::function<void(Animator*, const Animation&)>;
 
 protected:
-	Sprite*			sprite;
 	timestamp_t		lastTime = 0;
 	animatorstate_t state;
 	OnFinish		onFinish;
@@ -39,7 +38,7 @@ public:
 	void			SetOnStart(const OnStart&);
 	void			SetOnAction(const OnAction&);
 	//Animator() = default;
-	Animator(Sprite*);
+	Animator(void);
 	Animator(const Animator&) = delete; //??
 	Animator(Animator&&) = delete; // here we go agane
 	virtual ~Animator();

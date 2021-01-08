@@ -12,6 +12,5 @@ public:
 	const MovingAnimation&	GetAnim(void) const;
 	void					Start(MovingAnimation*, timestamp_t);
 	MovingAnimator(void) = default;
-	MovingAnimator(Sprite*);
 };
 

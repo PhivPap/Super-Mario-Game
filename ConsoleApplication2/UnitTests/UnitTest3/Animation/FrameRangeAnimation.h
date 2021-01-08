@@ -12,7 +12,7 @@ public:
 	uint		GetEndFrame(void) const;
 	Me&			SetEndFrame(uint v);
 	Animation*	Clone(void) const;
-	FrameRangeAnimation(const std::string&, uint, uint, uint, int, int, int);
+	FrameRangeAnimation(const std::string&, uint, uint, uint, const Velocity&, int);
 	~FrameRangeAnimation(void);
 };
 

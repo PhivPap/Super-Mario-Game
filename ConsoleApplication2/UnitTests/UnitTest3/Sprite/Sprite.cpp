@@ -1,6 +1,9 @@
 #include "Sprite.h"
 #include "SpriteManager.h"
 
+template <typename Tnum>
+static inline int number_sign(Tnum x) { return x > 0 ? 1 : x < 0 ? -1 : 0; }
+
 Sprite::Sprite(int x, int y, const AnimationFilm* film, const std::string& type_id = "")
 	: x(x), y(y), curr_film(film), type_id(type_id)
 {
@@ -15,19 +18,53 @@ Sprite::~Sprite() {
 	SpriteManager::GetSingleton().Remove(this);
 }
 
+void Sprite::QuantizerSetRange(int h, int w) {
+	horiz_max = h;
+	vert_max = w;
+	quantizer_used = true;
+}
+
 void Sprite::SetMover(const Mover& f) {
-	quantizer.SetMover(mover = f); // <-- ... ok dude
+	mover = f;
+	//quantizer.SetMover(mover = f); // <-- ... ok dude
 }
 
 const Rect Sprite::GetBox(void) const {
-	return { (uint)x, (uint)y, frame_box.w, frame_box.h }; // do we need x,y ??
+	return { (uint)x, (uint)y, frame_box.w, frame_box.h };
+}
+
+void Sprite::GetPos(float& _x, float& _y){
+	_x = x;
+	_y = y;
 }
 
 void Sprite::Move(int dx, int dy) {
-	quantizer.Move(GetBox(), dx, dy);
+	assert(0);
+	//auto r = GetBox();
+	//if (!quantizer_used)
+	//	mover(r, dx, dy);
+	//else {
+	//	do {
+	//		auto dx_final = std::min(number_sign(dx) * horiz_max, dx);
+	//		auto dy_final = std::min(number_sign(dy) * vert_max, dy);
+
+	//		mover(r, dx_final, dy_final);
+
+	//		if (!dx_final) // X motion denied
+	//			dx = 0;
+	//		else
+	//			dx -= dx_final;
+
+	//		if (!dy_final) // Y motion denied
+	//			dy = 0;
+	//		else
+	//			dy -= dy_final;
+
+	//	} while (dx || dy);
+	//}
 }
 
-void Sprite::SetPos(int x, int y) {
+void Sprite::SetPos(float x, float y) {
 	this->x = x;
 	this->y = y;
 }
@@ -95,4 +132,12 @@ void Sprite::Display(ALLEGRO_BITMAP* dest, const Rect& dpy_area, const Clipper& 
 		};
 		curr_film->DisplayFrame(dest, dpy_pos, clipped_frame);
 	}
+}
+
+void Sprite::SetVelocity(const Velocity& _velocity) {
+	velocity = _velocity;
+}
+
+const Velocity& Sprite::GetVelocity(void) {
+	return velocity;
 }

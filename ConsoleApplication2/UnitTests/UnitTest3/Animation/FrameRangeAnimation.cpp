@@ -19,10 +19,10 @@ FrameRangeAnimation& FrameRangeAnimation::SetEndFrame(uint v) {
 }
 
 Animation* FrameRangeAnimation::Clone(void) const {
-	return new FrameRangeAnimation(id, start, end, GetReps(), GetDx(), GetDy(), GetDelay());
+	return new FrameRangeAnimation(id, start, end, GetReps(), GetVelocity(), GetDelay());
 }
 
-FrameRangeAnimation::FrameRangeAnimation(const std::string& _id, uint s, uint e, uint r, int dx, int dy, int d)
-	: start(s), end(e), MovingAnimation(id, r, dx, dy, d) {}
+FrameRangeAnimation::FrameRangeAnimation(const std::string& _id, uint s, uint e, uint r, const Velocity& v, int d)
+	: start(s), end(e), MovingAnimation(id, r, v, d) {}
 
 FrameRangeAnimation::~FrameRangeAnimation(void) {}

@@ -85,6 +85,8 @@
     <ClCompile Include="ConfigParser\ConfigParser.cpp">
       <Filter>ConfigParser</Filter>
     </ClCompile>
+    <ClCompile Include="UnitTests\UnitTest3\Animation\TickAnimation.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Animator\TickAnimator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -128,6 +130,8 @@
     <ClInclude Include="ConfigParser\ConfigParser.h">
       <Filter>ConfigParser</Filter>
     </ClInclude>
+    <ClInclude Include="UnitTests\UnitTest3\Animation\TickAnimation.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Animator\TickAnimator.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="UnitTests\UnitTest3\NewFile.txt" />

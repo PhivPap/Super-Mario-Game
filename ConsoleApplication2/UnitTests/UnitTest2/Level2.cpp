@@ -52,24 +52,24 @@ UnitTest2::UnitTest2() {
 		//update location based on speed (rect_mvmnt) with timer event
 		ALLEGRO_EVENT timer_event;
 		if (al_get_next_event(timer_queue0, &timer_event)) {
-			rect_mvmnt.y_speed = 0;
-			rect_mvmnt.x_speed = 0;
+			rect_mvmnt.y = 0;
+			rect_mvmnt.x = 0;
 			if (movement_keys[ALLEGRO_KEY_W]) {
-				rect_mvmnt.y_speed -= RECT_MAX_SPEED_Y;
+				rect_mvmnt.y -= RECT_MAX_SPEED_Y;
 			}
 			if (movement_keys[ALLEGRO_KEY_S]) {
-				rect_mvmnt.y_speed += RECT_MAX_SPEED_Y;
+				rect_mvmnt.y += RECT_MAX_SPEED_Y;
 			}
 			if (movement_keys[ALLEGRO_KEY_A]) {
-				rect_mvmnt.x_speed -= RECT_MAX_SPEED_X;
+				rect_mvmnt.x -= RECT_MAX_SPEED_X;
 			}
 			if (movement_keys[ALLEGRO_KEY_D]) {
-				rect_mvmnt.x_speed += RECT_MAX_SPEED_X;
+				rect_mvmnt.x += RECT_MAX_SPEED_X;
 			}
 
 			float dx, dy;
-			dx = rect_mvmnt.x_speed * RECT_UPDATE_POS;
-			dy = rect_mvmnt.y_speed * RECT_UPDATE_POS;
+			dx = rect_mvmnt.x * RECT_UPDATE_POS;
+			dy = rect_mvmnt.y * RECT_UPDATE_POS;
 			FilterGridMotion(rectangle, dx, dy);
 			rectangle.x += dx;
 			rectangle.y += dy;

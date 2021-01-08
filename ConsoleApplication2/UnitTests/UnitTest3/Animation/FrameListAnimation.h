@@ -13,6 +13,6 @@ public:
 	const Frames&	GetFrames(void) const;
 	void			SetFrames(const Frames&);
 	Animation*		Clone(void) const;
-	FrameListAnimation(const std::string&, const Frames&, uint, int, int, uint);
+	FrameListAnimation(const std::string&, const Frames&, uint, const Velocity&, uint);
 	~FrameListAnimation(void);
 };

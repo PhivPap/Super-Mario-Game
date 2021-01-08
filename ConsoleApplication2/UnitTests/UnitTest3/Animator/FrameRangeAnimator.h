@@ -15,5 +15,4 @@ public:
 	uint GetCurrRep(void) const;
 	void Start(FrameRangeAnimation*, timestamp_t);
 	FrameRangeAnimator(void) = default;
-	FrameRangeAnimator(Sprite* sprite);
 };

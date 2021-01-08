@@ -1,7 +1,7 @@
 #include "Animator.h"
 #include "AnimatorManager.h"
 
-Animator::Animator(Sprite* sprite) : sprite(sprite), state(ANIMSTATE_T::ANIMATOR_STOPPED){
+Animator::Animator(void) : state(ANIMATORSTATE_T::ANIMATOR_STOPPED){
 	AnimatorManager::GetSingleton().Register(this);
 }
 
@@ -11,7 +11,7 @@ Animator::~Animator(void) {
 
 void Animator::Finish(bool isForced) {
 	if (!HasFinished()) {
-		state = isForced ? ANIMSTATE_T::ANIMATOR_STOPPED : ANIMSTATE_T::ANIMATOR_FINISHED;
+		state = isForced ? ANIMATORSTATE_T::ANIMATOR_STOPPED : ANIMATORSTATE_T::ANIMATOR_FINISHED;
 		NotifyStopped();
 	}
 }
@@ -42,7 +42,7 @@ void Animator::TimeShift(timestamp_t offset) {
 }
 
 bool Animator::HasFinished(void) const {
-	return state != ANIMSTATE_T::ANIMATOR_RUNNING;
+	return state != ANIMATORSTATE_T::ANIMATOR_RUNNING;
 }
 
  void Animator::SetOnFinish(const OnFinish& f) {

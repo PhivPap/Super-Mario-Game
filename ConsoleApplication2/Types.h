@@ -31,8 +31,8 @@ struct Dim {
 	uint w, h;
 };
 
-struct Movement {
-	double x_speed, y_speed;
+struct Velocity {
+	double x, y;
 };
 
 #endif

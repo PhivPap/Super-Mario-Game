@@ -47,7 +47,7 @@ class UnitTest2 : protected UnitTest {
 	bool CanPassGridTile(uint, uint, byte);
 
 protected:
-	Movement rect_mvmnt{ 0,0 };
+	Velocity rect_mvmnt{ 0,0 };
 	Rect_f rectangle{ 0, 176, 16, 16 };
 	bool movement_keys[ALLEGRO_KEY_MAX] = { 0 };
 	ALLEGRO_EVENT_QUEUE* timer_queue0;
