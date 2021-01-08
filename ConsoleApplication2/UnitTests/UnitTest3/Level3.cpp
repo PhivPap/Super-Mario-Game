@@ -178,7 +178,7 @@ void UnitTest3::Load(void) {
 	game.PushbackPhysics(mario_physics);
 	game.PushbackAnim(animator_refresh);
 	UnitTest3::SpriteLoader();
-	TickAnimation* refresh_60hz = new TickAnimation("timer", 16, 0, true);
+	TickAnimation* refresh_60hz = new TickAnimation("timer", 11, 0, true);
 	auto* mover_animator = new TickAnimator();
 	mover_animator->SetOnAction(
 		[&](Animator* animator, const Animation& anim) {
@@ -186,10 +186,13 @@ void UnitTest3::Load(void) {
 				float dx, dy, x, y;
 				sprite->GetPos(x, y);
 				auto velocity = sprite->GetVelocity();
-				dx = velocity.x * 0.016;
-				dy = velocity.y * 0.016;
-				//FilterGridMotion(rectangle, dx, dy);
+				dx = velocity.x * 0.011;
+				dy = velocity.y * 0.011;
+				FilterGridMotion(sprite->GetBoxF(), dx, dy);
 				sprite->SetPos(x + dx, y + dy);
+				// remove this.
+				if (dx == 0)
+					sprite->SetVelocity({ -sprite->GetVelocity().x, 0 });
 			}
 		}
 	);

@@ -29,6 +29,10 @@ void Sprite::SetMover(const Mover& f) {
 	//quantizer.SetMover(mover = f); // <-- ... ok dude
 }
 
+const Rect_f Sprite::GetBoxF(void) const {
+	return { x, y, (float)frame_box.w, (float)frame_box.h };
+}
+
 const Rect Sprite::GetBox(void) const {
 	return { (uint)x, (uint)y, frame_box.w, frame_box.h };
 }

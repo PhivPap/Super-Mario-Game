@@ -30,6 +30,7 @@ public:
 	~Sprite();
 	void				GetPos(float&, float&);
 	void				SetMover(const Mover&);
+	const Rect_f		GetBoxF(void) const;
 	const Rect			GetBox(void) const;
 	void				Move(int, int);
 	void				SetPos(float, float);
