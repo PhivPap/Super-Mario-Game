@@ -4,7 +4,7 @@
 #include "SystemClock.h"
 
 static inline void DefaultOrientationChange(Sprite* sprite, bool orientation) {
-	if(orientation) // go right
+	if(!orientation) // go right
 		sprite->main_animator->Start(	(MovingAnimation*)(AnimationHolder::Get().GetAnimation(sprite->GetState() + "R")),
 										SystemClock::Get().milli_secs());
 	else // go left
@@ -88,6 +88,7 @@ std::list<Sprite*> UnitTest3::LoadSpriteList(std::vector<std::string>& list, con
 	Sprite* sprite;
 	for (auto& str : list) {
 		auto sprite_loc = map_info_parser.GetPoint(str);
+
 		sprite = new Sprite(sprite_loc.x, sprite_loc.y, sprite_film, sprite_type);
 		sprite->SetState(default_state);
 		sprites.push_front(sprite);
@@ -119,8 +120,8 @@ void UnitTest3::SpriteLoader() {
 	CreateMovingAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);
 
 	sprite_list_str = map_info_parser.GetList("GKT");
-	sprite_film = film_holder.GetFilm("GKT");
-	sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "GKT", "GTK_W");
+	sprite_film = film_holder.GetFilm("gkt");
+	sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "GKT", "GKT_W");
 	moving_sprites.insert(moving_sprites.end(), sprites_loaded.begin(), sprites_loaded.end());
 	auto fl_animation = (FrameListAnimation*)anim_holder.GetAnimation("GKT_WR");
 	CreateMovingAnimators<FrameListAnimator, FrameListAnimation>(sprites_loaded, fl_animation);
@@ -225,7 +226,7 @@ void UnitTest3::Load(void) {
 				FilterGridMotion(sprite->GetBoxF(), dx, dy);
 				sprite->SetPos(x + dx, y + dy);
 				// remove this.
-				if (velocity.x != 0 && dx == 0) { // motion denied
+				if ((velocity.x != 0) && (dx == 0.0f)) { // motion denied
 					DefaultOrientationChange(sprite, velocity.x > 0);
 				}
 					

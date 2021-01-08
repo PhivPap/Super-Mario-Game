@@ -8,7 +8,7 @@ id: GKT_WL , GKT_WR
 
 GKT_WR: gkt_info_r, gkt_list_r
 gkt_info_r: 100, 0, 0, 500
-gkt_info_r: 0, 1
+gkt_list_r: 0, 1
 
 GKT_WL: gkt_info_l, gkt_list_l
 gkt_info_l: -100, 0, 0, 500

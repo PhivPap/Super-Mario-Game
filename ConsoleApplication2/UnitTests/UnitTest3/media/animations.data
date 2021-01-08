@@ -1,9 +1,0 @@
-
-range: coin, q_mark, 
-list: goomba_right, goomba_left
-tick:
-
-coin: UnitTests/UnitTest3/media/anim_coin.data
-q_mark: UnitTests/UnitTest3/media/anim_qmark.data
-goomba_right: UnitTests/UnitTest3/media/anim_goomba_r.data
-goomba_left: UnitTests/UnitTest3/media/anim_goomba_l.data

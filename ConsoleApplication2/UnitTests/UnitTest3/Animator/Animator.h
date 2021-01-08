@@ -1,7 +1,6 @@
 #pragma once
 #include "Animation.h"
 #include <functional>
-#include "Sprite.h"
 
 typedef uint64_t timestamp_t;
 

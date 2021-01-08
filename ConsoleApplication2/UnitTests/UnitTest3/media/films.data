@@ -5,7 +5,7 @@
 ## rectangles: <comma separted list of all rect id's to be read>
 ## rect: x , y, w, h
 
-FILMS: COIN, QMARK, GOOMBA
+FILMS: COIN, QMARK, GOOMBA, GKT
 
 COIN: coin, UnitTests/UnitTest3/media/bmps/coins.bmp, arects
 arects: arect0, arect1, arect2

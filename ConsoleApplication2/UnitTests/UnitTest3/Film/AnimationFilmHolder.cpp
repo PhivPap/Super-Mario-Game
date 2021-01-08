@@ -11,6 +11,14 @@ void AnimationFilmHolder::LoadAll(const char* path, const Parser& parser) {
 	parser(output, path);
 	assert(!output.empty());
 
+	// validation
+	for (auto i : output) {
+		std::cout << "id: " << i.id << ", path: " << i.path << "\nrects: ";
+		for (auto j : i.rects)
+			std::cout << "[" << j.x << "," << j.y << "," << j.w << "," << j.h << "], ";
+		std::cout << std::endl << std::endl;
+	}
+
 	for (auto& entry : output) {
 		assert(!GetFilm(entry.id));
 		films[entry.id] = new AnimationFilm(bitmaps.Load(entry.path), entry.rects, entry.id);
