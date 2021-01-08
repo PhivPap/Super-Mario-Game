@@ -11,12 +11,13 @@ class ConfigParser{
 public:
 	ConfigParser();
 	void SetNewParser(const char*);
-	std::string GetStr(std::string);
-	double GetDouble(std::string);
-	uint GetUint(std::string);
-	int GetInt(std::string);
-	Rect GetRect(std::string);
-	Point GetPoint(std::string);
-	std::vector<std::string> GetList(std::string);
+	std::string GetStr(const std::string&);
+	double GetDouble(const std::string&);
+	uint GetUint(const std::string&);
+	int GetInt(const std::string&);
+	Rect GetRect(const std::string&);
+	Point GetPoint(const std::string&);
+	std::vector<std::string> GetList(const std::string&);
+	std::vector<int> GetListInt(const std::string&);
 };
 

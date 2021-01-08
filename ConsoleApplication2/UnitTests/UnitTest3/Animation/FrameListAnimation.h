@@ -4,7 +4,7 @@
 
 class FrameListAnimation : public MovingAnimation {
 public:
-	using Frames = std::vector<uint>;
+	using Frames = std::vector<int>;
 
 protected:
 	Frames frames;

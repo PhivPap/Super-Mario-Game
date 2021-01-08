@@ -10,6 +10,14 @@
 #include "AnimatorManager.h"
 #include "TickAnimation.h"
 #include "TickAnimator.h"
+#include "AnimationHolder.h"
+
+
+// TODO get from config file
+#define FILMS_DATA_PATH			"UnitTests/UnitTest3/media/films.data"
+#define ANIMS_FRAME_RANGE_PATH	"UnitTests/UnitTest3/media/Anims/anim_range.data"
+#define ANIMS_FRAME_LIST_PATH	"UnitTests/UnitTest3/media/Anims/anim_list.data"
+#define ANIMS_FRAME_TICK_PATH	"UnitTests/UnitTest3/media/Anims/anim_tick.data"
 
 class UnitTest3 : protected UnitTest2 {
 
@@ -23,7 +31,7 @@ class UnitTest3 : protected UnitTest2 {
 	AnimatorManager&	animator_manager;
 	Clipper				default_clipper;
 	void				SpriteLoader(void);
-	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&);
+	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
 
 public:
 	UnitTest3();

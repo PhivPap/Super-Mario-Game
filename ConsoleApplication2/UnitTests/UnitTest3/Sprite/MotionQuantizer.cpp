@@ -10,6 +10,7 @@ MotionQuantizer& MotionQuantizer::SetRange(int h, int v) {
 	used = true;
 	return *this;
 }
+
 MotionQuantizer& MotionQuantizer::SetMover(Mover& mover) {
 	this->mover = mover;
 	return *this;

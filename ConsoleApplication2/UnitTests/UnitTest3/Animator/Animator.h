@@ -14,7 +14,7 @@ typedef enum class animatorstate_t {
 class Animator {
 public:
 	using OnFinish	= std::function<void(Animator*)>;
-	using OnStart	= std::function<void(Animator*)>;
+	using OnStart	= std::function<void(Animator*, const Animation&)>;
 	using OnAction	= std::function<void(Animator*, const Animation&)>;
 
 protected:
@@ -24,7 +24,7 @@ protected:
 	OnStart			onStart;
 	OnAction		onAction;
 	void			NotifyStopped(void);
-	void			NotifyStarted(void);
+	void			NotifyStarted(const Animation&);
 	void			NotifyAction(const Animation&);
 	void			Finish(bool isForced = false);
 

@@ -34,6 +34,6 @@ void FrameRangeAnimator::Start(FrameRangeAnimation* a, timestamp_t t) {
 	state = ANIMATORSTATE_T::ANIMATOR_RUNNING;
 	currFrame = anim->GetStartFrame();
 	currRep = 0;
-	NotifyStarted();
+	NotifyStarted(*anim);
 	NotifyAction(*anim);
 }

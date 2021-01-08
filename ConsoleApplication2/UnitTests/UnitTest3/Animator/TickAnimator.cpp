@@ -40,5 +40,5 @@ void TickAnimator::Start(const TickAnimation& a, timestamp_t t) {
 	state = ANIMATORSTATE_T::ANIMATOR_RUNNING;
 	currRep = 0;
 	elapsedTime = 0;
-	NotifyStarted();
+	NotifyStarted(*anim);
 }

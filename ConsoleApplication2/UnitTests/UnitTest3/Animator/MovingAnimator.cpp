@@ -21,5 +21,5 @@ void MovingAnimator::Start(MovingAnimation* a, timestamp_t t) {
 	lastTime = t;
 	state = ANIMATORSTATE_T::ANIMATOR_RUNNING;
 	currRep = 0;
-	NotifyStarted();
+	NotifyStarted(*anim);
 }

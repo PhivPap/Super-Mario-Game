@@ -6,7 +6,7 @@ ConfigParser::ConfigParser() {
 }
 
 //str is modified
-static void ReplaceSubStrings(std::string& str, std::string replace_this, std::string replace_with) {
+static inline void ReplaceSubStrings(std::string& str, std::string replace_this, std::string replace_with) {
 	size_t i = 0;
 	auto sub_str_len = replace_this.length();
 	if (sub_str_len == 0)
@@ -19,7 +19,7 @@ static void ReplaceSubStrings(std::string& str, std::string replace_this, std::s
 	}
 }
 
-static void SplitLineWithChar(std::vector<std::string>& split_line, std::string line, char c) {
+static inline void SplitLineWithChar(std::vector<std::string>& split_line, std::string line, char c) {
 	std::string item;
 	for (unsigned int i = 0; i < line.length(); i++) {
 		if (line[i] == c) {
@@ -33,6 +33,19 @@ static void SplitLineWithChar(std::vector<std::string>& split_line, std::string 
 		split_line.push_back(item);
 }
 
+static inline void SplitLineWithCharToInts(std::vector<int>& split_line, std::string line, char c) {
+	std::string item;
+	for (uint i = 0; i < line.length(); i++) {
+		if (line[i] == c) {
+			split_line.push_back(stoi(item));
+			item.clear();
+			continue;
+		}
+		item += line[i];
+	}
+	if (item != "")
+		split_line.push_back(stoi(item));
+}
 
 void ConfigParser::SetNewParser(const char* file_name) {
 	map_info.clear();
@@ -66,7 +79,7 @@ void ConfigParser::SetNewParser(const char* file_name) {
 }
 
 // !!CARE <><><><> REF?
-std::string ConfigParser::GetStr(std::string key) {
+std::string ConfigParser::GetStr(const std::string& key) {
 	auto info = map_info.find(key);
 	if (info == map_info.end()) {
 		std::cerr << "No config file element with name: '" << key << "'\n";
@@ -75,25 +88,25 @@ std::string ConfigParser::GetStr(std::string key) {
 	return info->second;
 }
 
-double ConfigParser::GetDouble(std::string key) {
+double ConfigParser::GetDouble(const std::string& key) {
 	auto info_str = GetStr(key);
 	double info_dbl = std::stod(info_str); // throws exeption if cant convert	
 	return info_dbl;
 }
 
-unsigned int ConfigParser::GetUint(std::string key) {
+unsigned int ConfigParser::GetUint(const std::string& key) {
 	auto info_str = GetStr(key);
 	unsigned int info_uint = std::stoul(info_str); // throws exeption if cant convert	
 	return info_uint;
 }
 
-int ConfigParser::GetInt(std::string key) {
+int ConfigParser::GetInt(const std::string& key) {
 	auto info_str = GetStr(key);
 	int info_int = std::stoi(info_str); // throws exeption if cant convert	
 	return info_int;
 }
 
-Rect ConfigParser::GetRect(std::string key) {
+Rect ConfigParser::GetRect(const std::string& key) {
 	auto info_str = GetStr(key);
 	std::vector<std::string> values;
 	SplitLineWithChar(values, info_str, ',');
@@ -104,7 +117,7 @@ Rect ConfigParser::GetRect(std::string key) {
 	return { std::stoul(values[0]), std::stoul(values[1]), std::stoul(values[2]), std::stoul(values[3])}; // gonna throw exept if cant convert
 }
 
-Point ConfigParser::GetPoint(std::string key) {
+Point ConfigParser::GetPoint(const std::string& key) {
 	auto info_str = GetStr(key);
 	std::vector<std::string> values;
 	SplitLineWithChar(values, info_str, ',');
@@ -116,9 +129,16 @@ Point ConfigParser::GetPoint(std::string key) {
 }
 
 /* Returns value*/
-std::vector<std::string> ConfigParser::GetList(std::string key) {
+std::vector<std::string> ConfigParser::GetList(const std::string& key) {
 	auto info_str = GetStr(key);
 	std::vector<std::string> values;
 	SplitLineWithChar(values, info_str, ',');
+	return values;
+}
+
+std::vector<int> ConfigParser::GetListInt(const std::string& key) {
+	auto info_str = GetStr(key);
+	std::vector<int> values;
+	SplitLineWithCharToInts(values, info_str, ',');
 	return values;
 }

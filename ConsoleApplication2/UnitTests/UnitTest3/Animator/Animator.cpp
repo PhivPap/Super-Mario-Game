@@ -26,10 +26,10 @@ void Animator::NotifyStopped(void) {
 		(onFinish)(this);
 }
 
-void Animator::NotifyStarted(void){
+void Animator::NotifyStarted(const Animation& anim){
 	AnimatorManager::GetSingleton().MarkAsRunning(this);
 	if (onStart)
-		(onStart)(this);
+		(onStart)(this, anim);
 }
 
 void Animator::NotifyAction(const Animation& anim) {

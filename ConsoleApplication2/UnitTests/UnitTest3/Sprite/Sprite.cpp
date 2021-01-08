@@ -18,6 +18,14 @@ Sprite::~Sprite() {
 	SpriteManager::GetSingleton().Remove(this);
 }
 
+void Sprite::SetState(const std::string& _state_id) {
+	state_id = _state_id;
+}
+
+const std::string& Sprite::GetState(void) {
+	return state_id;
+}
+
 void Sprite::QuantizerSetRange(int h, int w) {
 	horiz_max = h;
 	vert_max = w;

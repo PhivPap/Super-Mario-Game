@@ -32,6 +32,6 @@ void FrameListAnimator::Start(FrameListAnimation* a, timestamp_t t) {
 	state = ANIMATORSTATE_T::ANIMATOR_RUNNING;
 	frame_no_idx = 0;
 //	currRep = 0;
-	NotifyStarted();
+	NotifyStarted(*anim);
 	NotifyAction(*anim);
 }

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef TYPES_H
-#define TYPES_H
 
 typedef unsigned char byte;
 typedef unsigned int uint;
@@ -34,5 +32,3 @@ struct Dim {
 struct Velocity {
 	double x, y;
 };
-
-#endif

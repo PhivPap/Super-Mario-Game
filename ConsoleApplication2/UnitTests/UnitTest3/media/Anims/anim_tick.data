@@ -1,0 +1,9 @@
+## TickAnimation:
+##		id: ta0, ta1, ...
+##		ta0: reps, delay, discrete (0 / 1)
+##		ta1:	-||-		-||-
+
+
+id: DEFAULT_MOVER
+
+DEFAULT_MOVER: 0, 16, 1

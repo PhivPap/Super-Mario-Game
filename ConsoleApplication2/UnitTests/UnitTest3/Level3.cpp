@@ -3,40 +3,25 @@
 #include "Util.h"
 #include "SystemClock.h"
 
-//void NextFrame(Animator* animator, const Animation& animation){
-//	animator->sprite->SetFrame(((FrameRangeAnimator*)animator)->GetCurrFrame());
-//}
+static inline void DefaultOrientationChange(Sprite* sprite, bool orientation) {
+	if(orientation) // go right
+		sprite->main_animator->Start(	(MovingAnimation*)(AnimationHolder::Get().GetAnimation(sprite->GetState() + "R")),
+										SystemClock::Get().milli_secs());
+	else // go left
+		sprite->main_animator->Start(	(MovingAnimation*)(AnimationHolder::Get().GetAnimation(sprite->GetState() + "L")),
+										SystemClock::Get().milli_secs());
+}
 
-//void tmp(const AnimationFilm* sprite_film){
-//	Sprite* created_sprite = new Sprite(272, 352, sprite_film, "coin");
-//	auto coin_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames() - 1, 0, 0, 0, 300);
-//	auto a_coin_animator = new FrameRangeAnimator(created_sprite);
-//
-//	
-//	//a_coin_animator->SetOnAction(NextFrame);
-//	a_coin_animator->Start(coin_animation, SystemClock::Get().milli_secs());
-//}
-
-
-
-/*
-* T1: Animator sub class
-* T2: Animation sub class
-* 
-* For each sprite in list, creates new Animator, 
-* adds sprite to the animator,
-* add animation to the animator.
-*/
 template <class T1, class T2>
-void CreateAnimators(std::list<Sprite*> sprites, T2* animation) {
+void CreateGoombaAnimators(std::list<Sprite*> sprites, T2* animation) {
 	for (auto* sprite : sprites) {
 		T1* animator = new T1();
-		//animator->SetOnStart(
-		//	[sprite](Animator* animator) {
-		//		sprite->SetVelocity();
-		//		// ...
-		//	}
-		//);
+		animator->SetOnStart(
+			[sprite](Animator* animator, const Animation& anim) {
+				sprite->SetVelocity(anim->GetVelocity());
+				//sprite->SetFilm
+			}
+		);
 		animator->SetOnAction(
 			[sprite](Animator* animator, const Animation& anim) {
 				//sprite->Move( ((const T2&)anim).GetDx(), ((const T2&)anim).GetDy());
@@ -44,53 +29,102 @@ void CreateAnimators(std::list<Sprite*> sprites, T2* animation) {
 			}
 		);
 		animator->Start(animation, SystemClock::Get().milli_secs());
+	}
+}
+
+/*
+* T1: Animator sub class
+* T2: Animation sub class
+* 
+* For each sprite in list, creates new Animator, 
+* add animation to the animator.
+*/
+template <class T1, class T2>
+void CreateStaticAnimators(std::list<Sprite*> sprites, T2* animation) {
+	for (auto* sprite : sprites) {
+		T1* animator = new T1();
+		animator->SetOnAction(
+			[sprite](Animator* animator, const Animation& anim) {
+				sprite->SetFrame(((T1*)(animator))->GetCurrFrame());
+			}
+		);
+		animator->Start(animation, SystemClock::Get().milli_secs());
+	}
+}
+
+/*
+* T1: Animator sub class
+* T2: Animation sub class
+*
+* For each sprite in list, creates new Animator,
+* add animation to the animator.
+*/
+template <class T1, class T2>
+void CreateMovingAnimators(std::list<Sprite*> sprites, T2* animation) {
+	for (auto* sprite : sprites) {
+		T1* animator = new T1();
+		animator->SetOnStart(
+			[sprite](Animator* animator, const Animation& anim) {
+				sprite->SetVelocity(((const T2&)anim).GetVelocity());
+				//TODO: change film
+				//sprite->
+			}
+		);
+		animator->SetOnAction(
+			[sprite](Animator* animator, const Animation& anim) {
+				sprite->SetFrame(((T1*)(animator))->GetCurrFrame());
+			}
+		);
+		animator->Start(animation, SystemClock::Get().milli_secs());
 		sprite->SetVelocity(animation->GetVelocity());
+		sprite->main_animator = (MovingAnimator*)animator;
 	}
 }
 
 
-std::list<Sprite*> UnitTest3::LoadSpriteList(std::vector<std::string>& list, const AnimationFilm* sprite_film, const std::string& sprite_type) {
+//std::vector<int> GetListInt(std::string&);
+std::list<Sprite*> UnitTest3::LoadSpriteList(std::vector<std::string>& list, const AnimationFilm* sprite_film, const std::string& sprite_type, const std::string& default_state) {
 	std::list<Sprite*> sprites;
 	Sprite* sprite;
 	for (auto& str : list) {
 		auto sprite_loc = map_info_parser.GetPoint(str);
 		sprite = new Sprite(sprite_loc.x, sprite_loc.y, sprite_film, sprite_type);
-		// do more here? Set Mover etc.
-		//sprite->SetMover(
-		//	[sprite](const Rect& rect, int& dx, int& dy) {
-		//		int x, y;
-		//		sprite->GetPos(x, y); // set x,y
-		//		sprite->SetPos(dx + x, dy + y);
-		//	}
-		//);
-
+		sprite->SetState(default_state);
 		sprites.push_front(sprite);
 	}
 	return sprites;
 }
 
 void UnitTest3::SpriteLoader() {
-	auto& film_holder = AnimationFilmHolder::Get();	
+	auto& film_holder = AnimationFilmHolder::Get();
+	auto& anim_holder = AnimationHolder::Get();
 
 	auto sprite_list_str = map_info_parser.GetList("COIN");
 	auto sprite_film = film_holder.GetFilm("coin");
-	auto sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "coin");									// Get a sprite list of all coins.
-	auto fr_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames() - 1, 0, { 0,0 }, 300);	// Same animation ptr for all coin animators.
-	CreateAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);						// Create Animators for all coins.
+	auto sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "COIN", "-");									// Get a sprite list of all coins.
+	auto* fr_animation = (FrameRangeAnimation*) anim_holder.GetAnimation("COIN");								// Same animation ptr for all coin animators.
+	CreateStaticAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);					// Create Animators for all coins.
 
 	sprite_list_str = map_info_parser.GetList("Q_MARK");
 	sprite_film = film_holder.GetFilm("q_mark");
-	sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "q_mark");
-	fr_animation = new FrameRangeAnimation("q_mark", 0, sprite_film->GetTotalFrames() - 1, 0, { 0,0 }, 300);
-	CreateAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);
+	sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "QMARK", "-");
+	fr_animation = (FrameRangeAnimation*)anim_holder.GetAnimation("QMARK");
+	CreateStaticAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);
 
 	sprite_list_str = map_info_parser.GetList("GOOMBA");
 	sprite_film = film_holder.GetFilm("goomba");
-	sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "goomba");
+	sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "GOOMBA", "GOOMBA_W");
 	moving_sprites.insert(moving_sprites.end(), sprites_loaded.begin(), sprites_loaded.end());
-	auto fl_animation = new FrameListAnimation("goomba", { 0,1,2,2,0 }, 0, {120,0}, 100);
-	CreateAnimators<FrameListAnimator, FrameListAnimation>(sprites_loaded, fl_animation);
+	fr_animation = (FrameRangeAnimation*)anim_holder.GetAnimation("GOOMBA_WR");
+	CreateMovingAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);
 
+	sprite_list_str = map_info_parser.GetList("GKT");
+	sprite_film = film_holder.GetFilm("GKT");
+	sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, "GKT", "GTK_W");
+	moving_sprites.insert(moving_sprites.end(), sprites_loaded.begin(), sprites_loaded.end());
+	auto fl_animation = (FrameListAnimation*)anim_holder.GetAnimation("GKT_WR");
+	CreateMovingAnimators<FrameListAnimator, FrameListAnimation>(sprites_loaded, fl_animation);
+	
 	//auto coin_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames(), 0, 0, 0, 500);
 	//auto a_coin_animator = new FrameRangeAnimator();
 	//tmp(sprite_film);
@@ -157,12 +191,12 @@ UnitTest3::UnitTest3() : sprite_manager(SpriteManager::GetSingleton()), animator
 void UnitTest3::Initialise(void) {
 	UnitTest2::Initialise();
 	Clipper::InitViewWindow(&view_win);
-#if 1
-#define FILMS_DATA_PATH "UnitTests/UnitTest3/media/films.data"
+
 
 	AnimationFilmHolder::Get().LoadAll(FILMS_DATA_PATH, FilmParser);
-
-#endif
+	AnimationHolder::Get().LoadAll(	ANIMS_FRAME_LIST_PATH,
+									ANIMS_FRAME_RANGE_PATH,
+									ANIMS_FRAME_TICK_PATH );
 }
 
 
@@ -191,8 +225,13 @@ void UnitTest3::Load(void) {
 				FilterGridMotion(sprite->GetBoxF(), dx, dy);
 				sprite->SetPos(x + dx, y + dy);
 				// remove this.
-				if (dx == 0)
-					sprite->SetVelocity({ -sprite->GetVelocity().x, 0 });
+				if (velocity.x != 0 && dx == 0) { // motion denied
+					DefaultOrientationChange(sprite, velocity.x > 0);
+				}
+					
+				//sprite->SetVelocity({ -sprite->GetVelocity().x, 0 });
+				//if (dx == 0) // motion denied
+					//sprite->main_animator->Start(goleft/goright, TIME);
 			}
 		}
 	);

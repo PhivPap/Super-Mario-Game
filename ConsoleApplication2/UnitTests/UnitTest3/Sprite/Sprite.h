@@ -5,6 +5,7 @@
 //#include "MotionQuantizer.h"
 #include "Clipper.h"
 #include "BoundingArea.h"
+#include "MovingAnimator.h"
 
 class Sprite {
 public:
@@ -26,8 +27,11 @@ protected:
 	//MotionQuantizer quantizer;
 
 public:
+	MovingAnimator*		main_animator;
 	Sprite(int, int, const AnimationFilm*, const std::string&);
 	~Sprite();
+	void				SetState(const std::string&);
+	const std::string&	GetState(void);
 	void				GetPos(float&, float&);
 	void				SetMover(const Mover&);
 	const Rect_f		GetBoxF(void) const;

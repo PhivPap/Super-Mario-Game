@@ -1,13 +1,11 @@
 #include "FrameListAnimation.h"
 
-using Frames = std::vector<uint>;
-
 FrameListAnimation::~FrameListAnimation(void) {}
 
 FrameListAnimation::FrameListAnimation(const std::string& _id, const Frames& _frames, uint r, const Velocity& _v, uint d)
 	: frames(_frames), MovingAnimation(id, r, _v, d) {}
 
-const Frames& FrameListAnimation::GetFrames(void) const {
+const FrameListAnimation::Frames& FrameListAnimation::GetFrames(void) const {
 	return frames;
 }
 
