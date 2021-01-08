@@ -1,6 +1,6 @@
 #include "Level1.h"
 
-#define MAP_INFO_PARSER "UnitTests/UnitTest3/media/Map0_info.txt"
+#define MAP_INFO_PARSER "UnitTests/UnitTest3/media/Map0.data"
 
 bool UnitTest::TileAllignedViewBoundCheck() {
 	bool moved = false;
