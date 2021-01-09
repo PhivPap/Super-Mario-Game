@@ -88,6 +88,7 @@
     <ClCompile Include="UnitTests\UnitTest3\Animation\TickAnimation.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animator\TickAnimator.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationHolder.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Sprite\GravityHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -134,6 +135,7 @@
     <ClInclude Include="UnitTests\UnitTest3\Animation\TickAnimation.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animator\TickAnimator.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationHolder.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Sprite\GravityHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="UnitTests\UnitTest3\NewFile.txt" />

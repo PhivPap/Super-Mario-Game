@@ -159,6 +159,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="UnitTests\UnitTest3\Sprite\GravityHandler.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationHolder.cpp" />
     <ClCompile Include="SystemClock.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Animator\TickAnimator.cpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="UnitTests\UnitTest3\Sprite\GravityHandler.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationHolder.h" />
     <ClInclude Include="SystemClock.h" />
     <ClInclude Include="UnitTests\UnitTest3\Animator\TickAnimator.h" />

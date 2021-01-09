@@ -125,19 +125,36 @@ void UnitTest3::SpriteLoader() {
 	moving_sprites.insert(moving_sprites.end(), sprites_loaded.begin(), sprites_loaded.end());
 	auto fl_animation = (FrameListAnimation*)anim_holder.GetAnimation("GKT_WR");
 	CreateMovingAnimators<FrameListAnimator, FrameListAnimation>(sprites_loaded, fl_animation);
-	
-	//auto coin_animation = new FrameRangeAnimation("coin", 0, sprite_film->GetTotalFrames(), 0, 0, 0, 500);
-	//auto a_coin_animator = new FrameRangeAnimator();
-	//tmp(sprite_film);
 
-	//sprite_list = map_info_parser.GetList("QMARK");
-	//sprite_film = film_holder.GetFilm("\"qid\"");  // <-- change this.
-	//LoadSpriteList(sprite_list, sprite_film, "q_mark");
+	/*auto& collision_checker = CollisionChecker::GetSingleton();
+	
+	for (auto* moving_sprite : moving_sprites) {
+		for (auto* other_sprite : moving_sprites) {
+			if (moving_sprite != other_sprite) {
+				collision_checker.Register(
+					moving_sprite,
+					other_sprite,
+					[](Sprite* sprite_a, Sprite* sprite_b) {
+						std::cout << "Collision between:" << sprite_a->GetTypeId() << " and " << sprite_b->GetTypeId() << std::endl;
+					}
+				);
+			}
+		}
+	}*/
+
+
+
+
+
 
 	// ....
 }
 
-UnitTest3::UnitTest3() : sprite_manager(SpriteManager::GetSingleton()), animator_manager(AnimatorManager::GetSingleton()) {
+UnitTest3::UnitTest3() : 
+	sprite_manager(SpriteManager::GetSingleton()), 
+	animator_manager(AnimatorManager::GetSingleton()), 
+	collision_checker(CollisionChecker::GetSingleton()) {
+
 
 	animator_refresh = [&] {
 		animator_manager.Progress(SystemClock::Get().milli_secs());
@@ -202,6 +219,7 @@ void UnitTest3::Initialise(void) {
 
 
 void UnitTest3::Load(void) {
+	//game.PushbackCollisions(collision_check); // this is not the way.
 	game.PushbackRender(render_terrain);
 	game.PushbackRender(render_rect);
 	game.PushbackRender(display_sprites);

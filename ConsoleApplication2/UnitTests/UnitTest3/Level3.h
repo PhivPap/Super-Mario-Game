@@ -11,6 +11,7 @@
 #include "TickAnimation.h"
 #include "TickAnimator.h"
 #include "AnimationHolder.h"
+#include "CollisionChecker.h"
 
 
 // TODO get from config file
@@ -27,6 +28,7 @@ class UnitTest3 : protected UnitTest2 {
 
 	std::list<Sprite*> moving_sprites;
 
+	CollisionChecker&	collision_checker;
 	SpriteManager&		sprite_manager;
 	AnimatorManager&	animator_manager;
 	Clipper				default_clipper;

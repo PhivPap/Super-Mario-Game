@@ -126,9 +126,13 @@ bool Sprite::isVisible(void) const {
 	return is_visible;
 }
 
-bool Sprite::CollisionCheck(const Sprite*) const {
-	assert(0);
-	return false;
+bool Sprite::CollisionCheck(const Sprite* sprite) const {
+	return GetBoundArea()->Intersects(*sprite->GetBoundArea());
+	//auto* my_bound_area = GetBoundArea();
+	//auto* his_bound_area = sprite->GetBoundArea();
+
+	//assert(0);
+	//return false;
 	//TODO
 }
 

@@ -1,7 +1,7 @@
 ## TODO : put correct data
 ## -- FILM FORMAT --
 ## FILMS: <comma separated list of all films to be read>
-## film: film_id , film_path, rectangles
+## film: film_id, film_path, rectangles
 ## rectangles: <comma separted list of all rect id's to be read>
 ## rect: x , y, w, h
 
