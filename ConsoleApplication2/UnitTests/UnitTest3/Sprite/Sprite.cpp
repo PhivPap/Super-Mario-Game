@@ -157,3 +157,15 @@ void Sprite::SetVelocity(const Velocity& _velocity) {
 const Velocity& Sprite::GetVelocity(void) {
 	return velocity;
 }
+
+GravityHandler& Sprite::GetGravityHandler(void) {
+	return gravity;
+}
+
+void Sprite::SetHasDirectMotion(bool direct_motion) {
+	this->direct_motion = direct_motion;
+}
+
+bool Sprite::GetHasDirectMotion(void) const {
+	return direct_motion;
+}

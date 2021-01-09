@@ -6,6 +6,7 @@
 #include "Clipper.h"
 #include "BoundingArea.h"
 #include "MovingAnimator.h"
+#include "GravityHandler.h"
 
 class Sprite {
 public:
@@ -25,6 +26,9 @@ protected:
 	std::string type_id, state_id;
 	Mover mover;
 	//MotionQuantizer quantizer;
+
+	bool direct_motion = false;
+	GravityHandler gravity;
 
 public:
 	MovingAnimator*		main_animator;
@@ -54,5 +58,9 @@ public:
 
 	void				SetVelocity(const Velocity&);
 	const Velocity&		GetVelocity(void);
+
+	GravityHandler&		GetGravityHandler(void);
+	void				SetHasDirectMotion(bool direct_motion);
+	bool				GetHasDirectMotion(void) const;
 };
 
