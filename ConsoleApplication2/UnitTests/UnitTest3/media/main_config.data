@@ -1,0 +1,23 @@
+## format is [variable_name: value]. Double '#' ("##") is comment till end of line.
+## Spaces (" ") are ignored. Tabs are not. CARE WITH PATHS CONTAINING SPACES!
+
+
+films: UnitTests/UnitTest3/media/films.data
+
+frame_range_anims: UnitTests/UnitTest3/media/Anims/anim_range.data
+frame_list_anims: UnitTests/UnitTest3/media/Anims/anim_list.data
+tick_anims: UnitTests/UnitTest3/media/Anims/anim_tick.data
+
+MAPS: Map0.data
+
+
+
+## NPCS (category): COIN, GOOMBA, ...
+## COIN: main_animator_type(range/list), is_static(true/false), init_state(str), init_anim(str)
+
+NPCS: COIN, QMARK, GOOMBA, GKT
+
+COIN:   range, true, -, COIN    ## - for currently unused states
+QMARK:  range, true, -, QMARK
+GOOMBA: range, false, GOOMBA_W, GOOMBA_WL
+GKT:    list, false, GKT_W, GKT_WL

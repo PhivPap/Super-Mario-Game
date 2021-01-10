@@ -18,7 +18,7 @@
 #define FILMS_DATA_PATH			"UnitTests/UnitTest3/media/films.data"
 #define ANIMS_FRAME_RANGE_PATH	"UnitTests/UnitTest3/media/Anims/anim_range.data"
 #define ANIMS_FRAME_LIST_PATH	"UnitTests/UnitTest3/media/Anims/anim_list.data"
-#define ANIMS_FRAME_TICK_PATH	"UnitTests/UnitTest3/media/Anims/anim_tick.data"
+#define ANIMS_TICK_PATH	"UnitTests/UnitTest3/media/Anims/anim_tick.data"
 
 class UnitTest3 : protected UnitTest2 {
 

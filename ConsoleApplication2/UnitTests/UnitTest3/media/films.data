@@ -7,25 +7,25 @@
 
 FILMS: COIN, QMARK, GOOMBA, GKT
 
-COIN: coin, UnitTests/UnitTest3/media/bmps/coins.bmp, arects
+COIN: COIN, UnitTests/UnitTest3/media/bmps/coins.bmp, arects
 arects: arect0, arect1, arect2
 arect0: 0, 0, 16, 16
 arect1: 16, 0, 16, 16
 arect2: 32, 0, 16, 16
 
-QMARK: q_mark, UnitTests/UnitTest3/media/bmps/question_marks.bmp, brects
+QMARK: QMARK, UnitTests/UnitTest3/media/bmps/question_marks.bmp, brects
 brects: brect0, brect1, brect2
 brect0: 0, 0, 16, 16
 brect1: 16, 0, 16, 16
 brect2: 32, 0, 16, 16
 
-GOOMBA: goomba, UnitTests/UnitTest3/media/bmps/goomba.bmp, crects
+GOOMBA: GOOMBA, UnitTests/UnitTest3/media/bmps/goomba.bmp, crects
 crects: crect0, crect1, crect2
 crect0: 0, 0, 16, 16
 crect1: 16, 0, 16, 16
 crect2: 32, 0, 16, 16
 
-GKT: gkt, UnitTests/UnitTest3/media/bmps/green_koopa_troopa.bmp, drects
+GKT: GKT, UnitTests/UnitTest3/media/bmps/green_koopa_troopa.bmp, drects
 drects: drect0, drect1, drect2, drect3
 drect0: 0, 0, 16, 22
 drect1: 17, 0, 15, 22
