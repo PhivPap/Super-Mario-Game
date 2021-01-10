@@ -4,12 +4,21 @@
 ##		info_0: vel_x, vel_y, reps, delay
 ##		frame_list_0: 0, 1, ...
 
-id: GKT_WL , GKT_WR
+id: GKT_WL , GKT_WR, GKT_SR, GKT_SL
 
-GKT_WR: gkt_info_r, gkt_list_r
-gkt_info_r: 70, 0, 0, 500
-gkt_list_r: 0, 1
+GKT_WR: gkt_info_wr, gkt_list_wr
+gkt_info_wr: 70, 0, 0, 500
+gkt_list_wr: 0, 1
 
-GKT_WL: gkt_info_l, gkt_list_l
-gkt_info_l: -70, 0, 0, 500
-gkt_list_l: 2, 3
+GKT_WL: gkt_info_wl, gkt_list_wl
+gkt_info_wl: -70, 0, 0, 500
+gkt_list_wl: 2, 3
+
+
+GKT_SR: gkt_info_sr, gkt_list_sr
+gkt_info_sr: 300, 0, 0, 10000    ## GKT stunned. Only 1 frame, delay  ??
+gkt_list_sr: 5  
+
+GKT_SL: gkt_info_sl, gkt_list_sl
+gkt_info_sl: -300, 0, 0, 10000   ## GKT stunned. Only 1 frame, delay  ??
+gkt_list_sl: 5

@@ -26,8 +26,10 @@ crect1: 16, 0, 16, 16
 crect2: 32, 0, 16, 16
 
 GKT: GKT, UnitTests/UnitTest3/media/bmps/green_koopa_troopa.bmp, drects
-drects: drect0, drect1, drect2, drect3
+drects: drect0, drect1, drect2, drect3, drect4, drect5
 drect0: 0, 0, 16, 22
 drect1: 17, 0, 15, 22
 drect2: 33, 0, 15, 22
 drect3: 50, 0, 16, 22
+drect4: 66, 0, 14, 22
+drect5: 81, 0, 14, 22
