@@ -17,7 +17,7 @@ MAPS: Map0.data
 
 NPCS: COIN, QMARK, GOOMBA, GKT
 
-COIN:   range, true, -, COIN    ## - for currently unused states
+COIN:   range, true, -, COIN    ## '-' for currently unused states
 QMARK:  range, true, -, QMARK
 GOOMBA: range, false, GOOMBA_W, GOOMBA_WL
-GKT:    list, false, GKT_S, GKT_SL
+GKT:    list, false, GKT_K, GKT_KL

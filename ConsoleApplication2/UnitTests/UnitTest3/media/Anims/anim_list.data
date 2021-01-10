@@ -4,21 +4,29 @@
 ##		info_0: vel_x, vel_y, reps, delay
 ##		frame_list_0: 0, 1, ...
 
-id: GKT_WL , GKT_WR, GKT_SR, GKT_SL
+id: GKT_WL , GKT_WR, GKT_S, GKT_KR, GKT_KL
 
-GKT_WR: gkt_info_wr, gkt_list_wr
+## GKT walking right ->
+GKT_WR: gkt_info_wr, gkt_list_wr   
 gkt_info_wr: 70, 0, 0, 500
 gkt_list_wr: 0, 1
 
+## GKT walking right <-
 GKT_WL: gkt_info_wl, gkt_list_wl
 gkt_info_wl: -70, 0, 0, 500
 gkt_list_wl: 2, 3
 
+## GKT stunned -
+GKT_S: gkt_info_s, gkt_list_s
+gkt_info_s: 0, 0, 0, 10000  ## GKT knocked. Only 1 frame, delay  ??
+gkt_list_s: 5
 
-GKT_SR: gkt_info_sr, gkt_list_sr
-gkt_info_sr: 300, 0, 0, 10000    ## GKT stunned. Only 1 frame, delay  ??
-gkt_list_sr: 5  
+## GKT knocked right --->
+GKT_KR: gkt_info_kr, gkt_list_kr
+gkt_info_kr: 300, 0, 0, 10000  ## GKT knocked. Only 1 frame, delay  ??
+gkt_list_kr: 5  
 
-GKT_SL: gkt_info_sl, gkt_list_sl
-gkt_info_sl: -300, 0, 0, 10000   ## GKT stunned. Only 1 frame, delay  ??
-gkt_list_sl: 5
+## GKT knocked left <---
+GKT_KL: gkt_info_kl, gkt_list_kl
+gkt_info_kl: -300, 0, 0, 10000  ## GKT knocked. Only 1 frame, delay  ??
+gkt_list_kl: 5
