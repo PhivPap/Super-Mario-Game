@@ -180,7 +180,7 @@ void UnitTest3::SpriteLoader() {
 			}
 		}
 	}
-#define G_ACCELERATION 15 // <-- acceleration 5 means: speed increases 5 pixels/s every tick.
+#define G_ACCELERATION 20 // <-- acceleration 5 means: speed increases 5 pixels/s every tick.
 
 	for (auto* sprite : moving_sprites) { // assume that moving sprites have default fall anim
 		auto& gravity = sprite->GetGravityHandler();
@@ -204,8 +204,7 @@ void UnitTest3::SpriteLoader() {
 					[sprite, gravity_animator]() {
 						auto current_vel = sprite->GetVelocity();
 						sprite->SetVelocity({ current_vel.x, 0 });
-						gravity_animator->Stop();
-						//delete gravity_animator;
+						AnimatorManager::GetSingleton().AddGarbage(gravity_animator);
 					}
 				);
 				gravity_animator->Start(*(TickAnimation*)anim_holder.GetAnimation("FALL_DELAY"), SystemClock::Get().milli_secs());

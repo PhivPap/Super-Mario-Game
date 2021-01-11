@@ -1,12 +1,12 @@
 #include "Animator.h"
 #include "AnimatorManager.h"
-
+#include <iostream>
 Animator::Animator(void) : state(ANIMATORSTATE_T::ANIMATOR_STOPPED){
 	AnimatorManager::GetSingleton().Register(this);
 }
 
 Animator::~Animator(void) {
-	AnimatorManager::GetSingleton().Cancel(this);
+	//AnimatorManager::GetSingleton().Cancel(this);
 }
 
 void Animator::Finish(bool isForced) {
