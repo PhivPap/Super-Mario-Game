@@ -24,6 +24,15 @@ bool BoundingBox::In(uint x, uint y) const {
 	return (x1 <= x && x <= x2 && y1 <= y && y <= y2);
 }
 
+void BoundingBox::UpdatePos(uint x, uint y) {
+	auto w = x2 - x1;
+	auto h = y2 - y1;
+	x1 = x;
+	y1 = y;
+	x2 = x + w;
+	y2 = y + h;
+}
+
 BoundingBox* BoundingBox::Clone(void) const {
 	return new BoundingBox(x1, y1, x2, y2);
 }

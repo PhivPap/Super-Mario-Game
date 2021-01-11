@@ -58,6 +58,11 @@ bool BoundingCircle::Intersects(const BoundingArea& area) const {
 	return area.Intersects(*this);
 }
 
+void BoundingCircle::UpdatePos(uint x, uint y) {
+	this->x = x;
+	this->y = y;
+}
+
 BoundingCircle* BoundingCircle::Clone(void) const {
 	return new BoundingCircle(x, y, r);
 }

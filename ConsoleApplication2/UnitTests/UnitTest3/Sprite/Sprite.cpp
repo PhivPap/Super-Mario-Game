@@ -1,20 +1,25 @@
 #include "Sprite.h"
 #include "SpriteManager.h"
+#include "BoundingBox.h"
 
 template <typename Tnum>
 static inline int number_sign(Tnum x) { return x > 0 ? 1 : x < 0 ? -1 : 0; }
 
 Sprite::Sprite(int x, int y, const AnimationFilm* film, const std::string& type_id = "")
-	: x(x), y(y), curr_film(film), type_id(type_id)
-{
+	: x(x), y(y), curr_film(film), type_id(type_id){
+
 	frame_no = curr_film->GetTotalFrames(); 
 	SetFrame(0);
 
 	SpriteManager::GetSingleton().Add(this);
+
+#pragma message ("Remove this. BoundingArea not the same with frame_box :(.")
+	SetBoundingArea(new BoundingBox((uint)x, uint(y), x + frame_box.w, y + frame_box.h));
 }
 
 Sprite::~Sprite() {
 	// do things here?
+	delete bounding_area;
 	SpriteManager::GetSingleton().Remove(this);
 }
 
@@ -110,7 +115,22 @@ void Sprite::SetBoundingArea(BoundingArea* area) {
 	bounding_area = area;
 }
 
-const BoundingArea* Sprite::GetBoundArea(void) const {
+void Sprite::ResetBoundingArea(const BoundingArea& area) {
+	assert(bounding_area);
+	delete bounding_area;
+	bounding_area = area.Clone();
+}
+
+void Sprite::ResetBoudingArea(BoundingArea* area) {
+	assert(bounding_area);
+	bounding_area = area;
+}
+
+const BoundingArea* Sprite::GetBoundArea(void) {
+	if (update_bound_area_pos) {
+		bounding_area->UpdatePos(uint(x), uint(y)); // 200iq syntax
+		update_bound_area_pos = false;
+	}
 	return bounding_area;
 }
 
@@ -126,7 +146,7 @@ bool Sprite::isVisible(void) const {
 	return is_visible;
 }
 
-bool Sprite::CollisionCheck(const Sprite* sprite) const {
+bool Sprite::CollisionCheck(Sprite* sprite) {
 	return GetBoundArea()->Intersects(*sprite->GetBoundArea());
 	//auto* my_bound_area = GetBoundArea();
 	//auto* his_bound_area = sprite->GetBoundArea();

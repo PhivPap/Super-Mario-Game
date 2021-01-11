@@ -9,6 +9,7 @@ public:
 	//virtual bool Intersects(const BoundingPolygon&) const;
 	virtual bool In(uint, uint) const;
 	virtual bool Intersects(const BoundingArea&) const;
+	virtual void UpdatePos(uint, uint);
 	virtual BoundingBox* Clone(void) const;
 	BoundingBox(uint, uint, uint, uint);
 

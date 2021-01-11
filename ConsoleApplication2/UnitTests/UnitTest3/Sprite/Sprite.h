@@ -30,6 +30,7 @@ protected:
 	bool direct_motion = false;
 	GravityHandler gravity;
 
+	bool update_bound_area_pos = false; // when this is true GetBoundArea() will 
 public:
 	MovingAnimator*		main_animator;
 	Sprite(int, int, const AnimationFilm*, const std::string&);
@@ -48,11 +49,13 @@ public:
 	byte				GetFrame(void) const;
 	void				SetBoundingArea(const BoundingArea&);
 	void				SetBoundingArea(BoundingArea*);
-	const BoundingArea* GetBoundArea(void) const;
+	void				ResetBoundingArea(const BoundingArea&);
+	void				ResetBoudingArea(BoundingArea*);
+	const BoundingArea* GetBoundArea(void);
 	const std::string&	GetTypeId(void);
 	void				SetVisibility(bool);
 	bool				isVisible(void) const;
-	bool				CollisionCheck(const Sprite*) const;
+	bool				CollisionCheck(Sprite*);
 	void				Display(ALLEGRO_BITMAP*, const Rect&, const Clipper&) const;
 	void				QuantizerSetRange(int, int);
 
