@@ -33,6 +33,7 @@ class UnitTest3 : protected UnitTest2 {
 	AnimatorManager&	animator_manager;
 	Clipper				default_clipper;
 	void				SpriteLoader(void);
+	//static bool			OnSolidGround(const Rect&);
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
 
 public:

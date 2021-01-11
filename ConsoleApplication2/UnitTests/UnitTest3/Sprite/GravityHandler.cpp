@@ -16,7 +16,7 @@ void GravityHandler::Reset(void) {
 	is_falling = false;
 }
 
-void GravityHandler::Check(const Rect& r) {
+void GravityHandler::Check(const Rect_f& r) {
 	if (gravity_addicted) {
 		if (on_solid_ground(r)) {
 			if (is_falling) {
@@ -31,4 +31,12 @@ void GravityHandler::Check(const Rect& r) {
 			}
 		}
 	}
+}
+
+void GravityHandler::SetGravity() {
+	gravity_addicted = true;
+}
+
+void GravityHandler::RemoveGravity() {
+	gravity_addicted = false;
 }

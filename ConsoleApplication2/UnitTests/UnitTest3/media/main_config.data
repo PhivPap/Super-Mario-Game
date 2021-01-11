@@ -12,6 +12,8 @@ MAPS: Map0.data
 
 
 
+
+
 ## NPCS (category): COIN, GOOMBA, ...
 ## COIN: main_animator_type(range/list), is_static(true/false), init_state(str), init_anim(str)
 
@@ -19,5 +21,5 @@ NPCS: COIN, QMARK, GOOMBA, GKT
 
 COIN:   range, true, -, COIN    ## '-' for currently unused states
 QMARK:  range, true, -, QMARK
-GOOMBA: range, false, GOOMBA_W, GOOMBA_WL
+GOOMBA: range, false, GOOMBA_W, GOOMBA_WR
 GKT:    list, false, GKT_W, GKT_WL

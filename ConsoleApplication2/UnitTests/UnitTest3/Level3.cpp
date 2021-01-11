@@ -5,10 +5,10 @@
 
 // true = left, false = right
 static inline void DefaultOrientationSet(Sprite* sprite, bool orientation) {
-	if(!orientation) // go right
+	if(!orientation)	// go right
 		sprite->main_animator->Start(	(MovingAnimation*)(AnimationHolder::Get().GetAnimation(sprite->GetState() + "R")),
 										SystemClock::Get().milli_secs());
-	else // go left
+	else				// go left
 		sprite->main_animator->Start(	(MovingAnimation*)(AnimationHolder::Get().GetAnimation(sprite->GetState() + "L")),
 										SystemClock::Get().milli_secs());
 }
@@ -162,11 +162,11 @@ void UnitTest3::SpriteLoader() {
 	CreateMovingAnimators<FrameListAnimator, FrameListAnimation>(sprites_loaded, fl_animation);
 
 #endif
-	for (auto* moving_sprite : moving_sprites) {
+	for (auto* sprite : moving_sprites) {
 		for (auto* other_sprite : moving_sprites) {
-			if (moving_sprite != other_sprite) {
+			if (sprite != other_sprite) {
 				collision_checker.Register(
-					moving_sprite,
+					sprite,
 					other_sprite,
 					[](Sprite* s1, Sprite* s2) {
 						std::cout << "Collision between:" << s1->GetTypeId() << " and " << s2->GetTypeId() << std::endl;
@@ -179,6 +179,48 @@ void UnitTest3::SpriteLoader() {
 				);
 			}
 		}
+	}
+#define G_ACCELERATION 15 // <-- acceleration 5 means: speed increases 5 pixels/s every tick.
+
+	for (auto* sprite : moving_sprites) { // assume that moving sprites have default fall anim
+		auto& gravity = sprite->GetGravityHandler();
+		gravity.SetGravity();
+		gravity.SetOnStartFalling(
+			[sprite, &anim_holder, &gravity]() {
+				auto* gravity_animator = new TickAnimator();
+				gravity_animator->SetOnFinish(
+					[sprite, &anim_holder](Animator* gravity_animator) {
+						gravity_animator->SetOnFinish(nullptr); // this is prob unnecessary
+						gravity_animator->SetOnAction(
+							[sprite](Animator* gravity_animator, const Animation& gravity_fall) {
+								auto& current_vel = sprite->GetVelocity();
+								sprite->SetVelocity({ current_vel.x, current_vel.y + G_ACCELERATION });
+							}
+						);
+						((TickAnimator*)gravity_animator)->Start(*(TickAnimation*)anim_holder.GetAnimation("FALL_UPDATE"), SystemClock::Get().milli_secs());
+					}
+				);
+				gravity.SetOnStopFalling(
+					[sprite, gravity_animator]() {
+						auto current_vel = sprite->GetVelocity();
+						sprite->SetVelocity({ current_vel.x, 0 });
+						gravity_animator->Stop();
+						//delete gravity_animator;
+					}
+				);
+				gravity_animator->Start(*(TickAnimation*)anim_holder.GetAnimation("FALL_DELAY"), SystemClock::Get().milli_secs());
+			}
+		);
+		gravity.SetOnSolidGround(
+			[this](const Rect_f& rect) {
+				float dx = 0;
+				float dy = 1;
+				FilterGridMotion(rect, dx, dy);
+				if (dy < 1)
+					return true;
+				return false;
+			}
+		);
 	}
 }
 
@@ -283,8 +325,8 @@ void UnitTest3::Load(void) {
 				//sprite->SetVelocity({ -sprite->GetVelocity().x, 0 });
 				//if (dx == 0) // motion denied
 					//sprite->main_animator->Start(goleft/goright, TIME);
+				sprite->GetGravityHandler().Check(sprite->GetBoxF());
 			}
-
 			collision_checker.Check();
 		}
 	);

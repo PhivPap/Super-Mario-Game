@@ -4,7 +4,7 @@
 
 class GravityHandler{
 public:
-	using OnSolidGroundPred =	std::function<bool(const Rect&)>;
+	using OnSolidGroundPred =	std::function<bool(const Rect_f&)>;
 	using OnStartFalling =		std::function<void(void)>;
 	using OnStopFalling =		std::function<void(void)>;
 
@@ -20,6 +20,8 @@ public:
 	void SetOnStartFalling(const OnStartFalling&);
 	void SetOnStopFalling(const OnStopFalling&);
 	void Reset(void);
-	void Check(const Rect& r);
+	void Check(const Rect_f& r);
+	void SetGravity();
+	void RemoveGravity();
 };
 
