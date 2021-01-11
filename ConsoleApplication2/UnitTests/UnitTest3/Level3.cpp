@@ -168,8 +168,13 @@ void UnitTest3::SpriteLoader() {
 				collision_checker.Register(
 					moving_sprite,
 					other_sprite,
-					[](Sprite* sprite_a, Sprite* sprite_b) {
-						std::cout << "Collision between:" << sprite_a->GetTypeId() << " and " << sprite_b->GetTypeId() << std::endl;
+					[](Sprite* s1, Sprite* s2) {
+						std::cout << "Collision between:" << s1->GetTypeId() << " and " << s2->GetTypeId() << std::endl;
+						auto& s1_vel = s1->GetVelocity();
+						auto& s2_vel = s2->GetVelocity();
+						// this is not the way
+						DefaultOrientationSet(s1, s1_vel.x > 0);
+						DefaultOrientationSet(s2, s2_vel.x > 0);
 					}
 				);
 			}
