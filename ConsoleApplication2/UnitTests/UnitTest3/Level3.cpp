@@ -161,8 +161,6 @@ void UnitTest3::SpriteLoader() {
 	CreateMovingAnimators<FrameListAnimator, FrameListAnimation>(sprites_loaded, fl_animation);
 
 #endif
-	/*auto& collision_checker = CollisionChecker::GetSingleton();
-	
 	for (auto* moving_sprite : moving_sprites) {
 		for (auto* other_sprite : moving_sprites) {
 			if (moving_sprite != other_sprite) {
@@ -175,7 +173,7 @@ void UnitTest3::SpriteLoader() {
 				);
 			}
 		}
-	}*/
+	}
 	// ....
 }
 
@@ -273,14 +271,16 @@ void UnitTest3::Load(void) {
 				FilterGridMotion(sprite->GetBoxF(), dx, dy);
 				sprite->SetPos(x + dx, y + dy);
 				// remove this.
-				if ((velocity.x != 0) && (dx == 0.0f)) { // motion denied
+				if ((velocity.x != 0) && (dx == 0)) { // motion denied
 					DefaultOrientationChange(sprite, velocity.x > 0);
 				}
-					
+				sprite->SetUpdateBoundAreaPos((dx != 0) || (dy != 0));
 				//sprite->SetVelocity({ -sprite->GetVelocity().x, 0 });
 				//if (dx == 0) // motion denied
 					//sprite->main_animator->Start(goleft/goright, TIME);
 			}
+
+			collision_checker.Check();
 		}
 	);
 	mover_animator->Start(*refresh_60hz, SystemClock::Get().milli_secs());

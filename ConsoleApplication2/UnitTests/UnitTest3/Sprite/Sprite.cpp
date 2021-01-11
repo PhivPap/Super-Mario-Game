@@ -189,3 +189,7 @@ void Sprite::SetHasDirectMotion(bool direct_motion) {
 bool Sprite::GetHasDirectMotion(void) const {
 	return direct_motion;
 }
+
+void Sprite::SetUpdateBoundAreaPos(bool update_bound_area_pos) {
+	this->update_bound_area_pos = update_bound_area_pos;
+}

@@ -20,4 +20,4 @@ NPCS: COIN, QMARK, GOOMBA, GKT
 COIN:   range, true, -, COIN    ## '-' for currently unused states
 QMARK:  range, true, -, QMARK
 GOOMBA: range, false, GOOMBA_W, GOOMBA_WL
-GKT:    list, false, GKT_K, GKT_KL
+GKT:    list, false, GKT_W, GKT_WL

@@ -65,5 +65,7 @@ public:
 	GravityHandler&		GetGravityHandler(void);
 	void				SetHasDirectMotion(bool direct_motion);
 	bool				GetHasDirectMotion(void) const;
+
+	void				SetUpdateBoundAreaPos(bool);
 };
 
