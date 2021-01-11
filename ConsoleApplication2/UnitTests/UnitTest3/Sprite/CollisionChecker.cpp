@@ -3,7 +3,11 @@
 CollisionChecker CollisionChecker::singleton; // definition
 
 void CollisionChecker::Register(Sprite* s1, Sprite* s2, Action f) {
+	assert(s1 != s2);
+	Cancel(s1, s2);
+	Cancel(s2, s1);
 	entries.push_back(std::make_tuple(s1, s2, f));
+	std::cout << entries.size() << std::endl;
 }
 
 void CollisionChecker::Cancel(Sprite* s1, Sprite* s2) {
@@ -15,7 +19,8 @@ void CollisionChecker::Cancel(Sprite* s1, Sprite* s2) {
 					std::get<0>(e) == s2 && std::get<0>(e) == s1;
 		}
 	);
-	entries.erase(i);
+	if(i != entries.end())
+		entries.erase(i);
 }
 
 void CollisionChecker::Check(void) const {

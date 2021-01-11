@@ -3,7 +3,8 @@
 #include "Util.h"
 #include "SystemClock.h"
 
-static inline void DefaultOrientationChange(Sprite* sprite, bool orientation) {
+// true = left, false = right
+static inline void DefaultOrientationSet(Sprite* sprite, bool orientation) {
 	if(!orientation) // go right
 		sprite->main_animator->Start(	(MovingAnimation*)(AnimationHolder::Get().GetAnimation(sprite->GetState() + "R")),
 										SystemClock::Get().milli_secs());
@@ -174,7 +175,6 @@ void UnitTest3::SpriteLoader() {
 			}
 		}
 	}
-	// ....
 }
 
 UnitTest3::UnitTest3() : 
@@ -272,7 +272,7 @@ void UnitTest3::Load(void) {
 				sprite->SetPos(x + dx, y + dy);
 				// remove this.
 				if ((velocity.x != 0) && (dx == 0)) { // motion denied
-					DefaultOrientationChange(sprite, velocity.x > 0);
+					DefaultOrientationSet(sprite, velocity.x > 0);
 				}
 				sprite->SetUpdateBoundAreaPos((dx != 0) || (dy != 0));
 				//sprite->SetVelocity({ -sprite->GetVelocity().x, 0 });
