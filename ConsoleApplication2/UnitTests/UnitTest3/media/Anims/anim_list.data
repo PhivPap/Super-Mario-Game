@@ -4,7 +4,10 @@
 ##		info_0: vel_x, vel_y, reps, delay
 ##		frame_list_0: 0, 1, ...
 
-id: GKT_WL , GKT_WR, GKT_S, GKT_KR, GKT_KL
+
+
+
+id: GKT_WL , GKT_WR, GKT_S, GKT_KR, GKT_KL, MARIO_RR, MARIO_RL, MARIO_SR, MARIO_SL
 
 ## GKT walking right ->
 GKT_WR: gkt_info_wr, gkt_list_wr   
@@ -30,3 +33,26 @@ gkt_list_kr: 5
 GKT_KL: gkt_info_kl, gkt_list_kl
 gkt_info_kl: -300, 0, 0, 10000  ## GKT knocked. Only 1 frame, delay  ??
 gkt_list_kl: 5
+
+## -------------------------- MARIO --------------------------------
+## not using vel_x, vel_y for mario (yet?).
+## MARIO_R = mario run
+## MARIO_S = mario stand
+## MARIO_J = mario jump <-- we might not have it ?
+## MARIO_B = mario brake <-- we dont have it
+
+MARIO_RR: mario_info_rr, mario_list_rr
+mario_info_rr: 0, 0, 0, 200
+mario_list_rr:
+
+MARIO_RL: mario_info_rl, mario_list_rl
+mario_info_rl: 0, 0, 0, 200
+mario_list_rl:
+
+MARIO_SR: mario_info_sr, mario_list_sr
+mario_info_sr: 0, 0, 0, 10000
+mario_list_sr:
+
+MARIO_SL: mario_info_sl, mario_list_sl
+mario_info_sl: 0, 0, 0, 10000
+mario_list_sl:
