@@ -180,7 +180,7 @@ void UnitTest3::SpriteLoader() {
 			}
 		}
 	}
-#define G_ACCELERATION 20 // <-- acceleration 5 means: speed increases 5 pixels/s every tick.
+#define G_ACCELERATION 8 // <-- acceleration 5 means: speed increases 5 pixels/s every tick.
 
 	for (auto* sprite : moving_sprites) { // assume that moving sprites have default fall anim
 		auto& gravity = sprite->GetGravityHandler();
