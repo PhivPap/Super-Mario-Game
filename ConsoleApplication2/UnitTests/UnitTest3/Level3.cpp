@@ -304,6 +304,15 @@ void UnitTest3::Initialise(void) {
 	AnimationHolder::Get().LoadAll(	ANIMS_FRAME_LIST_PATH,
 									ANIMS_FRAME_RANGE_PATH,
 									ANIMS_TICK_PATH );
+
+	auto font0_path = main_config.GetStr("FONT0");
+	auto font0_size = main_config.GetInt("FONT0_SIZE");
+	font0 = al_load_font(font0_path.c_str(), font0_size, 0);
+	font0_color = al_map_rgb(255, 255, 255);
+
+	map_id = map_info_parser.GetStr("MAP_ID");
+	time_left = map_info_parser.GetUint("TIME");
+	lives = map_info_parser.GetUint("LIVES");
 }
 
 
@@ -321,13 +330,10 @@ void UnitTest3::Load(void) {
 	game.PushbackPhysics(mario_physics);
 	game.PushbackAnim(animator_refresh);
 	SpriteLoader();
-	
-	auto font0_path = main_config.GetStr("FONT0");
-	auto font0_size = main_config.GetInt("FONT0_SIZE");
-	font0 = al_load_font(font0_path.c_str(), font0_size, 0);
-	font0_color = al_map_rgb(255, 255, 255);
 
-	TickAnimation* refresh_60hz = new TickAnimation("timer", 16, 0, true);
+	// ------------------------------------
+	auto* default_mover_refresh = (TickAnimation*)AnimationHolder::Get().GetAnimation("DEFAULT_MOVER");
+		//new TickAnimation("timer", 16, 0, true);
 	auto* mover_animator = new TickAnimator();
 	mover_animator->SetOnAction(
 		[&](Animator* animator, const Animation& anim) {
@@ -352,7 +358,21 @@ void UnitTest3::Load(void) {
 			collision_checker.Check();
 		}
 	);
-	mover_animator->Start(*refresh_60hz, SystemClock::Get().milli_secs());
+	mover_animator->Start(*default_mover_refresh, SystemClock::Get().milli_secs());
+	// ------------------------------------
+
+	auto* every_second_tick = (TickAnimation*)AnimationHolder::Get().GetAnimation("EVRY_SEC");
+	auto* every_second_animator = new TickAnimator();
+	every_second_animator->SetOnAction(
+		[&](Animator* animator, const Animation& anim) {
+			time_left--;
+			if (time_left == 0) {
+				time_is_up = true;
+				std::cout << "YOU NOOB\n";
+			}
+		}
+	);
+	every_second_animator->Start(*every_second_tick, SystemClock::Get().milli_secs());
 }
 
 void UnitTest3::Clear(void) {

@@ -41,8 +41,8 @@ private:
 	ALLEGRO_FONT*		font0;
 	ALLEGRO_COLOR		font0_color;
 
-	uint				score;
-	uint				coins;
+	uint				score = 0;
+	uint				coins = 0;
 	std::string			map_id;
 	uint				time_left; // seconds.
 	uint				lives;
