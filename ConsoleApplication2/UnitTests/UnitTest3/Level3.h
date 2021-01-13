@@ -1,4 +1,5 @@
 #pragma once
+#include "allegro5/allegro_font.h"
 #include "Level2.h"
 #include "AnimationFilmHolder.h"
 #include "SpriteManager.h"
@@ -20,10 +21,13 @@
 #define ANIMS_FRAME_LIST_PATH	"UnitTests/UnitTest3/media/Anims/anim_list.data"
 #define ANIMS_TICK_PATH	"UnitTests/UnitTest3/media/Anims/anim_tick.data"
 
+#define MAIN_CONFIG_PATH "UnitTests/UnitTest3/media/main_config.data"
+
 class UnitTest3 : protected UnitTest2 {
 
 	std::function<void(void)> mario_physics;
 	std::function<void(void)> display_sprites;
+	std::function<void(void)> display_texts;
 	std::function<void(void)> animator_refresh;
 
 	std::list<Sprite*> moving_sprites;
@@ -32,6 +36,9 @@ class UnitTest3 : protected UnitTest2 {
 	SpriteManager&		sprite_manager;
 	AnimatorManager&	animator_manager;
 	Clipper				default_clipper;
+	ConfigParser		main_config;
+	ALLEGRO_FONT*		font0;
+
 	void				SpriteLoader(void);
 	//static bool			OnSolidGround(const Rect&);
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);

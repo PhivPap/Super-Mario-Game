@@ -8,6 +8,11 @@ frame_range_anims: UnitTests/UnitTest3/media/Anims/anim_range.data
 frame_list_anims: UnitTests/UnitTest3/media/Anims/anim_list.data
 tick_anims: UnitTests/UnitTest3/media/Anims/anim_tick.data
 
+
+## FONT 0 is for top text.
+FONT0: UnitTests/UnitTest3/media/fonts/font0.ttf
+FONT0_SIZE: 30
+
 MAPS: Map0.data
 
 

@@ -101,8 +101,7 @@ void UnitTest3::SpriteLoader() {
 	auto& film_holder = AnimationFilmHolder::Get();
 	auto& anim_holder = AnimationHolder::Get();
 #if 1
-	ConfigParser main_config; // this is not supposed to init here.
-	main_config.SetNewParser("UnitTests/UnitTest3/media/main_config.data");
+	
 	auto npc_type_list = main_config.GetList("NPCS");
 	for (auto& npc_type : npc_type_list) {
 		auto npc_type_info = main_config.GetList(npc_type); // [0] = type(range/list), [1] = is_static, [2] = init_state, [3] = init_anim
@@ -224,10 +223,14 @@ void UnitTest3::SpriteLoader() {
 }
 
 UnitTest3::UnitTest3() : 
-	sprite_manager(SpriteManager::GetSingleton()), 
-	animator_manager(AnimatorManager::GetSingleton()), 
-	collision_checker(CollisionChecker::GetSingleton()) {
+			sprite_manager(SpriteManager::GetSingleton()), 
+			animator_manager(AnimatorManager::GetSingleton()), 
+			collision_checker(CollisionChecker::GetSingleton()) {
+	main_config.SetNewParser("UnitTests/UnitTest3/media/main_config.data");
 
+	display_texts = [&] {
+
+	};
 
 	animator_refresh = [&] {
 		animator_manager.Progress(SystemClock::Get().milli_secs());
@@ -281,6 +284,7 @@ UnitTest3::UnitTest3() :
 
 void UnitTest3::Initialise(void) {
 	UnitTest2::Initialise();
+	al_init_font_addon();
 	Clipper::InitViewWindow(&view_win);
 
 
@@ -303,7 +307,12 @@ void UnitTest3::Load(void) {
 	//game.PushbackPhysics(physics_rect);
 	game.PushbackPhysics(mario_physics);
 	game.PushbackAnim(animator_refresh);
-	UnitTest3::SpriteLoader();
+	SpriteLoader();
+	
+	auto font0_path = main_config.GetStr("FONT0");
+	auto font0_size = main_config.GetInt("FONT0_SIZE");
+	font0 = al_load_font(font0_path.c_str(), font0_size, 0);
+
 	TickAnimation* refresh_60hz = new TickAnimation("timer", 16, 0, true);
 	auto* mover_animator = new TickAnimator();
 	mover_animator->SetOnAction(
@@ -333,6 +342,7 @@ void UnitTest3::Load(void) {
 }
 
 void UnitTest3::Clear(void) {
+	al_destroy_font(font0);
 	UnitTest2::Clear();
 	auto b = AnimationFilmHolder::Get().GetBitmapLoader();
 	b.CleanUp(); //clean bitmaps
