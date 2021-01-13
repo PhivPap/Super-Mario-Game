@@ -25,7 +25,7 @@
 #define MAIN_CONFIG_PATH "UnitTests/UnitTest3/media/main_config.data"
 
 class UnitTest3 : protected UnitTest2 {
-
+private:
 	std::function<void(void)> mario_physics;
 	std::function<void(void)> display_sprites;
 	std::function<void(void)> display_texts;
@@ -40,6 +40,14 @@ class UnitTest3 : protected UnitTest2 {
 	ConfigParser		main_config;
 	ALLEGRO_FONT*		font0;
 	ALLEGRO_COLOR		font0_color;
+
+	uint				score;
+	uint				coins;
+	std::string			map_id;
+	uint				time_left; // seconds.
+	uint				lives;
+	bool				time_is_up = false;
+
 
 	void				SpriteLoader(void);
 	//static bool			OnSolidGround(const Rect&);

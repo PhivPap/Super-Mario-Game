@@ -11,7 +11,7 @@ tick_anims: UnitTests/UnitTest3/media/Anims/anim_tick.data
 
 ## FONT 0 is for top text.
 FONT0: UnitTests/UnitTest3/media/fonts/font0.ttf
-FONT0_SIZE: 30
+FONT0_SIZE: 25
 
 MAPS: Map0.data
 

@@ -229,7 +229,18 @@ UnitTest3::UnitTest3() :
 	main_config.SetNewParser("UnitTests/UnitTest3/media/main_config.data");
 
 	display_texts = [&] {
-		al_draw_text(font0, font0_color, 200, 5, 0, "You touch my tralala");
+		// ----- static -----
+		al_draw_text(font0, font0_color, 96, 5, ALLEGRO_ALIGN_CENTRE, "SCORE");
+		al_draw_text(font0, font0_color, 288, 5, ALLEGRO_ALIGN_CENTRE, "COINS");
+		al_draw_text(font0, font0_color, 480, 5, ALLEGRO_ALIGN_CENTRE, "WORLD");
+		al_draw_text(font0, font0_color, 672, 5, ALLEGRO_ALIGN_CENTRE, "TIME");
+		al_draw_text(font0, font0_color, 864, 5, ALLEGRO_ALIGN_CENTRE, "LIVES");
+		// ----- non-static -----
+		al_draw_textf(font0, font0_color, 96, 32, ALLEGRO_ALIGN_CENTRE, "%u", score);
+		al_draw_textf(font0, font0_color, 288, 32, ALLEGRO_ALIGN_CENTRE, "%u", coins);
+		al_draw_textf(font0, font0_color, 480, 32, ALLEGRO_ALIGN_CENTRE, "%s", map_id.c_str());
+		al_draw_textf(font0, font0_color, 672, 32, ALLEGRO_ALIGN_CENTRE, "%u", time_left);
+		al_draw_textf(font0, font0_color, 864, 32, ALLEGRO_ALIGN_CENTRE, "%u", lives);
 	};
 
 	animator_refresh = [&] {
