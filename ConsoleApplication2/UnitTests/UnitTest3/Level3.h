@@ -1,5 +1,6 @@
 #pragma once
 #include "allegro5/allegro_font.h"
+#include "allegro5/allegro_ttf.h"
 #include "Level2.h"
 #include "AnimationFilmHolder.h"
 #include "SpriteManager.h"
@@ -38,6 +39,7 @@ class UnitTest3 : protected UnitTest2 {
 	Clipper				default_clipper;
 	ConfigParser		main_config;
 	ALLEGRO_FONT*		font0;
+	ALLEGRO_COLOR		font0_color;
 
 	void				SpriteLoader(void);
 	//static bool			OnSolidGround(const Rect&);

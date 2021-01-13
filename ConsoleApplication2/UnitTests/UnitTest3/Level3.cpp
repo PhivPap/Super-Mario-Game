@@ -229,7 +229,7 @@ UnitTest3::UnitTest3() :
 	main_config.SetNewParser("UnitTests/UnitTest3/media/main_config.data");
 
 	display_texts = [&] {
-
+		al_draw_text(font0, font0_color, 200, 5, 0, "You touch my tralala");
 	};
 
 	animator_refresh = [&] {
@@ -285,6 +285,7 @@ UnitTest3::UnitTest3() :
 void UnitTest3::Initialise(void) {
 	UnitTest2::Initialise();
 	al_init_font_addon();
+	al_init_ttf_addon();
 	Clipper::InitViewWindow(&view_win);
 
 
@@ -300,6 +301,7 @@ void UnitTest3::Load(void) {
 	game.PushbackRender(render_terrain);
 	game.PushbackRender(render_rect);
 	game.PushbackRender(display_sprites);
+	game.PushbackRender(display_texts);
 	game.PushbackRender(flip_display);
 	game.PushbackInput(input_events0);
 	game.PushbackInput(input_rect);
@@ -312,6 +314,7 @@ void UnitTest3::Load(void) {
 	auto font0_path = main_config.GetStr("FONT0");
 	auto font0_size = main_config.GetInt("FONT0_SIZE");
 	font0 = al_load_font(font0_path.c_str(), font0_size, 0);
+	font0_color = al_map_rgb(255, 255, 255);
 
 	TickAnimation* refresh_60hz = new TickAnimation("timer", 16, 0, true);
 	auto* mover_animator = new TickAnimator();
