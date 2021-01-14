@@ -1,6 +1,6 @@
 #include "Sprite.h"
 #include "SpriteManager.h"
-#include "BoundingBox.h"
+#include "BoundingArea/BoundingBox.h"
 
 template <typename Tnum>
 static inline int number_sign(Tnum x) { return x > 0 ? 1 : x < 0 ? -1 : 0; }

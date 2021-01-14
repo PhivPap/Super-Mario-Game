@@ -2,14 +2,15 @@
 #include "Util.h"
 #include "SystemClock.h"
 
-#define G_ACCELERATION 16 // <-- acceleration 5 means: speed increases 5 pixels/s every tick.
+#define MAX_MARIO_JUMP_SUSTAIN 66
+
 
 void UnitTest3::CreateMario() {
 	uint mario_max_speed_x = main_config.GetUint("M_MAX_SPEED_X");
 	uint mario_acceleration_x = main_config.GetUint("M_ACCELERATION_X");
-	uint mario_max_speed_y = main_config.GetUint("M_MAX_SPEED_Y");
-	uint mario_acceleration_y = main_config.GetUint("M_ACCELERATION_Y");
-	uint mario_initial_jump_speed = main_config.GetUint("M_INIT_JUMP_SPEED");
+	
+	int mario_acceleration_y = - main_config.GetInt("M_ACCELERATION_Y");
+	int mario_initial_jump_speed = - main_config.GetInt("M_INIT_JUMP_SPEED");
 
 	auto mario_pos = map_info_parser.GetPoint("MARIO");
 	auto mario_film = AnimationFilmHolder::Get().GetFilm("MARIO");
@@ -25,8 +26,12 @@ void UnitTest3::CreateMario() {
 
 	double delay = (float)mario_tick_animation->GetDelay() / 1000;
 
+	// TODO MOTION:
+	// ADD JUMP COOLDOWN (jump/fall -> touch ground -> cooldown -> jump agane)
+	// DECREASE ACCELERATION_X BY 2/3 WHEN MARIO FALLIN.
+	// SPRINT LAT3R? 
 	mario_tick_animator->SetOnAction(
-		[&, delay, mario_max_speed_x, mario_acceleration_x, mario_max_speed_y, mario_acceleration_y, mario_initial_jump_speed]
+		[&, delay, mario_max_speed_x, mario_acceleration_x, mario_acceleration_y, mario_initial_jump_speed]
 		(Animator* animator, const Animation& anim) {
 			auto mario_vel = mario->GetVelocity();
 			float x, y, dx, dy;
@@ -34,21 +39,25 @@ void UnitTest3::CreateMario() {
 			double new_vel_x = mario_vel.x;
 			double new_vel_y = mario_vel.y;
 
-			static bool keep_flying = false;
-
+			//static bool keep_flying = false;
+			static int jump_sustained_loops = 0;
 			if (movement_keys[ALLEGRO_KEY_W]) {
-
 				if (!mario->GetGravityHandler().IsFalling()) {
-					keep_flying = true;
-					new_vel_y = -(double)mario_initial_jump_speed;
+					jump_sustained_loops = 0;
+					new_vel_y = (double)mario_initial_jump_speed;
+					//new_vel_y = -120;
 				}
-				else if (keep_flying == true) {
+				else if (jump_sustained_loops != -1 && jump_sustained_loops < MAX_MARIO_JUMP_SUSTAIN) {
 					// keep going up
-					new_vel_y -= mario_acceleration_y * delay;
+					jump_sustained_loops++;
+					new_vel_y += mario_acceleration_y * delay;
+					//new_vel_y = -120;
 				}
+				else
+					jump_sustained_loops = -1;
 			}
 			else {
-				keep_flying = false;
+				jump_sustained_loops = -1;
 			}
 
 			if (movement_keys[ALLEGRO_KEY_S]) {
@@ -79,18 +88,15 @@ void UnitTest3::CreateMario() {
 			if (new_vel_x < -(double)mario_max_speed_x)
 				new_vel_x = -(double)mario_max_speed_x;
 			
-			if (new_vel_y < -(double)mario_max_speed_y)
-				keep_flying = false;
 
 			dx = new_vel_x * delay;
 			dy = new_vel_y * delay;
 			FilterGridMotion(mario->GetBoxF(), dx, dy);
-			if (dx == 0) {
-				// x motion denied
+			if (dx == 0) { // x motion denied
 				new_vel_x = 0;
 			}
-			if (dy == 0) {
-				keep_flying = false;
+			if (dy == 0) { // y motion denied
+				jump_sustained_loops = -1; // stop the jump
 				new_vel_y = 0;
 			}
 
@@ -114,22 +120,27 @@ void UnitTest3::CreateMario() {
 }
 
 
-void UnitTest3::SetDefaultGravity(Sprite* sprite) {
+void UnitTest3::SetDefaultGravity(Sprite* sprite, TickAnimation* fall_update) {
+	auto speed_increase = g_acceleration * ((double)fall_update->GetDelay() / 1000);
+
 	auto& gravity = sprite->GetGravityHandler();
 	gravity.SetGravity();
 	gravity.SetOnStartFalling(
-		[sprite, &gravity]() {
+		[sprite, fall_update, speed_increase, &gravity, this]() {
 			auto* gravity_animator = new TickAnimator();
 			gravity_animator->SetOnFinish(
-				[sprite](Animator* gravity_animator) {
+				[sprite, fall_update, speed_increase, this](Animator* gravity_animator) {
 					gravity_animator->SetOnFinish(nullptr); // this is prob unnecessary
 					gravity_animator->SetOnAction(
-						[sprite](Animator* gravity_animator, const Animation& gravity_fall) {
+						[sprite, speed_increase, this](Animator* gravity_animator, const Animation& gravity_fall) {
 							auto& current_vel = sprite->GetVelocity();
-							sprite->SetVelocity({ current_vel.x, current_vel.y + G_ACCELERATION });
+							auto new_vel_y = current_vel.y + speed_increase;
+							if (new_vel_y > max_fall_speed)
+								new_vel_y = max_fall_speed;
+							sprite->SetVelocity({ current_vel.x, new_vel_y });
 						}
 					);
-					((TickAnimator*)gravity_animator)->Start(*(TickAnimation*)AnimationHolder::Get().GetAnimation("FALL_UPDATE"), SystemClock::Get().milli_secs());
+					((TickAnimator*)gravity_animator)->Start(*fall_update, SystemClock::Get().milli_secs());
 				}
 			);
 			gravity.SetOnStopFalling(
@@ -408,6 +419,8 @@ UnitTest3::UnitTest3() :
 			animator_manager(AnimatorManager::GetSingleton()), 
 			collision_checker(CollisionChecker::GetSingleton()) {
 	main_config.SetNewParser("UnitTests/UnitTest3/media/main_config.data");
+	max_fall_speed = main_config.GetDouble("MAX_FALL_SPEED");
+	g_acceleration = main_config.GetDouble("G_ACCELERATION");
 
 	input_mario = [&] {
 		if (kb_event_b) {

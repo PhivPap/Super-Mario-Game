@@ -4,7 +4,7 @@
 #include "AnimationFilm.h"
 //#include "MotionQuantizer.h"
 #include "Clipper.h"
-#include "BoundingArea.h"
+#include "BoundingArea/BoundingArea.h"
 #include "MovingAnimator.h"
 #include "GravityHandler.h"
 

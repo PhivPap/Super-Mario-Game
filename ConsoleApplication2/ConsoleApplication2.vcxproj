@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Film;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Film;$(SolutionDir)packages\Allegro.5.2.6\build\native\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Film;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Film;$(SolutionDir)packages\Allegro.5.2.6\build\native\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,7 +139,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Film;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Film;$(SolutionDir)packages\Allegro.5.2.6\build\native\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,7 +154,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Film;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Sprite\BoundingArea;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Film;$(SolutionDir)packages\Allegro.5.2.6\build\native\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -16,9 +16,6 @@ FONT0_SIZE: 25
 MAPS: Map0.data
 
 
-
-
-
 ## NPCS (category): COIN, GOOMBA, ...
 ## COIN: main_animator_type(range/list), is_static(true/false), init_state(str), init_anim(str)
 
@@ -30,9 +27,11 @@ GOOMBA: range, false, GOOMBA_W, GOOMBA_WR
 GKT:    list, false, GKT_W, GKT_WL
 
 
+G_ACCELERATION: 350 ## px/(s*s)
+MAX_FALL_SPEED: 370 ## px/(s*s)
 
-M_MAX_SPEED_X: 200  ## px /s
-M_ACCELERATION_X: 100 ## px/(s*s)
-M_MAX_SPEED_Y: 200
-M_ACCELERATION_Y: 400
-M_INIT_JUMP_SPEED: 150
+M_MAX_SPEED_X: 160  ## px /s
+M_ACCELERATION_X: 160 ## px/(s*s)
+
+M_ACCELERATION_Y: 340 ## to get mario to go higher when pressing w for some time. (counters some of gravity - must be less than gravity).
+M_INIT_JUMP_SPEED: 100

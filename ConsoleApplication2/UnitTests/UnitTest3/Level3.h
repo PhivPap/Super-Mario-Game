@@ -49,8 +49,8 @@ private:
 	uint				lives;
 	bool				time_is_up = false;
 
-	uint				mario_max_speed_x;
-	uint				mario_accelerion_x;
+	double				max_fall_speed;
+	double				g_acceleration;
 	Sprite*				mario;
 
 	void				SpriteLoader(void);
@@ -58,7 +58,7 @@ private:
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
 
 	void CreateMario();
-	void SetDefaultGravity(Sprite* sprite);
+	void SetDefaultGravity(Sprite* sprite, TickAnimation* fall_update = (TickAnimation*)AnimationHolder::Get().GetAnimation("FALL_UPDATE"));
 
 public:
 	UnitTest3();
