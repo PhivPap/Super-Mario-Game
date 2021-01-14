@@ -26,10 +26,11 @@
 
 class UnitTest3 : protected UnitTest2 {
 private:
-	std::function<void(void)> mario_physics;
+	std::function<void(void)> rect_movement;
 	std::function<void(void)> display_sprites;
 	std::function<void(void)> display_texts;
 	std::function<void(void)> animator_refresh;
+	std::function<void(void)> input_mario;
 
 	std::list<Sprite*> moving_sprites;
 
@@ -48,10 +49,16 @@ private:
 	uint				lives;
 	bool				time_is_up = false;
 
+	uint				mario_max_speed_x;
+	uint				mario_accelerion_x;
+	Sprite*				mario;
 
 	void				SpriteLoader(void);
 	//static bool			OnSolidGround(const Rect&);
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
+
+	void CreateMario();
+	void SetDefaultGravity(Sprite* sprite);
 
 public:
 	UnitTest3();

@@ -1,7 +1,161 @@
 #include "Level3.h"
-
 #include "Util.h"
 #include "SystemClock.h"
+
+#define G_ACCELERATION 16 // <-- acceleration 5 means: speed increases 5 pixels/s every tick.
+
+void UnitTest3::CreateMario() {
+	uint mario_max_speed_x = main_config.GetUint("M_MAX_SPEED_X");
+	uint mario_acceleration_x = main_config.GetUint("M_ACCELERATION_X");
+	uint mario_max_speed_y = main_config.GetUint("M_MAX_SPEED_Y");
+	uint mario_acceleration_y = main_config.GetUint("M_ACCELERATION_Y");
+	uint mario_initial_jump_speed = main_config.GetUint("M_INIT_JUMP_SPEED");
+
+	auto mario_pos = map_info_parser.GetPoint("MARIO");
+	auto mario_film = AnimationFilmHolder::Get().GetFilm("MARIO");
+	auto* mario_start_animation = (FrameListAnimation*)AnimationHolder::Get().GetAnimation("MARIO_SR");
+	mario = new Sprite(mario_pos.x, mario_pos.y, mario_film, "MARIO");
+	mario->SetVelocity({0,0});
+	auto* mario_animator = new FrameListAnimator();
+	mario->main_animator = (MovingAnimator*)mario_animator;
+	mario_animator->Start(mario_start_animation, SystemClock::Get().milli_secs());
+
+	auto* mario_tick_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("MARIO_MOVE");
+	auto* mario_tick_animator = new TickAnimator();
+
+	double delay = (float)mario_tick_animation->GetDelay() / 1000;
+
+	mario_tick_animator->SetOnAction(
+		[&, delay, mario_max_speed_x, mario_acceleration_x, mario_max_speed_y, mario_acceleration_y, mario_initial_jump_speed]
+		(Animator* animator, const Animation& anim) {
+			auto mario_vel = mario->GetVelocity();
+			float x, y, dx, dy;
+			mario->GetPos(x, y);
+			double new_vel_x = mario_vel.x;
+			double new_vel_y = mario_vel.y;
+
+			static bool keep_flying = false;
+
+			if (movement_keys[ALLEGRO_KEY_W]) {
+
+				if (!mario->GetGravityHandler().IsFalling()) {
+					keep_flying = true;
+					new_vel_y = -(double)mario_initial_jump_speed;
+				}
+				else if (keep_flying == true) {
+					// keep going up
+					new_vel_y -= mario_acceleration_y * delay;
+				}
+			}
+			else {
+				keep_flying = false;
+			}
+
+			if (movement_keys[ALLEGRO_KEY_S]) {
+			}
+			if (movement_keys[ALLEGRO_KEY_A]) {
+				if(new_vel_x >= 0) // hard break
+					new_vel_x -= 4.0 * mario_acceleration_x * delay;
+				else
+					new_vel_x -= mario_acceleration_x * delay;
+			}
+			else if (movement_keys[ALLEGRO_KEY_D]) {
+				if (new_vel_x <= 0) // hard break
+					new_vel_x += 4.0 * mario_acceleration_x * delay;
+				else
+					new_vel_x += mario_acceleration_x * delay;
+			}
+			else {
+				// smooth break
+				if(new_vel_x > 0)
+					new_vel_x -= 3.0 * mario_acceleration_x * delay;
+				else if(new_vel_x < 0)
+					new_vel_x += 3.0 * mario_acceleration_x * delay;
+			}
+
+			if (new_vel_x > mario_max_speed_x)
+				new_vel_x = mario_max_speed_x;
+			
+			if (new_vel_x < -(double)mario_max_speed_x)
+				new_vel_x = -(double)mario_max_speed_x;
+			
+			if (new_vel_y < -(double)mario_max_speed_y)
+				keep_flying = false;
+
+			dx = new_vel_x * delay;
+			dy = new_vel_y * delay;
+			FilterGridMotion(mario->GetBoxF(), dx, dy);
+			if (dx == 0) {
+				// x motion denied
+				new_vel_x = 0;
+			}
+			if (dy == 0) {
+				keep_flying = false;
+				new_vel_y = 0;
+			}
+
+			mario->SetVelocity({ new_vel_x, new_vel_y });
+			mario->SetPos(x + dx, y + dy);
+
+			mario->SetUpdateBoundAreaPos((dx != 0) || (dy != 0));
+
+			int dist_to_mid = ((x + dx) + 16 - view_win.x) - DIS_WIDTH / 2;
+			if (dist_to_mid > 0) { // if x2 of mario is further than the mid of view_win.
+				FilterScrollDistance(view_win.x, view_win.w, dist_to_mid, map_dim.w);
+				view_win.x += dist_to_mid;
+				tile_win_moved = TileAllignedViewBoundCheck();
+			}
+
+			mario->GetGravityHandler().Check(mario->GetBoxF());
+		}
+	);
+	SetDefaultGravity(mario);
+	mario_tick_animator->Start(*mario_tick_animation, SystemClock::Get().milli_secs());
+}
+
+
+void UnitTest3::SetDefaultGravity(Sprite* sprite) {
+	auto& gravity = sprite->GetGravityHandler();
+	gravity.SetGravity();
+	gravity.SetOnStartFalling(
+		[sprite, &gravity]() {
+			auto* gravity_animator = new TickAnimator();
+			gravity_animator->SetOnFinish(
+				[sprite](Animator* gravity_animator) {
+					gravity_animator->SetOnFinish(nullptr); // this is prob unnecessary
+					gravity_animator->SetOnAction(
+						[sprite](Animator* gravity_animator, const Animation& gravity_fall) {
+							auto& current_vel = sprite->GetVelocity();
+							sprite->SetVelocity({ current_vel.x, current_vel.y + G_ACCELERATION });
+						}
+					);
+					((TickAnimator*)gravity_animator)->Start(*(TickAnimation*)AnimationHolder::Get().GetAnimation("FALL_UPDATE"), SystemClock::Get().milli_secs());
+				}
+			);
+			gravity.SetOnStopFalling(
+				[sprite, gravity_animator]() {
+					auto current_vel = sprite->main_animator->GetAnim().GetVelocity();
+					if(sprite->GetTypeId() != "MARIO") // please fix me
+						sprite->SetVelocity({ current_vel.x, 0 });
+
+					AnimatorManager::GetSingleton().AddGarbage(gravity_animator);
+				}
+			);
+			gravity_animator->Start(*(TickAnimation*)AnimationHolder::Get().GetAnimation("FALL_DELAY"), SystemClock::Get().milli_secs());
+		}
+	);
+	gravity.SetOnSolidGround(
+		[this](const Rect_f& rect) {
+			float dx = 0;
+			float dy = 1;
+			FilterGridMotion(rect, dx, dy);
+			if (dy < 1)
+				return true;
+			return false;
+		}
+	);
+}
+
 
 // true = left, false = right
 static inline void DefaultOrientationSet(Sprite* sprite, bool orientation) {
@@ -30,6 +184,35 @@ void CreateGoombaAnimators(std::list<Sprite*> sprites, T2* animation) {
 			}
 		);
 		animator->Start(animation, SystemClock::Get().milli_secs());
+	}
+}
+
+static void DefaultCollisionHandler(Sprite* s1, Sprite* s2) {
+	std::cout << "Collision between:" << s1->GetTypeId() << " and " << s2->GetTypeId() << std::endl;
+	auto& s1_vel = s1->GetVelocity();
+	auto& s2_vel = s2->GetVelocity();
+	// this is not the way
+	auto relative_directions = s1_vel.x * s2_vel.x;
+	if (relative_directions < 0) { // face 2 face
+		DefaultOrientationSet(s1, s1_vel.x > 0);
+		DefaultOrientationSet(s2, s2_vel.x > 0);
+	}
+	else if (relative_directions == 0) {
+		if (s1_vel.x == 0)
+			DefaultOrientationSet(s2, s2_vel.x > 0);
+		else
+			DefaultOrientationSet(s1, s1_vel.x > 0);
+	}
+	else {
+		float x1, x2, tmp;
+		s1->GetPos(x1, tmp);
+		s2->GetPos(x2, tmp);
+		if (s1_vel.x > 0) {
+			x1 < x2 ? DefaultOrientationSet(s1, true) : DefaultOrientationSet(s2, true);
+		}
+		else {
+			x1 < x2 ? DefaultOrientationSet(s2, false) : DefaultOrientationSet(s1, false);
+		}
 	}
 }
 
@@ -66,7 +249,14 @@ void CreateMovingAnimators(std::list<Sprite*> sprites, T2* animation) {
 		T1* animator = new T1();
 		animator->SetOnStart(
 			[sprite](Animator* animator, const Animation& anim) {
-				sprite->SetVelocity(((const T2&)anim).GetVelocity());
+				auto& anim_vel = ((const T2&)anim).GetVelocity();
+				if (sprite->GetGravityHandler().IsFalling()) {
+					auto& sprite_vel = sprite->GetVelocity();
+					sprite->SetVelocity({ 0, sprite_vel.y });
+				}
+				else {
+					sprite->SetVelocity(anim_vel);
+				}
 				//TODO: change film
 				//sprite->
 			}
@@ -164,62 +354,53 @@ void UnitTest3::SpriteLoader() {
 	for (auto* sprite : moving_sprites) {
 		for (auto* other_sprite : moving_sprites) {
 			if (sprite != other_sprite) {
-				collision_checker.Register(
-					sprite,
-					other_sprite,
-					[](Sprite* s1, Sprite* s2) {
-						std::cout << "Collision between:" << s1->GetTypeId() << " and " << s2->GetTypeId() << std::endl;
-						auto& s1_vel = s1->GetVelocity();
-						auto& s2_vel = s2->GetVelocity();
-						// this is not the way
-						DefaultOrientationSet(s1, s1_vel.x > 0);
-						DefaultOrientationSet(s2, s2_vel.x > 0);
-					}
-				);
+				collision_checker.Register(sprite, other_sprite, DefaultCollisionHandler);
 			}
 		}
 	}
-#define G_ACCELERATION 8 // <-- acceleration 5 means: speed increases 5 pixels/s every tick.
 
-	for (auto* sprite : moving_sprites) { // assume that moving sprites have default fall anim
-		auto& gravity = sprite->GetGravityHandler();
-		gravity.SetGravity();
-		gravity.SetOnStartFalling(
-			[sprite, &anim_holder, &gravity]() {
-				auto* gravity_animator = new TickAnimator();
-				gravity_animator->SetOnFinish(
-					[sprite, &anim_holder](Animator* gravity_animator) {
-						gravity_animator->SetOnFinish(nullptr); // this is prob unnecessary
-						gravity_animator->SetOnAction(
-							[sprite](Animator* gravity_animator, const Animation& gravity_fall) {
-								auto& current_vel = sprite->GetVelocity();
-								sprite->SetVelocity({ current_vel.x, current_vel.y + G_ACCELERATION });
-							}
-						);
-						((TickAnimator*)gravity_animator)->Start(*(TickAnimation*)anim_holder.GetAnimation("FALL_UPDATE"), SystemClock::Get().milli_secs());
-					}
-				);
-				gravity.SetOnStopFalling(
-					[sprite, gravity_animator]() {
-						auto current_vel = sprite->GetVelocity();
-						sprite->SetVelocity({ current_vel.x, 0 });
-						AnimatorManager::GetSingleton().AddGarbage(gravity_animator);
-					}
-				);
-				gravity_animator->Start(*(TickAnimation*)anim_holder.GetAnimation("FALL_DELAY"), SystemClock::Get().milli_secs());
-			}
-		);
-		gravity.SetOnSolidGround(
-			[this](const Rect_f& rect) {
-				float dx = 0;
-				float dy = 1;
-				FilterGridMotion(rect, dx, dy);
-				if (dy < 1)
-					return true;
-				return false;
-			}
-		);
-	}
+	for (auto* sprite : moving_sprites)
+		SetDefaultGravity(sprite);
+
+	//for (auto* sprite : moving_sprites) { // assume that moving sprites have default fall anim
+	//	auto& gravity = sprite->GetGravityHandler();
+	//	gravity.SetGravity();
+	//	gravity.SetOnStartFalling(
+	//		[sprite, &anim_holder, &gravity]() {
+	//			auto* gravity_animator = new TickAnimator();
+	//			gravity_animator->SetOnFinish(
+	//				[sprite, &anim_holder](Animator* gravity_animator) {
+	//					gravity_animator->SetOnFinish(nullptr); // this is prob unnecessary
+	//					gravity_animator->SetOnAction(
+	//						[sprite](Animator* gravity_animator, const Animation& gravity_fall) {
+	//							auto& current_vel = sprite->GetVelocity();
+	//							sprite->SetVelocity({ current_vel.x, current_vel.y + G_ACCELERATION });
+	//						}
+	//					);
+	//					((TickAnimator*)gravity_animator)->Start(*(TickAnimation*)anim_holder.GetAnimation("FALL_UPDATE"), SystemClock::Get().milli_secs());
+	//				}
+	//			);
+	//			gravity.SetOnStopFalling(
+	//				[sprite, gravity_animator]() {
+	//					auto current_vel = sprite->main_animator->GetAnim().GetVelocity();
+	//					sprite->SetVelocity({ current_vel.x, 0 });
+	//					AnimatorManager::GetSingleton().AddGarbage(gravity_animator);
+	//				}
+	//			);
+	//			gravity_animator->Start(*(TickAnimation*)anim_holder.GetAnimation("FALL_DELAY"), SystemClock::Get().milli_secs());
+	//		}
+	//	);
+	//	gravity.SetOnSolidGround(
+	//		[this](const Rect_f& rect) {
+	//			float dx = 0;
+	//			float dy = 1;
+	//			FilterGridMotion(rect, dx, dy);
+	//			if (dy < 1)
+	//				return true;
+	//			return false;
+	//		}
+	//	);
+	//}
 }
 
 UnitTest3::UnitTest3() : 
@@ -228,6 +409,17 @@ UnitTest3::UnitTest3() :
 			collision_checker(CollisionChecker::GetSingleton()) {
 	main_config.SetNewParser("UnitTests/UnitTest3/media/main_config.data");
 
+	input_mario = [&] {
+		if (kb_event_b) {
+			if (kb_event.type == ALLEGRO_EVENT_KEY_DOWN) {
+				movement_keys[kb_event.keyboard.keycode] = true;
+			}
+			else if (kb_event.type == ALLEGRO_EVENT_KEY_UP) {
+				movement_keys[kb_event.keyboard.keycode] = false;
+			}
+		}
+	};
+	
 	display_texts = [&] {
 		// ----- static -----
 		al_draw_text(font0, font0_color, 96, 5, ALLEGRO_ALIGN_CENTRE, "SCORE");
@@ -255,7 +447,7 @@ UnitTest3::UnitTest3() :
 	};
 	
 	
-	mario_physics = [&] {
+	rect_movement = [&] {
 		ALLEGRO_EVENT timer_event;
 		if (al_get_next_event(timer_queue0, &timer_event)) {
 			rect_mvmnt.y = 0;
@@ -313,6 +505,7 @@ void UnitTest3::Initialise(void) {
 	map_id = map_info_parser.GetStr("MAP_ID");
 	time_left = map_info_parser.GetUint("TIME");
 	lives = map_info_parser.GetUint("LIVES");
+	CreateMario();
 }
 
 
@@ -324,25 +517,28 @@ void UnitTest3::Load(void) {
 	game.PushbackRender(display_texts);
 	game.PushbackRender(flip_display);
 	game.PushbackInput(input_events0);
-	game.PushbackInput(input_rect);
+	//game.PushbackInput(input_rect);
+	game.PushbackInput(input_mario);
 	//game.PushbackInput(input_scroll);
 	//game.PushbackPhysics(physics_rect);
-	game.PushbackPhysics(mario_physics);
+	//game.PushbackPhysics(rect_movement);
 	game.PushbackAnim(animator_refresh);
 	SpriteLoader();
 
 	// ------------------------------------
 	auto* default_mover_refresh = (TickAnimation*)AnimationHolder::Get().GetAnimation("DEFAULT_MOVER");
+	float time_delay = (float)default_mover_refresh->GetDelay() / 1000;
+	std::cout << time_delay << std::endl;
 		//new TickAnimation("timer", 16, 0, true);
 	auto* mover_animator = new TickAnimator();
 	mover_animator->SetOnAction(
-		[&](Animator* animator, const Animation& anim) {
+		[&, time_delay](Animator* animator, const Animation& anim) {
 			for (auto* sprite : moving_sprites) {
 				float dx, dy, x, y;
 				sprite->GetPos(x, y);
 				auto velocity = sprite->GetVelocity();
-				dx = velocity.x * 0.016;
-				dy = velocity.y * 0.016;
+				dx = velocity.x * time_delay;
+				dy = velocity.y * time_delay;
 				FilterGridMotion(sprite->GetBoxF(), dx, dy);
 				sprite->SetPos(x + dx, y + dy);
 				// remove this.

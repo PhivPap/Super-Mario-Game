@@ -23,5 +23,6 @@ public:
 	void Check(const Rect_f& r);
 	void SetGravity();
 	void RemoveGravity();
+	bool IsFalling();
 };
 

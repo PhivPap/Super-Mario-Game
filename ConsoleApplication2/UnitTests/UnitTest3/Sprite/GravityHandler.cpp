@@ -40,3 +40,7 @@ void GravityHandler::SetGravity() {
 void GravityHandler::RemoveGravity() {
 	gravity_addicted = false;
 }
+
+bool GravityHandler::IsFalling() {
+	return is_falling;
+}

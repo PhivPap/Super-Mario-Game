@@ -11,12 +11,12 @@ id: GKT_WL , GKT_WR, GKT_S, GKT_KR, GKT_KL, MARIO_RR, MARIO_RL, MARIO_SR, MARIO_
 
 ## GKT walking right ->
 GKT_WR: gkt_info_wr, gkt_list_wr   
-gkt_info_wr: 70, 0, 0, 500
+gkt_info_wr: 120, 0, 0, 500
 gkt_list_wr: 0, 1
 
 ## GKT walking right <-
 GKT_WL: gkt_info_wl, gkt_list_wl
-gkt_info_wl: -70, 0, 0, 500
+gkt_info_wl: -120, 0, 0, 500
 gkt_list_wl: 2, 3
 
 ## GKT stunned -
@@ -51,7 +51,7 @@ mario_list_rl:
 
 MARIO_SR: mario_info_sr, mario_list_sr
 mario_info_sr: 0, 0, 0, 10000
-mario_list_sr:
+mario_list_sr: 0
 
 MARIO_SL: mario_info_sl, mario_list_sl
 mario_info_sl: 0, 0, 0, 10000

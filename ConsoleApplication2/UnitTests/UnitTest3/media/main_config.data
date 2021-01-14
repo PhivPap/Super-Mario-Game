@@ -28,3 +28,11 @@ COIN:   range, true, -, COIN    ## '-' for currently unused states
 QMARK:  range, true, -, QMARK
 GOOMBA: range, false, GOOMBA_W, GOOMBA_WR
 GKT:    list, false, GKT_W, GKT_WL
+
+
+
+M_MAX_SPEED_X: 200  ## px /s
+M_ACCELERATION_X: 100 ## px/(s*s)
+M_MAX_SPEED_Y: 200
+M_ACCELERATION_Y: 400
+M_INIT_JUMP_SPEED: 150
