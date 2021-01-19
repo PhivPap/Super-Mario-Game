@@ -4,7 +4,7 @@
 ##		ta1:	-||-		-||-
 
 
-id: DEFAULT_MOVER, FALL_DELAY, FALL_UPDATE, EVRY_SEC, MARIO_MOVE
+id: DEFAULT_MOVER, FALL_DELAY, FALL_UPDATE, EVRY_SEC, MARIO_MOVE, JUMP_CD
 
 DEFAULT_MOVER: 0, 16, 1
 
@@ -15,3 +15,5 @@ FALL_UPDATE: 0, 50, 1
 EVRY_SEC: 0, 1000, 1
 
 MARIO_MOVE: 0, 7, 1
+
+JUMP_CD: 1, 100, 1 ## should start when mario stops falling.

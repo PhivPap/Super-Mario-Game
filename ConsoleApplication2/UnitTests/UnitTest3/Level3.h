@@ -52,12 +52,14 @@ private:
 	double				max_fall_speed;
 	double				g_acceleration;
 	Sprite*				mario;
+	TickAnimator		mario_jump_cd;
 
 	void				SpriteLoader(void);
 	//static bool			OnSolidGround(const Rect&);
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
 
 	void CreateMario();
+	void SetMarioGravity(Sprite* sprite, TickAnimation* fall_update = (TickAnimation*)AnimationHolder::Get().GetAnimation("FALL_UPDATE"));
 	void SetDefaultGravity(Sprite* sprite, TickAnimation* fall_update = (TickAnimation*)AnimationHolder::Get().GetAnimation("FALL_UPDATE"));
 
 public:
