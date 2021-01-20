@@ -8,6 +8,7 @@
 void UnitTest3::CreateMario() {
 	uint mario_max_speed_x = main_config.GetUint("M_MAX_SPEED_X");
 	uint mario_acceleration_x = main_config.GetUint("M_ACCELERATION_X");
+	uint mario_air_acceleration_x = main_config.GetUint("M_AIR_ACCELERATION_X");
 	
 	int mario_acceleration_y = - main_config.GetInt("M_ACCELERATION_Y");
 	int mario_initial_jump_speed = - main_config.GetInt("M_INIT_JUMP_SPEED");
@@ -27,11 +28,10 @@ void UnitTest3::CreateMario() {
 	double delay = (float)mario_tick_animation->GetDelay() / 1000;
 
 	// TODO MOTION:
-	// ADD JUMP COOLDOWN (jump/fall -> touch ground -> cooldown -> jump agane)
-	// DECREASE ACCELERATION_X BY 2/3 WHEN MARIO FALLIN.
+	// MARIO SMTIMES FALLIN FASTER WTF
 	// SPRINT LAT3R? 
 	mario_tick_animator->SetOnAction(
-		[&, delay, mario_max_speed_x, mario_acceleration_x, mario_acceleration_y, mario_initial_jump_speed]
+		[&, delay, mario_max_speed_x, mario_acceleration_x, mario_acceleration_y, mario_initial_jump_speed, mario_air_acceleration_x]
 		(Animator* animator, const Animation& anim) {
 			auto mario_vel = mario->GetVelocity();
 			float x, y, dx, dy;
@@ -39,7 +39,6 @@ void UnitTest3::CreateMario() {
 			double new_vel_x = mario_vel.x;
 			double new_vel_y = mario_vel.y;
 
-			//static bool keep_flying = false;
 			static int jump_sustained_loops = 0;
 			if (movement_keys[ALLEGRO_KEY_W]) {
 				if (mario_jump_cd.HasFinished()) {
@@ -61,25 +60,29 @@ void UnitTest3::CreateMario() {
 			}
 
 			if (movement_keys[ALLEGRO_KEY_S]) {
+				std::cout << "IMPLEMENT THIS\n";
 			}
+
+			auto actual_x_acceleration = mario->GetGravityHandler().IsFalling() ? mario_air_acceleration_x : mario_acceleration_x;
 			if (movement_keys[ALLEGRO_KEY_A]) {
+				
 				if(new_vel_x >= 0) // hard break
-					new_vel_x -= 4.0 * mario_acceleration_x * delay;
+					new_vel_x -= 4.0 * actual_x_acceleration * delay;
 				else
-					new_vel_x -= mario_acceleration_x * delay;
+					new_vel_x -= actual_x_acceleration * delay;
 			}
 			else if (movement_keys[ALLEGRO_KEY_D]) {
 				if (new_vel_x <= 0) // hard break
-					new_vel_x += 4.0 * mario_acceleration_x * delay;
+					new_vel_x += 4.0 * actual_x_acceleration * delay;
 				else
-					new_vel_x += mario_acceleration_x * delay;
+					new_vel_x += actual_x_acceleration * delay;
 			}
 			else {
 				// smooth break
 				if(new_vel_x > 0)
-					new_vel_x -= 3.0 * mario_acceleration_x * delay;
+					new_vel_x -= 2.0 * actual_x_acceleration * delay;
 				else if(new_vel_x < 0)
-					new_vel_x += 3.0 * mario_acceleration_x * delay;
+					new_vel_x += 2.0 * actual_x_acceleration * delay;
 			}
 
 			if (new_vel_x > mario_max_speed_x)

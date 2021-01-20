@@ -32,6 +32,7 @@ MAX_FALL_SPEED: 370 ## px/(s*s)
 
 M_MAX_SPEED_X: 160  ## px /s
 M_ACCELERATION_X: 160 ## px/(s*s)
+M_AIR_ACCELERATION_X: 120 ## px/(s*s)
 
 M_ACCELERATION_Y: 340 ## to get mario to go higher when pressing w for some time. (counters some of gravity - must be less than gravity).
 M_INIT_JUMP_SPEED: 100
