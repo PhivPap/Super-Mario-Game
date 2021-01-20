@@ -114,14 +114,14 @@ M_jump_right: 77, 34, 67, 32
 ## ----- BIG WHITE DUDE LEFT ---
 ## -----------------------------
 
-M_white_stand_right : 0, 100, 16, 32
-M_white_sprint_right0: 16, 100, 15, 32
-M_white_sprint_right1: 31, 100, 14, 31
-M_white_sprint_right2: 45, 100, 16, 30
+M_white_stand_left : 0, 100, 16, 32
+M_white_sprint_left0: 16, 100, 15, 32
+M_white_sprint_left1: 31, 100, 14, 31
+M_white_sprint_left2: 45, 100, 16, 30
 
-M_white_sprint_right_brake: 61, 67, 16, 32
+M_white_sprint_left_brake: 61, 67, 16, 32
 
-M_white_jump_right: 77, 34, 67, 32
+M_white_jump_left: 77, 34, 67, 32
 
 ## -----------------------------
 ## ---- BIG WHITE DUDE RIGHT --- 
