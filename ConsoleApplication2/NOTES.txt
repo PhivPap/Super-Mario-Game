@@ -1,0 +1,36 @@
+> Motion denied (mario & other sprites) doesnt work as expected (cuz 0.00000001 is not 0).
+	Fainetai kiollas an paikseis ligo,
+	Possible solution: 
+
+		#include <cmath>  /* for std::abs(double) */
+
+		inline bool isNearlyEqual(double x, double y)
+		{
+		  const double epsilon = /* some small number such as 1e-5 */;
+		  return std::abs(x - y) <= epsilon * std::abs(x);
+		  // see Knuth section 4.2.2 pages 217-218
+		}
+	// from https://stackoverflow.com/questions/19837576/comparing-floating-point-number-to-zero
+
+
+> Maybe eventually split files like dis (no rush):
+	-> Media
+	-> Engine
+		-> Film
+			-> ...
+		-> Animation
+			-> ...
+		-> Types.h
+		-> App.cpp
+		-> ...
+
+	-> Logic
+		-> UnitTest1
+			-> Level1.h
+			-> Level1.cpp
+		-> UnitTest2
+			-> Level2.h
+			-> Level2.cpp
+		-> UnitTest3
+			-> Level3.h
+			-> Level3.cpp
