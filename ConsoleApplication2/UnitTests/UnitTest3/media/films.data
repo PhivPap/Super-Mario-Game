@@ -1,4 +1,4 @@
-## TODO : put correct data
+## TODO: USE AN EXISTING FORMAT NEXT TIME
 ## -- FILM FORMAT --
 ## FILMS: <comma separated list of all films to be read>
 ## film: film_id, film_path, rectangles
@@ -39,52 +39,113 @@ drect5: 81, 0, 14, 22
 
 ## ------------------------------- MARIO ---------------------------------
 
-MARIO: MARIO, UnitTests/UnitTest3/media/bmps/mario.bmp, m
-m: m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28, m29, m30, m31, m32, m33, m34, m35, m36, m37, m38, m39, m40, m41
-## BIG DUDE LEFT <-
-m0 : 0, 0, 16, 32
-m1 : 17, 0, 14, 32
-m2 : 32, 0, 16, 32
-m3 : 49, 0, 16, 32
-m4 : 66, 0, 14, 32
-m5 : 81, 0, 16, 32
-m6 : 98, 0, 16, 32
-m7 : 115, 0, 14, 32
-m8 : 130, 0, 14, 32
-m9 : 145, 0, 16, 32
-m10: 162, 0, 14, 32
+MARIO: MARIO, UnitTests/UnitTest3/media/bmps/mario_sprite_sheet_updated.png, m
+m: m_stand_left, m_sprint_left0, m_sprint_left1, m_sprint_left2, m_sprint_left_brake, m_jump_left, m_stand_right, m_sprint_right0, m_sprint_right1, m_sprint_right2, m_sprint_right_brake, m_jump_right, M_white_stand_left, M_white_sprint_left0, M_white_sprint_left1, M_white_sprint_left2, M_white_sprint_left_brake, M_white_jump_left, M_white_stand_right, M_white_sprint_right0, M_white_sprint_right1, M_white_sprint_right2, M_white_sprint_right_brake, M_white_jump_right, M_duck_right, M_duck_left
 
-## BIG DUDE RIGHT ->
-m11: 177, 0, 14, 32
-m12: 192, 0, 16, 32
-m13: 209, 0, 14, 32
-m14: 224, 0, 14, 32
-m15: 239, 0, 16, 32
-m16: 256, 0, 16, 32
-m17: 272, 0, 14, 32
-m18: 287, 0, 16, 32
-m19: 304, 0, 16, 32
-m20: 321, 0, 14, 32
-m21: 336, 0, 16, 32
+## -----------------------------
+## ------ SMALL DUDE LEFT ------
+## -----------------------------
 
-## SMALL DUDE
-m22: 353, 0, 14, 32
-m23: 368, 0, 15, 32
-m24: 384, 0, 15, 32
-m25: 400, 0, 14, 32
-m26: 415, 0, 14, 32
-m27: 430, 0, 13, 32
-m28: 444, 0, 13, 32
-m29: 458, 0, 14, 32
-m30: 473, 0, 12, 32
-m31: 486, 0, 16, 32
-m32: 503, 0, 16, 32
-m33: 520, 0, 12, 32
-m34: 533, 0, 14, 32
-m35: 548, 0, 13, 32
-m36: 562, 0, 13, 32
-m37: 576, 0, 14, 32
-m38: 591, 0, 14, 32
-m39: 606, 0, 15, 32
-m40: 622, 0, 15, 32
-m41: 638, 0, 14, 32
+## SMALL DUDE LEFT FROM STANDING
+m_stand_left: 0, 0, 13, 16
+m_sprint_left0: 13, 0, 14, 16
+m_sprint_left1: 27, 0, 12, 16
+m_sprint_left2: 39, 0, 15, 16
+
+## SMALL DUDE LEFT BRAKE
+m_sprint_left_brake: 54, 0, 14, 16
+
+## SMALL DUDE LEFT JUMP
+m_jump_left: 68, 0, 17, 16
+
+
+## -----------------------------
+## ----- SMALL DUDE RIGHT ------
+## -----------------------------
+
+## SMALL DUDE RIGHT FROM STANDING
+m_stand_right: 0, 17, 12, 16
+m_sprint_right0: 12, 17, 14, 16
+m_sprint_right1: 27, 17, 12, 16
+m_sprint_right2: 39, 17, 15, 16
+
+## SMALL DUDE RIGHT BRAKE
+m_sprint_right_brake: 54, 17, 14, 16
+
+## SMAL DUDE RIGHT JUMP
+m_jump_right: 68, 17, 17, 16
+
+
+## -----------------------------
+## ----- BIG DUDE LEFT ---------
+## -----------------------------
+
+## BIG DUDE LEFT
+M_stand_left : 0, 34, 16, 32
+M_sprint_left0: 16, 34, 15, 32
+M_sprint_left1: 31, 34, 14, 31
+M_sprint_left2: 45, 34, 16, 30
+
+## BIG DUDE LEFT BRAKE
+M_sprint_left_brake: 61, 34, 16, 32
+
+## BIG DUDE LEFT JUMP
+M_jump_left: 77, 34, 16, 32
+
+
+## -----------------------------
+## ----- BIG DUDE RIGHT --------
+## -----------------------------
+
+## BIG DUDE LEFT
+M_stand_right : 0, 67, 16, 32
+M_sprint_right0: 16, 67, 15, 32
+M_sprint_right1: 31, 67, 14, 31
+M_sprint_right2: 45, 67, 16, 30
+
+## BIG DUDE RIGHT BRAKE
+M_sprint_right_brake: 61, 67, 16, 32
+
+## BIG DUDE RIGHT JUMP
+M_jump_right: 77, 34, 67, 32
+
+
+## -----------------------------
+## ----- BIG WHITE DUDE LEFT ---
+## -----------------------------
+
+M_white_stand_left : 0, 100, 16, 32
+M_white_sprint_left0: 16, 100, 15, 32
+M_white_sprint_left1: 31, 100, 14, 31
+M_white_sprint_left2: 45, 100, 16, 30
+
+M_white_sprint_left_brake: 61, 67, 16, 32
+
+M_white_jump_left: 77, 34, 67, 32
+
+## -----------------------------
+## ---- BIG WHITE DUDE RIGHT --- 
+## -----------------------------
+
+M_white_stand_right : 0, 133, 16, 32
+M_white_sprint_right0: 16, 133, 15, 32
+M_white_sprint_right1: 31, 133, 14, 31
+M_white_sprint_right2: 45, 133, 16, 30
+
+M_white_sprint_right_brake: 61, 67, 16, 32
+
+M_white_jump_right: 77, 34, 67, 32
+
+
+## -----------------------------
+## ------ BIG DUDE DUCK --------
+## -----------------------------
+
+M_duck_right: 0, 166, 16, 22
+M_duck_left: 0, 189, 16, 22
+
+## -----------------------------
+## ----- DED DUDE --------------
+## -----------------------------
+
+m_dead: 0, 212, 15, 14
