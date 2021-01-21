@@ -60,6 +60,10 @@ void UnitTest3::CreateMario() {
 			}
 
 			if (movement_keys[ALLEGRO_KEY_S]) {
+				if (y == 336)
+					if (x > 656 && x < 688) {
+						std::cout << "ON PIPE A" << std::endl;
+					}
 				std::cout << "IMPLEMENT THIS\n";
 			}
 
@@ -95,6 +99,10 @@ void UnitTest3::CreateMario() {
 			dx = new_vel_x * delay;
 			dy = new_vel_y * delay;
 			FilterGridMotion(mario->GetBoxF(), dx, dy);
+			
+			if (x < view_win.x)
+				x = view_win.x;
+			
 			if (dx == 0) { // x motion denied
 				new_vel_x = 0;
 			}
@@ -419,46 +427,6 @@ void UnitTest3::SpriteLoader() {
 
 	for (auto* sprite : moving_sprites)
 		SetDefaultGravity(sprite);
-
-	//for (auto* sprite : moving_sprites) { // assume that moving sprites have default fall anim
-	//	auto& gravity = sprite->GetGravityHandler();
-	//	gravity.SetGravity();
-	//	gravity.SetOnStartFalling(
-	//		[sprite, &anim_holder, &gravity]() {
-	//			auto* gravity_animator = new TickAnimator();
-	//			gravity_animator->SetOnFinish(
-	//				[sprite, &anim_holder](Animator* gravity_animator) {
-	//					gravity_animator->SetOnFinish(nullptr); // this is prob unnecessary
-	//					gravity_animator->SetOnAction(
-	//						[sprite](Animator* gravity_animator, const Animation& gravity_fall) {
-	//							auto& current_vel = sprite->GetVelocity();
-	//							sprite->SetVelocity({ current_vel.x, current_vel.y + G_ACCELERATION });
-	//						}
-	//					);
-	//					((TickAnimator*)gravity_animator)->Start(*(TickAnimation*)anim_holder.GetAnimation("FALL_UPDATE"), SystemClock::Get().milli_secs());
-	//				}
-	//			);
-	//			gravity.SetOnStopFalling(
-	//				[sprite, gravity_animator]() {
-	//					auto current_vel = sprite->main_animator->GetAnim().GetVelocity();
-	//					sprite->SetVelocity({ current_vel.x, 0 });
-	//					AnimatorManager::GetSingleton().AddGarbage(gravity_animator);
-	//				}
-	//			);
-	//			gravity_animator->Start(*(TickAnimation*)anim_holder.GetAnimation("FALL_DELAY"), SystemClock::Get().milli_secs());
-	//		}
-	//	);
-	//	gravity.SetOnSolidGround(
-	//		[this](const Rect_f& rect) {
-	//			float dx = 0;
-	//			float dy = 1;
-	//			FilterGridMotion(rect, dx, dy);
-	//			if (dy < 1)
-	//				return true;
-	//			return false;
-	//		}
-	//	);
-	//}
 }
 
 UnitTest3::UnitTest3() : 
@@ -565,6 +533,13 @@ void UnitTest3::Initialise(void) {
 	map_id = map_info_parser.GetStr("MAP_ID");
 	time_left = map_info_parser.GetUint("TIME");
 	lives = map_info_parser.GetUint("LIVES");
+
+	for (auto& scene_id : map_info_parser.GetList("SCENES")) {
+		auto cam_mario_pos = map_info_parser.GetListInt(scene_id);
+		UnitTest3::scenes[scene_id] = { {(uint)cam_mario_pos[0], (uint)cam_mario_pos[1]},
+									{(uint)cam_mario_pos[2], (uint)cam_mario_pos[3]} };
+	}
+
 	CreateMario();
 }
 

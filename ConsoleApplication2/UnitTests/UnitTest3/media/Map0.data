@@ -7,13 +7,24 @@ LIVES: 3
 
 DIS_WIDTH: 960
 DIS_HEIGHT: 464
+
 TILESET_PATH: UnitTests/UnitTest3/media/super_mario_tiles.png
-TILEMAP_PATH: UnitTests/UnitTest3/media/mario_map_0.csv
-GRID_PATH: UnitTests/UnitTest2/Grid/grid2.csv
 
+##TILEMAP_PATH: UnitTests/UnitTest3/media/mario_map_0.csv
+TILEMAP_PATH: UnitTests/UnitTest3/media/mario_map_1.csv
 
+##GRID_PATH: UnitTests/UnitTest2/Grid/grid2.csv
+GRID_PATH: UnitTests/UnitTest2/Grid/grid22.csv
 
+## ----------------------------------------
+## ----- Scenes cam pos and mario pos -----
+## ----------------------------------------
+## format: cam_pos_x , cam_pos_y,  mario_x, mario_y
 
+SCENES: start_scene, underground_scene, emerge_scene
+start_scene: 0, 0, 0, 0
+underground_scene: 3840, 0, 3872, 0
+emerge_scene: 1040, 0, 1040, 304
 
 
 ANIMATIONS: COIN, Q_MARK, TURTLE, GKT
@@ -48,4 +59,4 @@ GOOMBA9: 0, 320
 GKT0: 400, 394
 GKT1: 150, 394
 
-MARIO: 880, 384
+MARIO: 0, 0

@@ -20,11 +20,17 @@
 #define FILMS_DATA_PATH			"UnitTests/UnitTest3/media/films.data"
 #define ANIMS_FRAME_RANGE_PATH	"UnitTests/UnitTest3/media/Anims/anim_range.data"
 #define ANIMS_FRAME_LIST_PATH	"UnitTests/UnitTest3/media/Anims/anim_list.data"
-#define ANIMS_TICK_PATH	"UnitTests/UnitTest3/media/Anims/anim_tick.data"
+#define ANIMS_TICK_PATH			"UnitTests/UnitTest3/media/Anims/anim_tick.data"
 
 #define MAIN_CONFIG_PATH "UnitTests/UnitTest3/media/main_config.data"
 
 class UnitTest3 : protected UnitTest2 {
+public:
+	struct CamMarioPos {
+		Point camera;
+		Point mario;
+	};
+
 private:
 	std::function<void(void)> rect_movement;
 	std::function<void(void)> display_sprites;
@@ -33,6 +39,7 @@ private:
 	std::function<void(void)> input_mario;
 
 	std::list<Sprite*> moving_sprites;
+	std::map<std::string, CamMarioPos> scenes;
 
 	CollisionChecker&	collision_checker;
 	SpriteManager&		sprite_manager;
