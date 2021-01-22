@@ -35,13 +35,11 @@ class UnitTest : protected app::App {
 	std::chrono::steady_clock::time_point old_time, new_time;
 	llu frames;
 	uint counter;
-	Rect tile_view_win;
 	
 	std::function<bool(void)> done;
 
 	
 	void Scroll(int, int);
-	
 	void FilterScroll(int&, int&);
 	void TileTerrainDisplay();
 	void ReadTextMap(std::vector<std::vector<byte>>&, Dim&);
@@ -61,6 +59,7 @@ protected:
 	bool game_finished;
 	Dim map_dim;
 	Rect view_win;
+	Rect tile_view_win;
 	bool tile_win_moved;
 
 	bool TileAllignedViewBoundCheck();

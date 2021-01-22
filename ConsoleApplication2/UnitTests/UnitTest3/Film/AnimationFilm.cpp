@@ -1,6 +1,6 @@
 #include "AnimationFilm.h"
 
-AnimationFilm::AnimationFilm(const std::string& _id) : id(_id) {} // why we want this tho ?
+AnimationFilm::AnimationFilm(const std::string& _id) : id(_id) { assert(0); } // why we want this tho ?
 
 AnimationFilm::AnimationFilm(ALLEGRO_BITMAP* _bitmap, const std::vector<Rect>& _boxes, const std::string& _id)
 	: bitmap(_bitmap), boxes(_boxes), id(_id)

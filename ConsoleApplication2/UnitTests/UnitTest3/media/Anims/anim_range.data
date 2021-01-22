@@ -2,7 +2,10 @@
 ## vel_x , vel_y, reps, delay, start_frame, end_frame
 
 
-id: COIN, QMARK, GOOMBA_WR, GOOMBA_WL, GOOMBA_DEATH
+id: COIN, QMARK, GOOMBA_WR, GOOMBA_WL, GOOMBA_DEATH, VPIPE, HPIPE
+
+VPIPE: 0, 0, 0, 1000, 0, 0
+HPIPE: 0, 0, 0, 1000, 0, 0
 
 ## COINS
 COIN: 0, 0, 0, 500, 0, 2

@@ -27,11 +27,57 @@ void UnitTest3::CreateMario() {
 
 	double delay = (float)mario_tick_animation->GetDelay() / 1000;
 
+	auto* pipe_in_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("PIPE_IN");
+	auto* pipe_right_animator = new TickAnimator();
+	pipe_right_animator->SetOnAction(
+		[&](Animator* animator, const Animation& anim) {
+			float x, y;
+			mario->GetPos(x, y);
+			mario->SetPos(x + 16 / 4, y);
+		}
+	);
+
+	pipe_right_animator->SetOnFinish(
+		[&](Animator* animator) {
+			auto scene = scenes["emerge_scene"];
+			view_win.x = scene.camera.x;
+			view_win.y = scene.camera.y;
+			mario->SetPos(scene.mario.x, scene.mario.y);
+			tile_view_win.x = view_win.x - TILE_WIDTH;
+			tile_view_win.y = 0;
+			tile_win_moved = true;
+		}
+	);
+
+	//auto* pipe_down_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("PIPE_DOWN");
+	auto* pipe_down_animator = new TickAnimator();
+	pipe_down_animator->SetOnAction(
+		[&](Animator* animator, const Animation& anim) {
+			// pause input?, disable collisions
+			float x, y;
+			mario->GetPos(x, y);
+			mario->SetPos(x, y + 16 / 4);
+		}
+	);
+
+	pipe_down_animator->SetOnFinish(
+		[&](Animator* animator) {
+			// setup camera,mario pos
+			auto scene = scenes["underground_scene"];
+			view_win.x = scene.camera.x;
+			view_win.y = scene.camera.y;
+			mario->SetPos(scene.mario.x, scene.mario.y);
+			tile_view_win.x = view_win.x - TILE_WIDTH;
+			tile_view_win.y = 0;
+			tile_win_moved = true;
+		}
+	);
+
 	// TODO MOTION:
 	// MARIO SMTIMES FALLIN FASTER WTF
 	// SPRINT LAT3R? 
 	mario_tick_animator->SetOnAction(
-		[&, delay, mario_max_speed_x, mario_acceleration_x, mario_acceleration_y, mario_initial_jump_speed, mario_air_acceleration_x]
+		[&, pipe_in_animation, pipe_down_animator, pipe_right_animator, delay, mario_max_speed_x, mario_acceleration_x, mario_acceleration_y, mario_initial_jump_speed, mario_air_acceleration_x]
 		(Animator* animator, const Animation& anim) {
 			auto mario_vel = mario->GetVelocity();
 			float x, y, dx, dy;
@@ -62,7 +108,8 @@ void UnitTest3::CreateMario() {
 			if (movement_keys[ALLEGRO_KEY_S]) {
 				if (y == 336)
 					if (x > 656 && x < 688) {
-						std::cout << "ON PIPE A" << std::endl;
+						pipe_down_animator->Start(*pipe_in_animation, SystemClock::Get().milli_secs());
+						std::cout << "ATTACHED TO PIPE A" << std::endl;
 					}
 				std::cout << "IMPLEMENT THIS\n";
 			}
@@ -76,6 +123,13 @@ void UnitTest3::CreateMario() {
 					new_vel_x -= actual_x_acceleration * delay;
 			}
 			else if (movement_keys[ALLEGRO_KEY_D]) {
+				//std::cout << x << std::endl;
+				if((int)x >= 4528)
+					if (y > 384 && y < 416) {
+						pipe_right_animator->Start(*pipe_in_animation, SystemClock::Get().milli_secs());
+						std::cout << "ATTACHED TO PIPE B" << std::endl;
+					}
+				
 				if (new_vel_x <= 0) // hard break
 					new_vel_x += 4.0 * actual_x_acceleration * delay;
 				else
@@ -345,8 +399,12 @@ std::list<Sprite*> UnitTest3::LoadSpriteList(std::vector<std::string>& list, con
 	Sprite* sprite;
 	for (auto& str : list) {
 		auto sprite_loc = map_info_parser.GetPoint(str);
-
 		sprite = new Sprite(sprite_loc.x, sprite_loc.y, sprite_film, sprite_type);
+		
+		if (sprite_type == "VPIPE" || sprite_type == "HPIPE") {
+			//sprite->SetZorder(10);
+		}
+
 		sprite->SetState(default_state);
 		sprites.push_front(sprite);
 	}

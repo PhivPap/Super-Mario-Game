@@ -5,7 +5,16 @@
 ## rectangles: <comma separted list of all rect id's to be read>
 ## rect: x , y, w, h
 
-FILMS: COIN, QMARK, GOOMBA, GKT, MARIO
+FILMS: COIN, QMARK, GOOMBA, GKT, MARIO, VPIPE, HPIPE
+
+VPIPE: VPIPE, UnitTests/UnitTest3/media/bmps/pipe.bmp, vrect
+HPIPE: HPIPE, UnitTests/UnitTest3/media/bmps/pipe.bmp, hrect
+
+vrect: vrect0
+vrect0: 0, 0, 32, 16
+
+hrect: hrect0
+hrect0: 0, 16, 16, 32
 
 COIN: COIN, UnitTests/UnitTest3/media/bmps/coins.bmp, arects
 arects: arect0, arect1, arect2
