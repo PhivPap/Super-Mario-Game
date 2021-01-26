@@ -17,11 +17,6 @@
 
 #define SCROLL_DIST 64
 
-//#define TILESET_PATH "UnitTests/UnitTest3/media/super_mario_tiles.png"
-//#define TILEMAP_PATH "UnitTests/UnitTest3/media/mario_map_0.csv"
-
-
-
 
 class UnitTest : protected app::App {
 	ALLEGRO_DISPLAY* display;

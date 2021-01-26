@@ -52,6 +52,7 @@ public:
 	void				ResetBoundingArea(const BoundingArea&);
 	void				ResetBoudingArea(BoundingArea*);
 	const BoundingArea* GetBoundArea(void);
+	void				SetTypeId(const std::string&);
 	const std::string&	GetTypeId(void);
 	void				SetVisibility(bool);
 	bool				isVisible(void) const;

@@ -1,6 +1,5 @@
 #include "FrameListAnimator.h"
 
-
 void FrameListAnimator::Progress(timestamp_t currTime) {
 	auto frames_len =anim->GetFrames().size() - 1;
 	while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
@@ -31,7 +30,6 @@ void FrameListAnimator::Start(FrameListAnimation* a, timestamp_t t) {
 	lastTime = t;
 	state = ANIMATORSTATE_T::ANIMATOR_RUNNING;
 	frame_no_idx = 0;
-//	currRep = 0;
 	NotifyStarted(*anim);
 	NotifyAction(*anim);
 }

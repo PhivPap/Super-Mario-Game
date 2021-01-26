@@ -24,8 +24,13 @@ _________
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ These are from Lecture 8: Slide 33.
 
-#define GRID1_OUT "UnitTests\\UnitTest2\\Grid\\grid1.csv"
-#define GRID2_OUT "UnitTests\\UnitTest2\\Grid\\grid2.csv"
+//#define GRID1_OUT "UnitTests\\UnitTest2\\Grid\\grid1.csv"
+//#define GRID2_OUT "UnitTests\\UnitTest2\\Grid\\grid2.csv"
+
+#define GRID1_OUT "UnitTests\\UnitTest2\\Grid\\grid11.csv"
+#define GRID2_OUT "UnitTests\\UnitTest2\\Grid\\grid22.csv"
+
+
 //#define TILES_AMOUNT 252
 
 #define GRID_EMPTY_TILE 0

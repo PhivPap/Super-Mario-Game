@@ -4,6 +4,12 @@
 
 #define MAX_MARIO_JUMP_SUSTAIN 66
 
+#include <cmath>
+template<typename Tnum>
+static inline bool isNearlyEqual(Tnum x, Tnum y) {
+	const double epsilon = 0.00001;
+	return std::abs(x - y) <= epsilon * std::abs(x);
+}
 
 void UnitTest3::CreateMario() {
 	uint mario_max_speed_x = main_config.GetUint("M_MAX_SPEED_X");
@@ -15,12 +21,22 @@ void UnitTest3::CreateMario() {
 
 	auto mario_pos = map_info_parser.GetPoint("MARIO");
 	auto mario_film = AnimationFilmHolder::Get().GetFilm("MARIO");
-	auto* mario_start_animation = (FrameListAnimation*)AnimationHolder::Get().GetAnimation("MARIO_SR");
-	mario = new Sprite(mario_pos.x, mario_pos.y, mario_film, "MARIO");
+	auto* mario_start_animation = (FrameRangeAnimation*)AnimationHolder::Get().GetAnimation("mario_sr");
+	std::cout << mario_start_animation->GetStartFrame() << " end: " << mario_start_animation->GetEndFrame() << std::endl;
+	mario = new Sprite(mario_pos.x, mario_pos.y, mario_film, "mario");
 	mario->SetVelocity({0,0});
-	auto* mario_animator = new FrameListAnimator();
+	std::cout << mario->GetTypeId() << std::endl;
+	mario->SetState("mario_sr");
+	auto* mario_animator = new FrameRangeAnimator();
 	mario->main_animator = (MovingAnimator*)mario_animator;
-	mario_animator->Start(mario_start_animation, SystemClock::Get().milli_secs());
+
+	mario_animator->SetOnAction(
+		[&](Animator* animator, const Animation& anim) {
+			mario->SetFrame(((FrameRangeAnimator*)animator)->GetCurrFrame());
+		}
+	);
+
+	((FrameRangeAnimator*)mario->main_animator)->Start((FrameRangeAnimation*)mario_start_animation, SystemClock::Get().milli_secs());
 
 	auto* mario_tick_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("MARIO_MOVE");
 	auto* mario_tick_animator = new TickAnimator();
@@ -49,7 +65,6 @@ void UnitTest3::CreateMario() {
 		}
 	);
 
-	//auto* pipe_down_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("PIPE_DOWN");
 	auto* pipe_down_animator = new TickAnimator();
 	pipe_down_animator->SetOnAction(
 		[&](Animator* animator, const Animation& anim) {
@@ -73,6 +88,14 @@ void UnitTest3::CreateMario() {
 		}
 	);
 
+	start_animator = [&] (const std::string anim_id) {
+		if (mario->GetState() != anim_id)
+		{
+			((FrameRangeAnimator*)mario->main_animator)->Start((FrameRangeAnimation*)AnimationHolder::Get().GetAnimation(anim_id), SystemClock::Get().milli_secs());
+			mario->SetState(anim_id);
+		}
+	};
+
 	// TODO MOTION:
 	// MARIO SMTIMES FALLIN FASTER WTF
 	// SPRINT LAT3R? 
@@ -86,6 +109,25 @@ void UnitTest3::CreateMario() {
 			double new_vel_y = mario_vel.y;
 
 			static int jump_sustained_loops = 0;
+
+			//if (mario->GetGravityHandler().IsFalling())
+			//{
+			//	std::cout << mario_vel.x << std::endl;
+			//	if (mario_vel.x < 0)
+			//	{
+			//		start_animator("mario_jl");
+			//	}
+			//	else
+			//	{
+			//		start_animator("mario_jr");
+			//	}
+			//} 
+			//else
+			//{
+			//	start_animator("mario_sr");
+			//}
+
+
 			if (movement_keys[ALLEGRO_KEY_W]) {
 				if (mario_jump_cd.HasFinished()) {
 					if (!mario->GetGravityHandler().IsFalling()) {
@@ -111,29 +153,35 @@ void UnitTest3::CreateMario() {
 						pipe_down_animator->Start(*pipe_in_animation, SystemClock::Get().milli_secs());
 						std::cout << "ATTACHED TO PIPE A" << std::endl;
 					}
-				std::cout << "IMPLEMENT THIS\n";
+				//std::cout << "IMPLEMENT THIS\n";
 			}
 
 			auto actual_x_acceleration = mario->GetGravityHandler().IsFalling() ? mario_air_acceleration_x : mario_acceleration_x;
 			if (movement_keys[ALLEGRO_KEY_A]) {
-				
-				if(new_vel_x >= 0) // hard break
+				if (new_vel_x >= 0) { // hard break
+					start_animator("mario_br");
 					new_vel_x -= 4.0 * actual_x_acceleration * delay;
-				else
+				}
+				else {
+					start_animator("mario_rl");
 					new_vel_x -= actual_x_acceleration * delay;
+				}
 			}
 			else if (movement_keys[ALLEGRO_KEY_D]) {
-				//std::cout << x << std::endl;
 				if((int)x >= 4528)
 					if (y > 384 && y < 416) {
 						pipe_right_animator->Start(*pipe_in_animation, SystemClock::Get().milli_secs());
 						std::cout << "ATTACHED TO PIPE B" << std::endl;
 					}
 				
-				if (new_vel_x <= 0) // hard break
+				if (new_vel_x <= 0) { // hard break
+					start_animator("mario_bl");
 					new_vel_x += 4.0 * actual_x_acceleration * delay;
-				else
+				}
+				else {
+					start_animator("mario_rr");
 					new_vel_x += actual_x_acceleration * delay;
+				}
 			}
 			else {
 				// smooth break
@@ -157,15 +205,16 @@ void UnitTest3::CreateMario() {
 			if (x < view_win.x)
 				x = view_win.x;
 			
-			if (dx == 0) { // x motion denied
+			if (isNearlyEqual(dx,(float)0)) { // x motion denied
 				new_vel_x = 0;
 			}
-			if (dy == 0) { // y motion denied
+			if (isNearlyEqual(dy,(float)0)) { // y motion denied
 				jump_sustained_loops = -1; // stop the jump
 				new_vel_y = 0;
 			}
 
 			mario->SetVelocity({ new_vel_x, new_vel_y });
+
 			mario->SetPos(x + dx, y + dy);
 
 			mario->SetUpdateBoundAreaPos((dx != 0) || (dy != 0));
@@ -294,12 +343,10 @@ void CreateGoombaAnimators(std::list<Sprite*> sprites, T2* animation) {
 		animator->SetOnStart(
 			[sprite](Animator* animator, const Animation& anim) {
 				sprite->SetVelocity(anim->GetVelocity());
-				//sprite->SetFilm
 			}
 		);
 		animator->SetOnAction(
 			[sprite](Animator* animator, const Animation& anim) {
-				//sprite->Move( ((const T2&)anim).GetDx(), ((const T2&)anim).GetDy());
 				sprite->SetFrame(((T1*)(animator))->GetCurrFrame());
 			}
 		);
@@ -491,7 +538,8 @@ UnitTest3::UnitTest3() :
 			sprite_manager(SpriteManager::GetSingleton()), 
 			animator_manager(AnimatorManager::GetSingleton()), 
 			collision_checker(CollisionChecker::GetSingleton()) {
-	main_config.SetNewParser("UnitTests/UnitTest3/media/main_config.data");
+
+	main_config.SetNewParser(MAIN_CONFIG_PATH);
 	max_fall_speed = main_config.GetDouble("MAX_FALL_SPEED");
 	g_acceleration = main_config.GetDouble("G_ACCELERATION");
 
@@ -579,9 +627,7 @@ void UnitTest3::Initialise(void) {
 
 
 	AnimationFilmHolder::Get().LoadAll(FILMS_DATA_PATH, FilmParser);
-	AnimationHolder::Get().LoadAll(	ANIMS_FRAME_LIST_PATH,
-									ANIMS_FRAME_RANGE_PATH,
-									ANIMS_TICK_PATH );
+	AnimationHolder::Get().LoadAll(ANIMS_FRAME_LIST_PATH, ANIMS_FRAME_RANGE_PATH, ANIMS_TICK_PATH);
 
 	auto font0_path = main_config.GetStr("FONT0");
 	auto font0_size = main_config.GetInt("FONT0_SIZE");
@@ -595,7 +641,7 @@ void UnitTest3::Initialise(void) {
 	for (auto& scene_id : map_info_parser.GetList("SCENES")) {
 		auto cam_mario_pos = map_info_parser.GetListInt(scene_id);
 		UnitTest3::scenes[scene_id] = { {(uint)cam_mario_pos[0], (uint)cam_mario_pos[1]},
-									{(uint)cam_mario_pos[2], (uint)cam_mario_pos[3]} };
+										{(uint)cam_mario_pos[2], (uint)cam_mario_pos[3]} };
 	}
 
 	CreateMario();

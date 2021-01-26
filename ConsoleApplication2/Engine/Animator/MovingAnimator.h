@@ -4,7 +4,7 @@
 
 class MovingAnimator : public Animator {
 protected:
-	MovingAnimation*		anim = nullptr;
+	MovingAnimation* anim = nullptr;
 	uint					currRep = 0; // animation state
 
 public:

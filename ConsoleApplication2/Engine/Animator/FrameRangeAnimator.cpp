@@ -27,7 +27,6 @@ uint FrameRangeAnimator::GetCurrFrame(void) const {
 uint FrameRangeAnimator::GetCurrRep(void) const {
 	return currRep;
 }
-
 void FrameRangeAnimator::Start(FrameRangeAnimation* a, timestamp_t t) {
 	anim = a;
 	lastTime = t;

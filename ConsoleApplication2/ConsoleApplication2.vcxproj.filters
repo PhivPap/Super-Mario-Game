@@ -61,34 +61,34 @@
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp">
       <Filter>UnitTests\UnitTest3</Filter>
     </ClCompile>
-    <ClCompile Include="UnitTests\UnitTest3\Sprite\Sprite.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Sprite\MotionQuantizer.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Sprite\Clipper.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingArea.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingBox.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingCircle.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Sprite\CollisionChecker.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Sprite\SpriteManager.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Animation\Animation.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Animation\MovingAnimation.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Animation\FrameRangeAnimation.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Animation\FrameListAnimation.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Film\AnimationFilm.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Film\AnimationFilmHolder.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Film\BitmapLoader.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Animator\Animator.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Animator\MovingAnimator.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Animator\AnimatorManager.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Animator\FrameRangeAnimator.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Animator\FrameListAnimator.cpp" />
     <ClCompile Include="SystemClock.cpp" />
     <ClCompile Include="ConfigParser\ConfigParser.cpp">
       <Filter>ConfigParser</Filter>
     </ClCompile>
-    <ClCompile Include="UnitTests\UnitTest3\Animation\TickAnimation.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Animator\TickAnimator.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Animation\AnimationHolder.cpp" />
-    <ClCompile Include="UnitTests\UnitTest3\Sprite\GravityHandler.cpp" />
+    <ClCompile Include="Engine\Animation\Animation.cpp" />
+    <ClCompile Include="Engine\Animation\AnimationHolder.cpp" />
+    <ClCompile Include="Engine\Animation\FrameListAnimation.cpp" />
+    <ClCompile Include="Engine\Animation\FrameRangeAnimation.cpp" />
+    <ClCompile Include="Engine\Animation\MovingAnimation.cpp" />
+    <ClCompile Include="Engine\Animation\TickAnimation.cpp" />
+    <ClCompile Include="Engine\Animator\Animator.cpp" />
+    <ClCompile Include="Engine\Animator\AnimatorManager.cpp" />
+    <ClCompile Include="Engine\Animator\FrameListAnimator.cpp" />
+    <ClCompile Include="Engine\Animator\FrameRangeAnimator.cpp" />
+    <ClCompile Include="Engine\Animator\MovingAnimator.cpp" />
+    <ClCompile Include="Engine\Animator\TickAnimator.cpp" />
+    <ClCompile Include="Engine\Film\AnimationFilm.cpp" />
+    <ClCompile Include="Engine\Film\AnimationFilmHolder.cpp" />
+    <ClCompile Include="Engine\Film\BitmapLoader.cpp" />
+    <ClCompile Include="Engine\Sprite\BoundingArea\BoundingArea.cpp" />
+    <ClCompile Include="Engine\Sprite\BoundingArea\BoundingBox.cpp" />
+    <ClCompile Include="Engine\Sprite\BoundingArea\BoundingCircle.cpp" />
+    <ClCompile Include="Engine\Sprite\Clipper.cpp" />
+    <ClCompile Include="Engine\Sprite\CollisionChecker.cpp" />
+    <ClCompile Include="Engine\Sprite\GravityHandler.cpp" />
+    <ClCompile Include="Engine\Sprite\MotionQuantizer.cpp" />
+    <ClCompile Include="Engine\Sprite\Sprite.cpp" />
+    <ClCompile Include="Engine\Sprite\SpriteManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -108,36 +108,33 @@
     </ClInclude>
     <ClInclude Include="Types.h" />
     <ClInclude Include="Util.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Sprite\Sprite.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Sprite\MotionQuantizer.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Sprite\Clipper.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingArea.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingBox.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Sprite\BoundingArea\BoundingCircle.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Sprite\CollisionChecker.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Sprite\SpriteManager.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Animation\Animation.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Animation\MovingAnimation.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Animation\FrameRangeAnimation.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Animation\FrameListAnimation.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Film\AnimationFilm.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Film\AnimationFilmHolder.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Film\BitmapLoader.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Animator\Animator.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Animator\MovingAnimator.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Animator\AnimatorManager.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Animator\FrameRangeAnimator.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Animator\FrameListAnimator.h" />
     <ClInclude Include="SystemClock.h" />
     <ClInclude Include="ConfigParser\ConfigParser.h">
       <Filter>ConfigParser</Filter>
     </ClInclude>
-    <ClInclude Include="UnitTests\UnitTest3\Animation\TickAnimation.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Animator\TickAnimator.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Animation\AnimationHolder.h" />
-    <ClInclude Include="UnitTests\UnitTest3\Sprite\GravityHandler.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="UnitTests\UnitTest3\NewFile.txt" />
+    <ClInclude Include="Engine\Animation\Animation.h" />
+    <ClInclude Include="Engine\Animation\AnimationHolder.h" />
+    <ClInclude Include="Engine\Animation\FrameListAnimation.h" />
+    <ClInclude Include="Engine\Animation\FrameRangeAnimation.h" />
+    <ClInclude Include="Engine\Animation\MovingAnimation.h" />
+    <ClInclude Include="Engine\Animation\TickAnimation.h" />
+    <ClInclude Include="Engine\Animator\Animator.h" />
+    <ClInclude Include="Engine\Animator\AnimatorManager.h" />
+    <ClInclude Include="Engine\Animator\FrameListAnimator.h" />
+    <ClInclude Include="Engine\Animator\FrameRangeAnimator.h" />
+    <ClInclude Include="Engine\Animator\MovingAnimator.h" />
+    <ClInclude Include="Engine\Animator\TickAnimator.h" />
+    <ClInclude Include="Engine\Film\AnimationFilm.h" />
+    <ClInclude Include="Engine\Film\AnimationFilmHolder.h" />
+    <ClInclude Include="Engine\Film\BitmapLoader.h" />
+    <ClInclude Include="Engine\Sprite\BoundingArea\BoundingArea.h" />
+    <ClInclude Include="Engine\Sprite\BoundingArea\BoundingBox.h" />
+    <ClInclude Include="Engine\Sprite\BoundingArea\BoundingCircle.h" />
+    <ClInclude Include="Engine\Sprite\Clipper.h" />
+    <ClInclude Include="Engine\Sprite\CollisionChecker.h" />
+    <ClInclude Include="Engine\Sprite\GravityHandler.h" />
+    <ClInclude Include="Engine\Sprite\MotionQuantizer.h" />
+    <ClInclude Include="Engine\Sprite\Sprite.h" />
+    <ClInclude Include="Engine\Sprite\SpriteManager.h" />
   </ItemGroup>
 </Project>

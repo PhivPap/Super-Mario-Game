@@ -23,6 +23,14 @@ Sprite::~Sprite() {
 	SpriteManager::GetSingleton().Remove(this);
 }
 
+void Sprite::SetTypeId(const std::string& _type_id) {
+	type_id = _type_id;
+}
+
+const std::string& Sprite::GetTypeId(void) {
+	return type_id;
+}
+
 void Sprite::SetState(const std::string& _state_id) {
 	state_id = _state_id;
 }
@@ -132,10 +140,6 @@ const BoundingArea* Sprite::GetBoundArea(void) {
 		update_bound_area_pos = false;
 	}
 	return bounding_area;
-}
-
-const std::string& Sprite::GetTypeId(void) {
-	return type_id;
 }
 
 void Sprite::SetVisibility(bool v) {

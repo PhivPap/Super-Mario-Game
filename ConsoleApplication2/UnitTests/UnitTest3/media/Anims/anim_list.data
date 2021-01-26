@@ -7,10 +7,10 @@
 
 
 
-id: GKT_WL , GKT_WR, GKT_S, GKT_KR, GKT_KL, MARIO_RR, MARIO_RL, MARIO_SR, MARIO_SL
+id: GKT_WL , GKT_WR, GKT_S, GKT_KR, GKT_KL
 
 ## GKT walking right ->
-GKT_WR: gkt_info_wr, gkt_list_wr   
+GKT_WR: gkt_info_wr, gkt_list_wr 
 gkt_info_wr: 120, 0, 0, 500
 gkt_list_wr: 0, 1
 
@@ -27,7 +27,7 @@ gkt_list_s: 5
 ## GKT knocked right --->
 GKT_KR: gkt_info_kr, gkt_list_kr
 gkt_info_kr: 300, 0, 0, 10000  ## GKT knocked. Only 1 frame, delay  ??
-gkt_list_kr: 5  
+gkt_list_kr: 5
 
 ## GKT knocked left <---
 GKT_KL: gkt_info_kl, gkt_list_kl
@@ -41,18 +41,19 @@ gkt_list_kl: 5
 ## MARIO_J = mario jump <-- we might not have it ?
 ## MARIO_B = mario brake <-- we dont have it
 
-MARIO_RR: mario_info_rr, mario_list_rr
-mario_info_rr: 0, 0, 0, 200
-mario_list_rr:
+##MARIO_RR: mario_info_rr, mario_list_rr
+##mario_info_rr: 0, 0, 0, 250
+##mario_list_rr: 7, 8, 9
+##
+##MARIO_RL: mario_info_rl, mario_list_rl
+##mario_info_rl: 0, 0, 0, 250
+##mario_list_rl: 1, 2, 3
+##
+##MARIO_SR: mario_info_sr, mario_list_sr
+##mario_info_sr: 0, 0, 0, 1000
+##mario_list_sr: 6
+##
+##MARIO_SL: mario_info_sl, mario_list_sl
+##mario_info_sl: 0, 0, 0, 1000
+##mario_list_sl: 0
 
-MARIO_RL: mario_info_rl, mario_list_rl
-mario_info_rl: 0, 0, 0, 200
-mario_list_rl:
-
-MARIO_SR: mario_info_sr, mario_list_sr
-mario_info_sr: 0, 0, 0, 10000
-mario_list_sr: 0
-
-MARIO_SL: mario_info_sl, mario_list_sl
-mario_info_sl: 0, 0, 0, 10000
-mario_list_sl:

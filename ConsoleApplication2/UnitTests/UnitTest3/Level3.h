@@ -22,7 +22,7 @@
 #define ANIMS_FRAME_LIST_PATH	"UnitTests/UnitTest3/media/Anims/anim_list.data"
 #define ANIMS_TICK_PATH			"UnitTests/UnitTest3/media/Anims/anim_tick.data"
 
-#define MAIN_CONFIG_PATH "UnitTests/UnitTest3/media/main_config.data"
+#define MAIN_CONFIG_PATH "UnitTests/UnitTest3/cfg/main_config.cfg"
 
 class UnitTest3 : protected UnitTest2 {
 public:
@@ -37,6 +37,8 @@ private:
 	std::function<void(void)> display_texts;
 	std::function<void(void)> animator_refresh;
 	std::function<void(void)> input_mario;
+	
+	std::function<void(const std::string)> start_animator;
 
 	std::list<Sprite*> moving_sprites;
 	std::map<std::string, CamMarioPos> scenes;
