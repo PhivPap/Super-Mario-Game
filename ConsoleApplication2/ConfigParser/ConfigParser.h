@@ -17,6 +17,7 @@ public:
 	int GetInt(const std::string&);
 	Rect GetRect(const std::string&);
 	Point GetPoint(const std::string&);
+	Dim GetDim(const std::string&);
 	std::vector<std::string> GetList(const std::string&);
 	std::vector<int> GetListInt(const std::string&);
 };

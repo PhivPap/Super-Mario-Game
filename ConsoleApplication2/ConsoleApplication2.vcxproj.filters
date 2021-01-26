@@ -89,6 +89,10 @@
     <ClCompile Include="Engine\Sprite\MotionQuantizer.cpp" />
     <ClCompile Include="Engine\Sprite\Sprite.cpp" />
     <ClCompile Include="Engine\Sprite\SpriteManager.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Pipe\HPipe.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Pipe\Pipe.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Pipe\VPipe.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Pipe\PipeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -136,5 +140,9 @@
     <ClInclude Include="Engine\Sprite\MotionQuantizer.h" />
     <ClInclude Include="Engine\Sprite\Sprite.h" />
     <ClInclude Include="Engine\Sprite\SpriteManager.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Pipe\HPipe.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Pipe\Pipe.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Pipe\VPipe.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Pipe\PipeManager.h" />
   </ItemGroup>
 </Project>

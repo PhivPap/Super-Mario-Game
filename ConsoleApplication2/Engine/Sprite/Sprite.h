@@ -17,6 +17,7 @@ protected:
 	bool quantizer_used = false;
 	byte frame_no = 0;
 	Rect frame_box;
+	Dim uniform_box = { 0 };
 	float x = 0, y = 0;
 	Velocity velocity;
 	bool is_visible = false;
@@ -35,6 +36,8 @@ public:
 	MovingAnimator*		main_animator;
 	Sprite(int, int, const AnimationFilm*, const std::string&);
 	~Sprite();
+	void				SetUniformBox(const Dim&);
+	const Dim&			GetUniformBox();
 	void				SetState(const std::string&);
 	const std::string&	GetState(void);
 	void				GetPos(float&, float&);

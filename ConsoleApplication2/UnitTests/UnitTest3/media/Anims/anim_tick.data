@@ -18,4 +18,4 @@ MARIO_MOVE: 0, 7, 1
 
 JUMP_CD: 1, 100, 1 ## should start when mario stops falling.
 
-PIPE_IN: 4, 250, 1
+PIPE_IN: 1, 1000, 1

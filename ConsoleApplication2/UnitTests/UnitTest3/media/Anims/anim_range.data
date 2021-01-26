@@ -4,8 +4,8 @@
 
 id: COIN, QMARK, GOOMBA_WR, GOOMBA_WL, GOOMBA_DEATH, VPIPE, HPIPE, mario_rl, mario_rr, mario_sr, mario_sl, mario_jl, mario_jr, mario_bl, mario_br, MARIO_rl, MARIO_rr, MARIO_sr, MARIO_sl, MARIO_jl, MARIO_jr, MARIO_bl, MARIO_br, MARIOW_rl, MARIOW_rr, MARIOW_sr, MARIOW_sl, MARIOW_jl, MARIOW_jr, MARIOW_bl, MARIOW_br
 
-VPIPE: 0, 0, 0, 1000, 0, 0
-HPIPE: 0, 0, 0, 1000, 0, 0
+VPIPE: 0, 0, 0, 10000, 0, 0
+HPIPE: 0, 0, 0, 10000, 0, 0
 
 ## COINS
 COIN: 0, 0, 0, 500, 0, 2

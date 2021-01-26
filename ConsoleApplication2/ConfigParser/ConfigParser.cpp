@@ -128,6 +128,17 @@ Point ConfigParser::GetPoint(const std::string& key) {
 	return { std::stoul(values[0]), std::stoul(values[1]) };
 }
 
+Dim ConfigParser::GetDim(const std::string& key) {
+	auto info_str = GetStr(key);
+	std::vector<std::string> values;
+	SplitLineWithChar(values, info_str, ',');
+	if (values.size() < 2) {
+		std::cerr << "Could not get Dim from '" << info_str << "'\n";
+		exit(1);
+	}
+	return { std::stoul(values[0]), std::stoul(values[1]) };
+}
+
 /* Returns value*/
 std::vector<std::string> ConfigParser::GetList(const std::string& key) {
 	auto info_str = GetStr(key);

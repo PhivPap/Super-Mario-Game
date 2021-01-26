@@ -4,11 +4,61 @@
 
 #define MAX_MARIO_JUMP_SUSTAIN 66
 
-#include <cmath>
-template<typename Tnum>
-static inline bool isNearlyEqual(Tnum x, Tnum y) {
-	const double epsilon = 0.01;
-	return std::abs(x - y) <= epsilon;
+void UnitTest3::MarioEnterHPipe(Pipe* pipe) {
+	auto* pipe_in_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("PIPE_IN");
+	auto* pipe_animator = new TickAnimator();
+	pipe_animator->SetOnStart(
+		[&](Animator* animator, const Animation& anim) {
+			mario->SetVelocity({ 20, 0 });
+			mario->SetHasDirectMotion(true);
+		}
+	);
+
+	pipe_animator->SetOnFinish(
+		[&, pipe](Animator* animator) {
+			auto scene = scenes[pipe->GetScene()];
+			view_win.x = scene.camera.x;
+			view_win.y = scene.camera.y;
+			mario->SetPos(scene.mario.x, scene.mario.y);
+			tile_view_win.x = view_win.x - TILE_WIDTH;
+			tile_view_win.y = 0;
+			tile_win_moved = true;
+			mario->SetHasDirectMotion(false);
+			mario->SetUpdateBoundAreaPos(true);
+			animator_manager.AddGarbage(animator);
+		}
+	);
+	
+	pipe_animator->Start(*pipe_in_animation, SystemClock::Get().milli_secs());
+}
+
+void UnitTest3::MarioEnterVPipe(Pipe* pipe) {
+	auto* pipe_in_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("PIPE_IN");
+	auto* pipe_animator = new TickAnimator();
+	
+	pipe_animator->SetOnStart(
+		[&](Animator* animator, const Animation& anim) {
+			mario->SetVelocity({0, 20});
+			mario->SetHasDirectMotion(true);
+		}
+	);
+
+	pipe_animator->SetOnFinish(
+		[&, pipe](Animator* animator) {
+			auto scene = scenes[pipe->GetScene()];
+			view_win.x = scene.camera.x;
+			view_win.y = scene.camera.y;
+			mario->SetPos(scene.mario.x, scene.mario.y);
+			tile_view_win.x = view_win.x - TILE_WIDTH;
+			tile_view_win.y = 0;
+			tile_win_moved = true;
+			mario->SetHasDirectMotion(false);
+			mario->SetUpdateBoundAreaPos(true);
+			animator_manager.AddGarbage(animator);
+		}
+	);
+
+	pipe_animator->Start(*pipe_in_animation, SystemClock::Get().milli_secs());
 }
 
 void UnitTest3::CreateMario() {
@@ -24,7 +74,9 @@ void UnitTest3::CreateMario() {
 	auto* mario_start_animation = (FrameRangeAnimation*)AnimationHolder::Get().GetAnimation("mario_sr");
 	std::cout << mario_start_animation->GetStartFrame() << " end: " << mario_start_animation->GetEndFrame() << std::endl;
 	mario = new Sprite(mario_pos.x, mario_pos.y, mario_film, "mario");
+	mario->SetUniformBox({mario_small.w, mario_small.h});
 	mario->SetVelocity({0,0});
+	//mario->ResetBoudingArea(new BoundingBox(0, 0, mario_small.w, mario_small.h ));
 	std::cout << mario->GetTypeId() << std::endl;
 	mario->SetState("mario_sr");
 	auto* mario_animator = new FrameRangeAnimator();
@@ -43,89 +95,56 @@ void UnitTest3::CreateMario() {
 
 	double delay = (float)mario_tick_animation->GetDelay() / 1000;
 
-	auto* pipe_in_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("PIPE_IN");
-	auto* pipe_right_animator = new TickAnimator();
-	pipe_right_animator->SetOnAction(
-		[&](Animator* animator, const Animation& anim) {
-			float x, y;
-			mario->GetPos(x, y);
-			mario->SetPos(x + 16 / 4, y);
-		}
-	);
-
-	pipe_right_animator->SetOnFinish(
-		[&](Animator* animator) {
-			auto scene = scenes["emerge_scene"];
-			view_win.x = scene.camera.x;
-			view_win.y = scene.camera.y;
-			mario->SetPos(scene.mario.x, scene.mario.y);
-			tile_view_win.x = view_win.x - TILE_WIDTH;
-			tile_view_win.y = 0;
-			tile_win_moved = true;
-		}
-	);
-
-	auto* pipe_down_animator = new TickAnimator();
-	pipe_down_animator->SetOnAction(
-		[&](Animator* animator, const Animation& anim) {
-			// pause input?, disable collisions
-			float x, y;
-			mario->GetPos(x, y);
-			mario->SetPos(x, y + 16 / 4);
-		}
-	);
-
-	pipe_down_animator->SetOnFinish(
-		[&](Animator* animator) {
-			// setup camera,mario pos
-			auto scene = scenes["underground_scene"];
-			view_win.x = scene.camera.x;
-			view_win.y = scene.camera.y;
-			mario->SetPos(scene.mario.x, scene.mario.y);
-			tile_view_win.x = view_win.x - TILE_WIDTH;
-			tile_view_win.y = 0;
-			tile_win_moved = true;
-		}
-	);
-
 	start_animator = [&] (const std::string anim_id) {
-		if (mario->GetState() != anim_id)
-		{
-			((FrameRangeAnimator*)mario->main_animator)->Start((FrameRangeAnimation*)AnimationHolder::Get().GetAnimation(anim_id), SystemClock::Get().milli_secs());
-			mario->SetState(anim_id);
-		}
+		//if (mario->GetGravityHandler().IsFalling())
+		//{
+		//	
+		//}
+		//else
+		
+			if (mario->GetState() != anim_id)
+			{
+				((FrameRangeAnimator*)mario->main_animator)->Start((FrameRangeAnimation*)AnimationHolder::Get().GetAnimation(anim_id), SystemClock::Get().milli_secs());
+				mario->SetState(anim_id);
+			}
+		
 	};
 
 	// TODO MOTION:
 	// MARIO SMTIMES FALLIN FASTER WTF
 	// SPRINT LAT3R? 
 	mario_tick_animator->SetOnAction(
-		[&, pipe_in_animation, pipe_down_animator, pipe_right_animator, delay, mario_max_speed_x, mario_acceleration_x, mario_acceleration_y, mario_initial_jump_speed, mario_air_acceleration_x]
+		[&, delay, mario_max_speed_x, mario_acceleration_x, mario_acceleration_y, mario_initial_jump_speed, mario_air_acceleration_x]
 		(Animator* animator, const Animation& anim) {
 			auto mario_vel = mario->GetVelocity();
 			float x, y, dx, dy;
 			mario->GetPos(x, y);
 			double new_vel_x = mario_vel.x;
 			double new_vel_y = mario_vel.y;
-
 			static int jump_sustained_loops = 0;
 
-			//if (mario->GetGravityHandler().IsFalling())
-			//{
-			//	std::cout << mario_vel.x << std::endl;
-			//	if (mario_vel.x < 0)
-			//	{
-			//		start_animator("mario_jl");
-			//	}
-			//	else
-			//	{
-			//		start_animator("mario_jr");
-			//	}
-			//} 
-			//else
-			//{
-			//	start_animator("mario_sr");
-			//}
+			if (mario->GetHasDirectMotion()) {
+				dx = new_vel_x * delay;
+				dy = new_vel_y * delay;
+				mario->SetPos(x + dx, y + dy);
+				return;
+			}
+
+			if (mario->GetGravityHandler().IsFalling())
+			{
+				if (mario_vel.x < 0)
+				{
+					start_animator("mario_jl");
+				}
+				else
+				{
+					start_animator("mario_jr");
+				}
+			} 
+			else
+			{
+				start_animator("mario_sr");
+			}
 
 
 			if (movement_keys[ALLEGRO_KEY_W]) {
@@ -146,22 +165,20 @@ void UnitTest3::CreateMario() {
 			else {
 				jump_sustained_loops = -1;
 			}
-
+#pragma message ("CHANGE THIS")
 			if (movement_keys[ALLEGRO_KEY_S]) {
-				if (y == 336)
-					if (x > 656 && x < 688) {
-						pipe_down_animator->Start(*pipe_in_animation, SystemClock::Get().milli_secs());
-						std::cout << "ATTACHED TO PIPE A" << std::endl;
-					}
-				//std::cout << "IMPLEMENT THIS\n";
+				if (auto* p = pipe_manager.GetVPipeCollision(mario->GetBox())) {
+					MarioEnterVPipe((Pipe*)p);
+					return;
+				}
 			}
 
 			auto actual_x_acceleration = mario->GetGravityHandler().IsFalling() ? mario_air_acceleration_x : mario_acceleration_x;
 			if (movement_keys[ALLEGRO_KEY_A]) {
+
 				if (new_vel_x >= 0) { // hard break
-					//start_animator("mario_br");
-					new_vel_x -= 4.0 * actual_x_acceleration * delay;
-					if(new_vel_x
+				//	start_animator("mario_br");
+					new_vel_x -= 3.0 * actual_x_acceleration * delay;
 				}
 				else {
 					//start_animator("mario_rl");
@@ -169,15 +186,16 @@ void UnitTest3::CreateMario() {
 				}
 			}
 			else if (movement_keys[ALLEGRO_KEY_D]) {
-				if((int)x >= 4528)
-					if (y > 384 && y < 416) {
-						pipe_right_animator->Start(*pipe_in_animation, SystemClock::Get().milli_secs());
-						std::cout << "ATTACHED TO PIPE B" << std::endl;
+				if (auto* p = pipe_manager.GetHPipeCollision(mario->GetBox())) {
+					if (!mario->GetGravityHandler().IsFalling()) {
+						MarioEnterHPipe((Pipe*)p);
+						return;
 					}
-				
+				}
+
 				if (new_vel_x <= 0) { // hard break
 					//start_animator("mario_bl");
-					new_vel_x += 4.0 * actual_x_acceleration * delay;
+					new_vel_x += 3.0 * actual_x_acceleration * delay;
 				}
 				else {
 					//start_animator("mario_rr");
@@ -186,10 +204,17 @@ void UnitTest3::CreateMario() {
 			}
 			else {
 				// smooth break
-				if(new_vel_x > 0)
-					new_vel_x -= 2.0 * actual_x_acceleration * delay;
-				else if(new_vel_x < 0)
-					new_vel_x += 2.0 * actual_x_acceleration * delay;
+				
+				
+				if (new_vel_x > 0)
+					new_vel_x -= 1.3 * actual_x_acceleration * delay;
+				else if (new_vel_x < 0)
+					new_vel_x += 1.3 * actual_x_acceleration * delay;
+			
+				if (std::abs(new_vel_x) < 2) {
+			//		start_animator("mario_sr");
+					new_vel_x = 0;
+				}
 			}
 
 			if (new_vel_x > mario_max_speed_x)
@@ -198,32 +223,21 @@ void UnitTest3::CreateMario() {
 			if (new_vel_x < -(double)mario_max_speed_x)
 				new_vel_x = -(double)mario_max_speed_x;
 			
-
 			auto tmpx = dx = new_vel_x * delay;
 			auto tmpy = dy = new_vel_y * delay;
 			FilterGridMotion(mario->GetBoxF(), dx, dy);
-			std::cout << "dy = " << dy << std::endl;
+			
 			if (x < view_win.x)
 				x = view_win.x;
 			
-			//if (isNearlyEqual(dx,(float)0)) { // x motion denied
-			//	new_vel_x = 0;
-			//}
-			//if (isNearlyEqual(dy,(float)0)) { // y motion denied
-			//	jump_sustained_loops = -1; // stop the jump
-			//	new_vel_y = 0;
-			//	std::cout << "Motion DENIED:\n";
-			//}
 			if (tmpx != dx) { // x motion denied
 				new_vel_x = 0;
 			}
 			if (tmpy != dy) { // y motion denied
 				jump_sustained_loops = -1; // stop the jump
 				new_vel_y = 0;
-				std::cout << "Motion DENIED:\n";
 			}
 
-			std::cout << new_vel_y << std::endl;
 			mario->SetVelocity({ new_vel_x, new_vel_y });
 
 			mario->SetPos(x + dx, y + dy);
@@ -270,7 +284,7 @@ void UnitTest3::SetMarioGravity(Sprite* sprite, TickAnimation* fall_update) {
 			gravity.SetOnStopFalling(
 				[sprite, gravity_animator, this]() {
 					mario_jump_cd.Start(*(TickAnimation*)AnimationHolder::Get().GetAnimation("JUMP_CD"), SystemClock::Get().milli_secs());
-					AnimatorManager::GetSingleton().AddGarbage(gravity_animator);
+					animator_manager.AddGarbage(gravity_animator);
 				}
 			);
 			gravity_animator->Start(*(TickAnimation*)AnimationHolder::Get().GetAnimation("FALL_DELAY"), SystemClock::Get().milli_secs());
@@ -432,8 +446,7 @@ void CreateMovingAnimators(std::list<Sprite*> sprites, T2* animation) {
 					auto& sprite_vel = sprite->GetVelocity();
 					sprite->SetVelocity({ 0, sprite_vel.y });
 				}
-				else {
-					sprite->SetVelocity(anim_vel);
+				else {sprite->SetVelocity(anim_vel);
 				}
 				//TODO: change film
 				//sprite->
@@ -450,6 +463,29 @@ void CreateMovingAnimators(std::list<Sprite*> sprites, T2* animation) {
 	}
 }
 
+void UnitTest3::CreatePipeInstances(){
+	auto hpipes = map_info_parser.GetList("HPIPE");
+	for (auto& hpipe : hpipes) {
+		auto info = map_info_parser.GetList(hpipe);
+		uint x = stoul(info[0]);
+		uint y = stoul(info[1]);
+		auto& emerge_scene = info[2];
+		uint y0 = y + 2;
+		uint y1 = y + 20;
+		new HPipe(emerge_scene, y0, y1, x);
+	}
+
+	auto vpipes = map_info_parser.GetList("VPIPE");
+	for (auto& vpipe : vpipes) {
+		auto info = map_info_parser.GetList(vpipe);
+		uint x = stoul(info[0]);
+		uint y = stoul(info[1]);
+		auto& emerge_scene = info[2];
+		uint x0 = x + 2;
+		uint x1 = x + 20;
+		new VPipe(emerge_scene, x0, x1, y);
+	}
+}
 
 //std::vector<int> GetListInt(std::string&);
 std::list<Sprite*> UnitTest3::LoadSpriteList(std::vector<std::string>& list, const AnimationFilm* sprite_film, const std::string& sprite_type, const std::string& default_state) {
@@ -459,9 +495,7 @@ std::list<Sprite*> UnitTest3::LoadSpriteList(std::vector<std::string>& list, con
 		auto sprite_loc = map_info_parser.GetPoint(str);
 		sprite = new Sprite(sprite_loc.x, sprite_loc.y, sprite_film, sprite_type);
 		
-		if (sprite_type == "VPIPE" || sprite_type == "HPIPE") {
-			//sprite->SetZorder(10);
-		}
+		
 
 		sprite->SetState(default_state);
 		sprites.push_front(sprite);
@@ -548,7 +582,8 @@ void UnitTest3::SpriteLoader() {
 UnitTest3::UnitTest3() : 
 			sprite_manager(SpriteManager::GetSingleton()), 
 			animator_manager(AnimatorManager::GetSingleton()), 
-			collision_checker(CollisionChecker::GetSingleton()) {
+			collision_checker(CollisionChecker::GetSingleton()),
+			pipe_manager(PipeManager::GetSingleton()){
 
 	main_config.SetNewParser(MAIN_CONFIG_PATH);
 	max_fall_speed = main_config.GetDouble("MAX_FALL_SPEED");
@@ -655,6 +690,12 @@ void UnitTest3::Initialise(void) {
 										{(uint)cam_mario_pos[2], (uint)cam_mario_pos[3]} };
 	}
 
+	mario_small = main_config.GetDim("mario");
+	mario_big	= main_config.GetDim("MARIO");
+	mario_white = main_config.GetDim("MARIOW");
+
+	CreatePipeInstances();
+
 	CreateMario();
 }
 
@@ -674,6 +715,7 @@ void UnitTest3::Load(void) {
 	//game.PushbackPhysics(rect_movement);
 	game.PushbackAnim(animator_refresh);
 	SpriteLoader();
+
 
 	// ------------------------------------
 	auto* default_mover_refresh = (TickAnimation*)AnimationHolder::Get().GetAnimation("DEFAULT_MOVER");

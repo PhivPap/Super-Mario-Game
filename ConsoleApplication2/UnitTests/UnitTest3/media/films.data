@@ -48,6 +48,8 @@ drect5: 81, 0, 14, 22
 
 ## ------------------------------- MARIO ---------------------------------
 
+## TODO: 
+
 MARIO: MARIO, UnitTests/UnitTest3/media/bmps/mario_sprite_sheet_updated.png, m
 m: m_stand_left, m_sprint_left0, m_sprint_left1, m_sprint_left2, m_sprint_left_brake, m_jump_left, m_stand_right, m_sprint_right0, m_sprint_right1, m_sprint_right2, m_sprint_right_brake, m_jump_right, M_white_stand_left, M_white_sprint_left0, M_white_sprint_left1, M_white_sprint_left2, M_white_sprint_left_brake, M_white_jump_left, M_white_stand_right, M_white_sprint_right0, M_white_sprint_right1, M_white_sprint_right2, M_white_sprint_right_brake, M_white_jump_right, M_duck_right, M_duck_left
 
@@ -74,7 +76,7 @@ m_jump_left: 68, 0, 17, 16
 
 ## SMALL DUDE RIGHT FROM STANDING
 m_stand_right: 0, 17, 12, 16
-m_sprint_right0: 12, 17, 14, 16
+m_sprint_right0: 13, 17, 14, 16
 m_sprint_right1: 27, 17, 12, 16
 m_sprint_right2: 39, 17, 15, 16
 
@@ -116,7 +118,7 @@ M_sprint_right2: 45, 67, 16, 30
 M_sprint_right_brake: 61, 67, 16, 32
 
 ## BIG DUDE RIGHT JUMP
-M_jump_right: 77, 34, 67, 32
+M_jump_right: 77, 34, 16, 32
 
 
 ## -----------------------------

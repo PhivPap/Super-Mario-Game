@@ -25,3 +25,10 @@ static inline void FilmParser(std::list <AnimationFilm::Data>& output, const cha
 		output.push_back(data);
 	}
 }
+
+#include <cmath>
+template<typename Tnum>
+static inline bool isNearlyEqual(Tnum x, Tnum y) {
+	const double epsilon = 0.1;
+	return std::abs(x - y) <= epsilon;
+}

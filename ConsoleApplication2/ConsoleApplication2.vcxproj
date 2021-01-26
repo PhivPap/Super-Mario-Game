@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Film;$(SolutionDir)packages\Allegro.5.2.6\build\native\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Pipe;$(ProjectDir)UnitTests\UnitTest3\Film;$(SolutionDir)packages\Allegro.5.2.6\build\native\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,7 +139,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Film;$(SolutionDir)packages\Allegro.5.2.6\build\native\include;$(ProjectDir)Engine\Film;$(ProjectDir)Engine\Sprite;$(ProjectDir)Engine\Animation;$(ProjectDir)Engine\Animator</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)UnitTests\UnitTest1;$(ProjectDir)UnitTests\UnitTest2;$(ProjectDir)UnitTests\UnitTest3;$(ProjectDir)ConfigParser;$(ProjectDir)UnitTests\UnitTest3\Animator;$(ProjectDir)UnitTests\UnitTest3\Animation;$(ProjectDir)UnitTests\UnitTest3\Sprite;$(ProjectDir)UnitTests\UnitTest3\Pipe;$(ProjectDir)UnitTests\UnitTest3\Film;$(SolutionDir)packages\Allegro.5.2.6\build\native\include;$(ProjectDir)Engine\Film;$(ProjectDir)Engine\Sprite;$(ProjectDir)Engine\Animation;$(ProjectDir)Engine\Animator</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -169,6 +169,9 @@
   <ItemGroup>
     <ClCompile Include="Engine\Sprite\GravityHandler.cpp" />
     <ClCompile Include="Engine\Animation\AnimationHolder.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Pipe\PipeManager.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Pipe\HPipe.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Pipe\Pipe.cpp" />
     <ClCompile Include="SystemClock.cpp" />
     <ClCompile Include="Engine\Animator\TickAnimator.cpp" />
     <ClCompile Include="Engine\Animation\TickAnimation.cpp" />
@@ -200,10 +203,14 @@
     <ClCompile Include="UnitTests\UnitTest2\Level2.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Main.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Level3.cpp" />
+    <ClCompile Include="UnitTests\UnitTest3\Pipe\VPipe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Sprite\GravityHandler.h" />
     <ClInclude Include="Engine\Animation\AnimationHolder.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Pipe\PipeManager.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Pipe\HPipe.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Pipe\Pipe.h" />
     <ClInclude Include="SystemClock.h" />
     <ClInclude Include="Engine\Animator\TickAnimator.h" />
     <ClInclude Include="Engine\Animation\TickAnimation.h" />
@@ -235,6 +242,7 @@
     <ClInclude Include="UnitTests\UnitTest2\Level2.h" />
     <ClInclude Include="UnitTests\UnitTest3\Level3.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="UnitTests\UnitTest3\Pipe\VPipe.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

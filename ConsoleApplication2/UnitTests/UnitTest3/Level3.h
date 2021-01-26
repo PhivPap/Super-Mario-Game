@@ -14,6 +14,8 @@
 #include "TickAnimator.h"
 #include "AnimationHolder.h"
 #include "CollisionChecker.h"
+#include "PipeManager.h"
+#include "BoundingArea/BoundingBox.h"
 
 
 // TODO get from config file
@@ -46,6 +48,8 @@ private:
 	CollisionChecker&	collision_checker;
 	SpriteManager&		sprite_manager;
 	AnimatorManager&	animator_manager;
+	PipeManager&		pipe_manager;
+
 	Clipper				default_clipper;
 	ConfigParser		main_config;
 	ALLEGRO_FONT*		font0;
@@ -63,11 +67,16 @@ private:
 	Sprite*				mario;
 	TickAnimator		mario_jump_cd;
 
+	Dim					mario_small, mario_big, mario_white;
+
 	void				SpriteLoader(void);
 	//static bool			OnSolidGround(const Rect&);
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
 
 	void CreateMario();
+	void CreatePipeInstances();
+	void MarioEnterVPipe(Pipe*);
+	void MarioEnterHPipe(Pipe*);
 	void SetMarioGravity(Sprite* sprite, TickAnimation* fall_update = (TickAnimation*)AnimationHolder::Get().GetAnimation("FALL_UPDATE"));
 	void SetDefaultGravity(Sprite* sprite, TickAnimation* fall_update = (TickAnimation*)AnimationHolder::Get().GetAnimation("FALL_UPDATE"));
 

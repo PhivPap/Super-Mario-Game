@@ -14,7 +14,9 @@ Sprite::Sprite(int x, int y, const AnimationFilm* film, const std::string& type_
 	SpriteManager::GetSingleton().Add(this);
 
 #pragma message ("Remove this. BoundingArea not the same with frame_box :(.")
-	SetBoundingArea(new BoundingBox((uint)x, uint(y), x + frame_box.w, y + frame_box.h));
+	SetBoundingArea(new BoundingBox(uint(x), uint(y), x + frame_box.w, y + frame_box.h));
+	uniform_box.w = frame_box.w;
+	uniform_box.h = frame_box.h;
 }
 
 Sprite::~Sprite() {
@@ -51,11 +53,11 @@ void Sprite::SetMover(const Mover& f) {
 }
 
 const Rect_f Sprite::GetBoxF(void) const {
-	return { x, y, (float)frame_box.w, (float)frame_box.h };
+	return { x, y, (float)uniform_box.w, (float)uniform_box.h };
 }
 
 const Rect Sprite::GetBox(void) const {
-	return { (uint)x, (uint)y, frame_box.w, frame_box.h };
+	return { (uint)x, (uint)y, uniform_box.w, uniform_box.h };
 }
 
 void Sprite::GetPos(float& _x, float& _y){
@@ -131,6 +133,7 @@ void Sprite::ResetBoundingArea(const BoundingArea& area) {
 
 void Sprite::ResetBoudingArea(BoundingArea* area) {
 	assert(bounding_area);
+	delete bounding_area;
 	bounding_area = area;
 }
 
@@ -196,4 +199,12 @@ bool Sprite::GetHasDirectMotion(void) const {
 
 void Sprite::SetUpdateBoundAreaPos(bool update_bound_area_pos) {
 	this->update_bound_area_pos = update_bound_area_pos;
+}
+
+void Sprite::SetUniformBox(const Dim& uniform_box) {
+	this->uniform_box = uniform_box;
+}
+
+const Dim& Sprite::GetUniformBox() {
+	return uniform_box;
 }
