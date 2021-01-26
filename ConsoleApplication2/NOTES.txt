@@ -4,6 +4,7 @@
 
 		#include <cmath>  /* for std::abs(double) */
 
+		template <typename T>
 		inline bool isNearlyEqual(double x, double y)
 		{
 		  const double epsilon = /* some small number such as 1e-5 */;

@@ -7,8 +7,8 @@
 #include <cmath>
 template<typename Tnum>
 static inline bool isNearlyEqual(Tnum x, Tnum y) {
-	const double epsilon = 0.00001;
-	return std::abs(x - y) <= epsilon * std::abs(x);
+	const double epsilon = 0.01;
+	return std::abs(x - y) <= epsilon;
 }
 
 void UnitTest3::CreateMario() {
@@ -159,11 +159,12 @@ void UnitTest3::CreateMario() {
 			auto actual_x_acceleration = mario->GetGravityHandler().IsFalling() ? mario_air_acceleration_x : mario_acceleration_x;
 			if (movement_keys[ALLEGRO_KEY_A]) {
 				if (new_vel_x >= 0) { // hard break
-					start_animator("mario_br");
+					//start_animator("mario_br");
 					new_vel_x -= 4.0 * actual_x_acceleration * delay;
+					if(new_vel_x
 				}
 				else {
-					start_animator("mario_rl");
+					//start_animator("mario_rl");
 					new_vel_x -= actual_x_acceleration * delay;
 				}
 			}
@@ -175,11 +176,11 @@ void UnitTest3::CreateMario() {
 					}
 				
 				if (new_vel_x <= 0) { // hard break
-					start_animator("mario_bl");
+					//start_animator("mario_bl");
 					new_vel_x += 4.0 * actual_x_acceleration * delay;
 				}
 				else {
-					start_animator("mario_rr");
+					//start_animator("mario_rr");
 					new_vel_x += actual_x_acceleration * delay;
 				}
 			}
@@ -198,21 +199,31 @@ void UnitTest3::CreateMario() {
 				new_vel_x = -(double)mario_max_speed_x;
 			
 
-			dx = new_vel_x * delay;
-			dy = new_vel_y * delay;
+			auto tmpx = dx = new_vel_x * delay;
+			auto tmpy = dy = new_vel_y * delay;
 			FilterGridMotion(mario->GetBoxF(), dx, dy);
-			
+			std::cout << "dy = " << dy << std::endl;
 			if (x < view_win.x)
 				x = view_win.x;
 			
-			if (isNearlyEqual(dx,(float)0)) { // x motion denied
+			//if (isNearlyEqual(dx,(float)0)) { // x motion denied
+			//	new_vel_x = 0;
+			//}
+			//if (isNearlyEqual(dy,(float)0)) { // y motion denied
+			//	jump_sustained_loops = -1; // stop the jump
+			//	new_vel_y = 0;
+			//	std::cout << "Motion DENIED:\n";
+			//}
+			if (tmpx != dx) { // x motion denied
 				new_vel_x = 0;
 			}
-			if (isNearlyEqual(dy,(float)0)) { // y motion denied
+			if (tmpy != dy) { // y motion denied
 				jump_sustained_loops = -1; // stop the jump
 				new_vel_y = 0;
+				std::cout << "Motion DENIED:\n";
 			}
 
+			std::cout << new_vel_y << std::endl;
 			mario->SetVelocity({ new_vel_x, new_vel_y });
 
 			mario->SetPos(x + dx, y + dy);
