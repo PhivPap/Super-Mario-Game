@@ -2,7 +2,6 @@
 #include "Util.h"
 #include "SystemClock.h"
 
-#define MAX_MARIO_JUMP_SUSTAIN 66
 
 void UnitTest3::MarioEnterHPipe(Pipe* pipe) {
 	auto* pipe_in_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("PIPE_IN");
@@ -65,9 +64,9 @@ void UnitTest3::CreateMario() {
 	uint mario_max_speed_x = main_config.GetUint("M_MAX_SPEED_X");
 	uint mario_acceleration_x = main_config.GetUint("M_ACCELERATION_X");
 	uint mario_air_acceleration_x = main_config.GetUint("M_AIR_ACCELERATION_X");
-	
 	int mario_acceleration_y = - main_config.GetInt("M_ACCELERATION_Y");
 	int mario_initial_jump_speed = - main_config.GetInt("M_INIT_JUMP_SPEED");
+	uint mario_jump_sustained_loops = main_config.GetUint("MAX_M_JUMP_SUSTAIN");
 
 	auto mario_pos = map_info_parser.GetPoint("MARIO");
 	auto mario_film = AnimationFilmHolder::Get().GetFilm("MARIO");
@@ -114,7 +113,7 @@ void UnitTest3::CreateMario() {
 	// MARIO SMTIMES FALLIN FASTER WTF
 	// SPRINT LAT3R? 
 	mario_tick_animator->SetOnAction(
-		[&, delay, mario_max_speed_x, mario_acceleration_x, mario_acceleration_y, mario_initial_jump_speed, mario_air_acceleration_x]
+		[&, delay, mario_max_speed_x, mario_acceleration_x, mario_acceleration_y, mario_initial_jump_speed, mario_air_acceleration_x, mario_jump_sustained_loops]
 		(Animator* animator, const Animation& anim) {
 			auto mario_vel = mario->GetVelocity();
 			float x, y, dx, dy;
@@ -153,7 +152,7 @@ void UnitTest3::CreateMario() {
 						jump_sustained_loops = 0;
 						new_vel_y = (double)mario_initial_jump_speed;
 					}
-					else if (jump_sustained_loops != -1 && jump_sustained_loops < MAX_MARIO_JUMP_SUSTAIN) {
+					else if (jump_sustained_loops != -1 && jump_sustained_loops < mario_jump_sustained_loops) {
 						// keep going up
 						jump_sustained_loops++;
 						new_vel_y += mario_acceleration_y * delay;
