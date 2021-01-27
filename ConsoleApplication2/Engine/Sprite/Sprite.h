@@ -34,7 +34,7 @@ protected:
 
 	bool update_bound_area_pos = false; // when this is true GetBoundArea() will 
 public:
-	MovingAnimator*		main_animator;
+	MovingAnimator*		main_animator = nullptr;
 	Sprite(int, int, const AnimationFilm*, const std::string&);
 	~Sprite();
 	void				SetMovingSprite(bool);

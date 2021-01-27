@@ -18,7 +18,8 @@ namespace app {
 		void PushbackInput(std::function<void(void)>&);
 		void PushbackPhysics(std::function<void(void)>&);
 		void PushbackAnim(std::function<void(void)>&);
-		
+		void PushbackDestruct(std::function<void(void)>&);
+
 		void SetDone(Pred&);
 		
 		// rest of setters are similary defined

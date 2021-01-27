@@ -35,3 +35,16 @@ SpriteManager& SpriteManager::GetSingleton(void) {
 const SpriteManager& SpriteManager::GetSingletonConst(void) {
 	return singleton;
 }
+
+
+void SpriteManager::AddGarbage(Sprite* sprite){
+	garbage.push_front(sprite);
+}
+
+void SpriteManager::GarbageCollect(){
+	while(!garbage.empty()){
+		auto* sprite = garbage.front();
+		garbage.pop_front();
+		delete sprite;
+	}
+}

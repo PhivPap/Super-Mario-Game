@@ -23,11 +23,12 @@ void CollisionChecker::Cancel(Sprite* s1, Sprite* s2) {
 		entries.erase(i);
 }
 
-void CollisionChecker::Check(void) const {
+void CollisionChecker::Check(void) {
 	for (auto& e : entries) {
 		if (std::get<0>(e)->CollisionCheck(std::get<1>(e)))
 			std::get<2>(e)(std::get<0>(e), std::get<1>(e));
 	}
+	GarbageCollect();
 }
 
 CollisionChecker& CollisionChecker::GetSingleton(void) {
@@ -51,5 +52,17 @@ void CollisionChecker::RemoveAllCollisionWith(Sprite* sprite) {
 			entries.erase(i);
 		else
 			break;
+	}
+}
+
+void CollisionChecker::AddGarbage(Sprite* sprite){
+	garbage.push_front(sprite);
+}
+
+void CollisionChecker::GarbageCollect(){
+	while(!garbage.empty()){
+		auto* sprite = garbage.front();
+		garbage.pop_front();
+		RemoveAllCollisionWith(sprite);
 	}
 }

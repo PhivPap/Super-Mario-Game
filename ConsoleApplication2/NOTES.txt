@@ -1,6 +1,5 @@
 > Movement:
 	+ higher jump while running.
-	+ hop.
 
 
 > Animation:

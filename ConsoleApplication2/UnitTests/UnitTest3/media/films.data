@@ -66,7 +66,7 @@ plantrect1: 16, 17, 16, 23
 ## TODO: 
 
 MARIO: MARIO, UnitTests/UnitTest3/media/bmps/mario_sprite_sheet_updated.png, m
-m: m_stand_left, m_sprint_left0, m_sprint_left1, m_sprint_left2, m_sprint_left_brake, m_jump_left, m_stand_right, m_sprint_right0, m_sprint_right1, m_sprint_right2, m_sprint_right_brake, m_jump_right, M_white_stand_left, M_white_sprint_left0, M_white_sprint_left1, M_white_sprint_left2, M_white_sprint_left_brake, M_white_jump_left, M_white_stand_right, M_white_sprint_right0, M_white_sprint_right1, M_white_sprint_right2, M_white_sprint_right_brake, M_white_jump_right, M_duck_right, M_duck_left
+m: m_stand_left, m_sprint_left0, m_sprint_left1, m_sprint_left2, m_sprint_left_brake, m_jump_left, m_stand_right, m_sprint_right0, m_sprint_right1, m_sprint_right2, m_sprint_right_brake, m_jump_right, M_stand_left, M_sprint_left0, M_sprint_left1, M_sprint_left2, M_sprint_left_brake, M_jump_left, M_stand_right, M_sprint_right0, M_sprint_right1, M_sprint_right2, M_sprint_right_brake, M_jump_right, M_duck_right, M_duck_left
 
 ## -----------------------------
 ## ------ SMALL DUDE LEFT ------
@@ -106,16 +106,13 @@ m_jump_right: 68, 17, 17, 16
 ## ----- BIG DUDE LEFT ---------
 ## -----------------------------
 
-## BIG DUDE LEFT
 M_stand_left : 0, 34, 16, 32
 M_sprint_left0: 16, 34, 15, 32
 M_sprint_left1: 31, 34, 14, 31
 M_sprint_left2: 45, 34, 16, 30
 
-## BIG DUDE LEFT BRAKE
 M_sprint_left_brake: 61, 34, 16, 32
 
-## BIG DUDE LEFT JUMP
 M_jump_left: 77, 34, 16, 32
 
 
@@ -123,45 +120,14 @@ M_jump_left: 77, 34, 16, 32
 ## ----- BIG DUDE RIGHT --------
 ## -----------------------------
 
-## BIG DUDE LEFT
 M_stand_right : 0, 67, 16, 32
 M_sprint_right0: 16, 67, 15, 32
-M_sprint_right1: 31, 67, 14, 31
+M_sprint_right1: 32, 67, 14, 31
 M_sprint_right2: 45, 67, 16, 30
 
-## BIG DUDE RIGHT BRAKE
 M_sprint_right_brake: 61, 67, 16, 32
 
-## BIG DUDE RIGHT JUMP
-M_jump_right: 77, 34, 16, 32
-
-
-## -----------------------------
-## ----- BIG WHITE DUDE LEFT ---
-## -----------------------------
-
-M_white_stand_left : 0, 100, 16, 32
-M_white_sprint_left0: 16, 100, 15, 32
-M_white_sprint_left1: 31, 100, 14, 31
-M_white_sprint_left2: 45, 100, 16, 30
-
-M_white_sprint_left_brake: 61, 67, 16, 32
-
-M_white_jump_left: 77, 34, 67, 32
-
-## -----------------------------
-## ---- BIG WHITE DUDE RIGHT --- 
-## -----------------------------
-
-M_white_stand_right : 0, 133, 16, 32
-M_white_sprint_right0: 16, 133, 15, 32
-M_white_sprint_right1: 31, 133, 14, 31
-M_white_sprint_right2: 45, 133, 16, 30
-
-M_white_sprint_right_brake: 61, 67, 16, 32
-
-M_white_jump_right: 77, 34, 67, 32
-
+M_jump_right: 77, 67, 16, 32
 
 ## -----------------------------
 ## ------ BIG DUDE DUCK --------

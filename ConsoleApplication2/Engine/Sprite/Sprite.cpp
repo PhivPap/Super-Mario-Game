@@ -211,6 +211,7 @@ void Sprite::SetUpdateBoundAreaPos(bool update_bound_area_pos) {
 
 void Sprite::SetUniformBox(const Dim& uniform_box) {
 	this->uniform_box = uniform_box;
+	ResetBoudingArea(new BoundingBox(uint(x), uint(y), x + uniform_box.w, y + uniform_box.h));
 }
 
 const Dim& Sprite::GetUniformBox() {

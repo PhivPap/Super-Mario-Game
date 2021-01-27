@@ -93,6 +93,7 @@
     <ClCompile Include="UnitTests\UnitTest3\Pipe\Pipe.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Pipe\VPipe.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Pipe\PipeManager.cpp" />
+    <ClCompile Include="FlashAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -144,5 +145,6 @@
     <ClInclude Include="UnitTests\UnitTest3\Pipe\Pipe.h" />
     <ClInclude Include="UnitTests\UnitTest3\Pipe\VPipe.h" />
     <ClInclude Include="UnitTests\UnitTest3\Pipe\PipeManager.h" />
+    <ClInclude Include="FlashAnimation.h" />
   </ItemGroup>
 </Project>

@@ -2,18 +2,22 @@
 #include "Util.h"
 #include "SystemClock.h"
 
+#define HOP_Y_SPEED -220 // px/s
+
 static inline const std::string GetMarioStateId(MARIO_STATE_T mario_state_t) {
 	switch (mario_state_t) {
-		case MARIO_STATE_T::MARIO_STANDING_RIGHT:	return "_sr";
-		case MARIO_STATE_T::MARIO_STANDING_LEFT:	return "_sl";
-		case MARIO_STATE_T::MARIO_RUNNING_RIGHT:	return "_rr";
-		case MARIO_STATE_T::MARIO_RUNNING_LEFT:		return "_rl";
-		case MARIO_STATE_T::MARIO_JUMPING_RIGHT:	return "_jr";
-		case MARIO_STATE_T::MARIO_JUMPING_LEFT:		return "_jl";
-		case MARIO_STATE_T::MARIO_BREAKING_RIGHT:	return "_br";
-		case MARIO_STATE_T::MARIO_BREAKING_LEFT:	return "_bl";
-		case MARIO_STATE_T::MARIO_DYING:			return "_dead";
-		default: assert(0);
+	case MARIO_STATE_T::MARIO_STANDING_RIGHT:	return "_sr";
+	case MARIO_STATE_T::MARIO_STANDING_LEFT:	return "_sl";
+	case MARIO_STATE_T::MARIO_RUNNING_RIGHT:	return "_rr";
+	case MARIO_STATE_T::MARIO_RUNNING_LEFT:		return "_rl";
+	case MARIO_STATE_T::MARIO_JUMPING_RIGHT:	return "_jr";
+	case MARIO_STATE_T::MARIO_JUMPING_LEFT:		return "_jl";
+	case MARIO_STATE_T::MARIO_BREAKING_RIGHT:	return "_br";
+	case MARIO_STATE_T::MARIO_BREAKING_LEFT:	return "_bl";
+	case MARIO_STATE_T::MARIO_DUCKING_RIGHT:	return "_dr";
+	case MARIO_STATE_T::MARIO_DUCKING_LEFT:		return "_dl";
+	case MARIO_STATE_T::MARIO_DYING:			return "_dead";
+	default: assert(0);
 	}
 }
 
@@ -41,17 +45,17 @@ void UnitTest3::MarioEnterHPipe(Pipe* pipe) {
 			animator_manager.AddGarbage(animator);
 		}
 	);
-	
+
 	pipe_animator->Start(*pipe_in_animation, SystemClock::Get().milli_secs());
 }
 
 void UnitTest3::MarioEnterVPipe(Pipe* pipe) {
 	auto* pipe_in_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("PIPE_IN");
 	auto* pipe_animator = new TickAnimator();
-	
+
 	pipe_animator->SetOnStart(
 		[&](Animator* animator, const Animation& anim) {
-			mario->SetVelocity({0, 20});
+			mario->SetVelocity({ 0, 20 });
 			mario->SetHasDirectMotion(true);
 		}
 	);
@@ -75,28 +79,48 @@ void UnitTest3::MarioEnterVPipe(Pipe* pipe) {
 }
 
 //returns true if rect1 sits on rect2
-static inline bool RectAboveRect(const Rect& rect1, const Rect& rect2){
+static inline bool RectAboveRect(const Rect& rect1, const Rect& rect2) {
 	return (rect1.y + rect1.h < rect2.y + 4);
 }
 
+// true = left, false = right
+static inline void DefaultOrientationSet(Sprite* sprite, bool orientation) {
+	if (!orientation)	// go right
+		sprite->main_animator->Start((MovingAnimation*)(AnimationHolder::Get().GetAnimation(sprite->GetState() + "R")),
+			SystemClock::Get().milli_secs());
+	else			// go left
+		sprite->main_animator->Start((MovingAnimation*)(AnimationHolder::Get().GetAnimation(sprite->GetState() + "L")),
+			SystemClock::Get().milli_secs());
+}
+
 static void KillSprite(Sprite* sprite) {
-	AnimatorManager::GetSingleton().AddGarbage(sprite->main_animator);
-	CollisionChecker::GetSingleton().RemoveAllCollisionWith(sprite);
-	delete sprite;
+	auto* animator = sprite->main_animator;
+	if (animator != nullptr) {
+		AnimatorManager::GetSingleton().AddGarbage(sprite->main_animator);
+	}
+	CollisionChecker::GetSingleton().AddGarbage(sprite); // when collect is called, will destroy all collision with this sprite
+	SpriteManager::GetSingleton().AddGarbage(sprite);
 }
 
 static void SpriteHop(Sprite* sprite) {
-	//sprite->SetVelocity()
+	auto& current_vel = sprite->GetVelocity();
+	sprite->SetVelocity({ current_vel.x, HOP_Y_SPEED });
 }
 
-static void GoombaDeath(Sprite* goomba){
-	((FrameRangeAnimator*)goomba->main_animator)->Start((FrameRangeAnimation*)(AnimationHolder::Get().GetAnimation("GOOMBA_DEATH")),
-									SystemClock::Get().milli_secs());
+static void MarioDeath(Sprite* mario) {
+}
+
+static void GoombaDeath(Sprite* goomba) {
+	CollisionChecker::GetSingleton().AddGarbage(goomba);
+
 	goomba->main_animator->SetOnFinish(
-		[goomba](Animator* animator){
+		[goomba](Animator* animator) {
 			KillSprite(goomba);
 		}
 	);
+
+	((FrameRangeAnimator*)goomba->main_animator)->Start((FrameRangeAnimation*)(AnimationHolder::Get().GetAnimation("GOOMBA_DEATH")),
+		SystemClock::Get().milli_secs());
 }
 
 static void StunGKT(Sprite* goomba) {
@@ -104,49 +128,25 @@ static void StunGKT(Sprite* goomba) {
 }
 
 
-static void MarioGKTCollision(Sprite* mario, Sprite* gkt){
-	// if mario invincible: kill gkt and return
-	if(mario->GetState() == "invincible"){
-		// kill gkt
-		assert(0);
-		return;
-	}
 
-	auto gkt_state = gkt->GetState();
-	if(gkt_state == "GKT_W"){ // GKT walkin
-		if(RectAboveRect(mario->GetBox(), gkt->GetBox())){
-			// mario hop
-			// stun gkt
-		}
-		else{
-			// damage mario
-		}
-	}
-	else if(gkt_state == "GKT_S"){ // GKT stunned
-		// knock gkt
-	}
-	else{ // GKT knocked
-		// damage mario
-		// maybe later stun  gkt if mario on top.
-	}
-}
 
 
 // pre: all sprites are created first.
-void UnitTest3::SetMarioCollisions(){
+void UnitTest3::SetMarioCollisions() {
 	auto goomba_sprites = sprite_manager.GetTypeList("GOOMBA");
-	for(auto* goomba: goomba_sprites){
-		collision_checker.Register(mario, goomba, 
+	for (auto* goomba : goomba_sprites) {
+		collision_checker.Register(mario, goomba,
 			[&](Sprite* mario, Sprite* goomba) {
-					// if mario invincible: kill goomba and return
-				if (mario->GetState() == "invincible") {
+				// if mario invincible: kill goomba and return
+				if (mario->GetState() == "invincible") {//fixx me
 					GoombaDeath(goomba);
 					score += 100;
 					return;
 				}
 
 				if (RectAboveRect(mario->GetBox(), goomba->GetBox())) {
-					// mario hop
+					std::cout << "GOOMBA DEATH" << std::endl;
+					SpriteHop(mario);
 					GoombaDeath(goomba);
 					score += 100;
 				}
@@ -154,18 +154,59 @@ void UnitTest3::SetMarioCollisions(){
 					//damage mario
 				}
 			}
-			
 		);
 	}
-	
+
 	auto gkt_sprites = sprite_manager.GetTypeList("GKT");
-	for(auto* gkt: gkt_sprites){
-		collision_checker.Register(mario, gkt, MarioGKTCollision);
+	for (auto* gkt : gkt_sprites) {
+		collision_checker.Register(mario, gkt, 
+			[&](Sprite* mario, Sprite* gkt) {
+				// if mario invincible: kill gkt and return
+				if (mario->GetState() == "invincible") {
+					// kill gkt
+					assert(0);
+					return;
+				}
+
+				auto gkt_state = gkt->GetState();
+				if (gkt_state == "GKT_W") { // GKT walkin
+					if (RectAboveRect(mario->GetBox(), gkt->GetBox())) {
+						SpriteHop(mario);
+						gkt->SetState("GKT_S"); // gkt stunned now
+						((FrameListAnimator*)gkt->main_animator)->Start((FrameListAnimation*)AnimationHolder::Get().GetAnimation("GKT_S"), SystemClock::Get().milli_secs());
+						return;
+					}
+
+				}
+				else if (gkt_state == "GKT_S") { // GKT stunned
+					auto mario_box = mario->GetBox();
+					auto gkt_box = gkt->GetBox();
+					auto mario_center_x = mario_box.x + (mario_box.w / 2);
+					auto gkt_center_x = gkt_box.x + (gkt_box.w / 2);
+					gkt->SetState("GKT_K");
+					DefaultOrientationSet(gkt, mario_center_x > gkt_center_x);
+				}
+				else {  // GKT_K
+					std::cout << "YOU NOOB" << std::endl;
+					if(RectAboveRect(mario->GetBox(), gkt->GetBox())){
+						SpriteHop(mario);
+						gkt->SetState("GKT_S");
+						((FrameListAnimator*)gkt->main_animator)->Start((FrameListAnimation*)AnimationHolder::Get().GetAnimation("GKT_S"), SystemClock::Get().milli_secs());
+						return;
+					}
+					auto* mario_gkt_collision_disable = new TickAnimator();
+
+
+
+					// damage mario
+				}
+			}
+		);
 	}
 
 	auto qmark_sprites = sprite_manager.GetTypeList("QMARK");
-	for(auto* qmark: qmark_sprites){
-		collision_checker.Register(mario, qmark, 
+	for (auto* qmark : qmark_sprites) {
+		collision_checker.Register(mario, qmark,
 			[&](Sprite* mario, Sprite* qmark) {
 				if (!RectAboveRect(qmark->GetBox(), mario->GetBox())) // if mario not under qmark return.
 					return;
@@ -177,13 +218,12 @@ void UnitTest3::SetMarioCollisions(){
 	}
 
 	auto coin_sprites = sprite_manager.GetTypeList("COIN");
-	for(auto* coin: coin_sprites){
-		collision_checker.Register(mario, coin, 
+	for (auto* coin : coin_sprites) {
+		collision_checker.Register(mario, coin,
 			[&](Sprite* mario, Sprite* coin) {
-				//assert(0);
 				score += 100;
 				coins += 1;
-				// kill coin.
+				KillSprite(coin);
 			}
 		);
 	}
@@ -192,9 +232,25 @@ void UnitTest3::SetMarioCollisions(){
 	for (auto* star : star_sprites) {
 		collision_checker.Register(mario, star,
 			[&](Sprite* mario, Sprite* star) {
-				//mario->SetState("invincible");
-				// new tick animator 30"
-				// kill star.
+				score += 1000;
+				KillSprite(star);
+
+				auto* invincible_mario_transition_anim = (TickAnimation*)AnimationHolder::Get().GetAnimation("INVINCIBLE_TIMER");
+				auto* invincible_mario_transition = new TickAnimator();
+
+				invincible_mario_transition->SetOnAction(
+					[&, mario](Animator* animator, const Animation& anim) {
+						// some special effect maybe flashing 
+					}
+				);
+
+				invincible_mario_transition->SetOnFinish(
+					[&, mario](Animator* animator) {
+						// render not invicible
+						animator_manager.AddGarbage(animator);
+					}
+				);
+				invincible_mario_transition->Start(*invincible_mario_transition_anim, SystemClock::Get().milli_secs());
 			}
 		);
 	}
@@ -202,40 +258,53 @@ void UnitTest3::SetMarioCollisions(){
 	auto super_shroom_sprites = sprite_manager.GetTypeList("SUPER_SHROOM");
 	for (auto* shroom : super_shroom_sprites) {
 		collision_checker.Register(mario, shroom,
-			[&](Sprite* mario, Sprite* star) {
-				if (mario->GetState() == "MARIO")
+			[&](Sprite* mario, Sprite* shroom) {
+
+				score += 1000;
+				KillSprite(shroom);
+
+				if (mario->GetState() == "MARIO") {
 					return;
-				auto* super_mario_transition_film = (TickAnimation*)AnimationHolder::Get().GetAnimation("SUPERMARIO_TRANSITION");
+				}
+
+				auto* super_mario_transition_anim = (TickAnimation*)AnimationHolder::Get().GetAnimation("SUPERMARIO_TRANSITION");
 				auto* super_mario_transition = new TickAnimator();
 				super_mario_transition->SetOnStart(
 					[&, mario](Animator* animator, const Animation& anim) {
 						mario->SetState("MARIO"); // == supermario 	
 						mario->SetUniformBox({ mario_big.w, mario_big.h });
+						float x, y;
+						mario->GetPos(x, y);
+						mario->SetPos(x, y - 16);
+						start_animator(MARIO_STATE_T::MARIO_STANDING_RIGHT);
 						mario->SetVelocity({ 0,0 });
-						mario->SetPos();
 						mario->SetHasDirectMotion(true);
 					}
 				);
-				super_mario_transition->SetOnFinish(
-					[&](Animator* animator, const Animation& anim) {
-						mario->SetHasDirectMotion(false);
+				super_mario_transition->SetOnAction(
+					[&, mario](Animator* animator, const Animation& anim) {
+						// some special effect maybe flashing 
 					}
 				);
-
-				score += 1000;
-				KillSprite(shroom);
-				super_mario_transition->Start(*super_mario_transition_film, SystemClock::Get().milli_secs());
+				super_mario_transition->SetOnFinish(
+					[&, mario](Animator* animator) {
+						mario->SetHasDirectMotion(false);
+						animator_manager.AddGarbage(animator);
+					}
+				);
+				super_mario_transition->Start(*super_mario_transition_anim, SystemClock::Get().milli_secs());
 			}
 		);
 	}
-	
+
 	auto up_shroom_sprites = sprite_manager.GetTypeList("UP_SHROOM");
-	for (auto* shroom: up_shroom_sprites) {
+	for (auto* shroom : up_shroom_sprites) {
 		collision_checker.Register(mario, shroom,
-			[&](Sprite* mario, Sprite* star) {
+			[&](Sprite* mario, Sprite* shroom) {
+				std::cout << "up_shroom" << std::endl;
 				score += 1000;
 				lives += 1;
-				KillSprite(star);
+				KillSprite(shroom);
 			}
 		);
 	}
@@ -245,16 +314,16 @@ void UnitTest3::CreateMario() {
 	uint mario_max_speed_x = main_config.GetUint("M_MAX_SPEED_X");
 	uint mario_acceleration_x = main_config.GetUint("M_ACCELERATION_X");
 	uint mario_air_acceleration_x = main_config.GetUint("M_AIR_ACCELERATION_X");
-	int mario_acceleration_y = - main_config.GetInt("M_ACCELERATION_Y");
-	int mario_initial_jump_speed = - main_config.GetInt("M_INIT_JUMP_SPEED");
+	int mario_acceleration_y = -main_config.GetInt("M_ACCELERATION_Y");
+	int mario_initial_jump_speed = -main_config.GetInt("M_INIT_JUMP_SPEED");
 	uint mario_jump_sustained_loops = main_config.GetUint("MAX_M_JUMP_SUSTAIN");
 
 	auto mario_pos = map_info_parser.GetPoint("MARIO");
 	auto mario_film = AnimationFilmHolder::Get().GetFilm("MARIO");
 	auto* mario_start_animation = (FrameRangeAnimation*)AnimationHolder::Get().GetAnimation("mario_sr");
 	mario = new Sprite(mario_pos.x, mario_pos.y, mario_film, "mario");
-	mario->SetUniformBox({mario_small.w, mario_small.h});
-	mario->SetVelocity({0,0});
+	mario->SetUniformBox({ mario_small.w, mario_small.h });
+	mario->SetVelocity({ 0,0 });
 
 	mario->SetState("mario");
 	mario_state = MARIO_STATE_T::MARIO_STANDING_RIGHT;
@@ -275,12 +344,12 @@ void UnitTest3::CreateMario() {
 	double delay = (float)mario_tick_animation->GetDelay() / 1000;
 
 
-	start_animator = [&] (MARIO_STATE_T mario_state_t) {
+	start_animator = [&](MARIO_STATE_T mario_state_t) {
 		std::string anim_id = mario->GetState() + GetMarioStateId(mario_state_t);
 		if (mario->GetGravityHandler().IsFalling())
 		{
 			// first time we enter jump animation
-			if(mario_state != MARIO_STATE_T::MARIO_JUMPING_RIGHT && mario_state != MARIO_STATE_T::MARIO_JUMPING_LEFT)
+			if (mario_state != MARIO_STATE_T::MARIO_JUMPING_RIGHT && mario_state != MARIO_STATE_T::MARIO_JUMPING_LEFT)
 			{
 				((FrameRangeAnimator*)mario->main_animator)->Start((FrameRangeAnimation*)AnimationHolder::Get().GetAnimation(anim_id), SystemClock::Get().milli_secs());
 				mario_state = mario_state_t;
@@ -305,7 +374,7 @@ void UnitTest3::CreateMario() {
 	// SPRINT LAT3R? 
 	mario_tick_animator->SetOnAction(
 		[&, delay, mario_max_speed_x, mario_acceleration_x, mario_acceleration_y, mario_initial_jump_speed, mario_air_acceleration_x, mario_jump_sustained_loops]
-		(Animator* animator, const Animation& anim) {
+	(Animator* animator, const Animation& anim) {
 			auto mario_vel = mario->GetVelocity();
 			float x, y, dx, dy;
 			mario->GetPos(x, y);
@@ -326,13 +395,13 @@ void UnitTest3::CreateMario() {
 				{
 					start_animator(MARIO_STATE_T::MARIO_JUMPING_LEFT);
 				}
-				else if(mario_vel.x > 0)
+				else if (mario_vel.x > 0)
 				{
 					start_animator(MARIO_STATE_T::MARIO_JUMPING_RIGHT);
 				}
 				else
 				{
-					if(mario_state == MARIO_STATE_T::MARIO_STANDING_RIGHT)
+					if (mario_state == MARIO_STATE_T::MARIO_STANDING_RIGHT)
 						start_animator(MARIO_STATE_T::MARIO_JUMPING_RIGHT);
 					else
 						start_animator(MARIO_STATE_T::MARIO_JUMPING_LEFT);
@@ -363,16 +432,32 @@ void UnitTest3::CreateMario() {
 					MarioEnterVPipe((Pipe*)p);
 					return;
 				}
+				if (mario->GetState() == "MARIO") {
+					if (mario_vel.x > 0) {
+						start_animator(MARIO_STATE_T::MARIO_DUCKING_RIGHT);
+					}
+					else if (mario_vel.x < 0) {
+						start_animator(MARIO_STATE_T::MARIO_DUCKING_LEFT);
+					}
+					else {
+						if (mario_state == MARIO_STATE_T::MARIO_STANDING_RIGHT)
+							start_animator(MARIO_STATE_T::MARIO_DUCKING_RIGHT);
+						else
+							start_animator(MARIO_STATE_T::MARIO_DUCKING_LEFT);
+					}
+				}
 			}
 
 			auto actual_x_acceleration = mario->GetGravityHandler().IsFalling() ? mario_air_acceleration_x : mario_acceleration_x;
 			if (movement_keys[ALLEGRO_KEY_A]) {
 
 				if (new_vel_x >= 0) { // hard break
-					if (new_vel_x == 0)
-						start_animator(MARIO_STATE_T::MARIO_STANDING_LEFT);
-					else
-						start_animator(MARIO_STATE_T::MARIO_BREAKING_LEFT);
+					if (new_vel_x == 0) {
+						if (mario_state == MARIO_STATE_T::MARIO_STANDING_RIGHT)
+							start_animator(MARIO_STATE_T::MARIO_JUMPING_RIGHT);
+						else
+							start_animator(MARIO_STATE_T::MARIO_JUMPING_LEFT);
+					}
 					new_vel_x -= 3.0 * actual_x_acceleration * delay;
 				}
 				else {
@@ -402,13 +487,13 @@ void UnitTest3::CreateMario() {
 			}
 			else {
 				// smooth break
-				
-				
+
+
 				if (new_vel_x > 0)
 					new_vel_x -= 1.3 * actual_x_acceleration * delay;
 				else if (new_vel_x < 0)
 					new_vel_x += 1.3 * actual_x_acceleration * delay;
-			
+
 				if (std::abs(new_vel_x) < 2 && new_vel_x != 0) {
 					if (new_vel_x < 0)
 						start_animator(MARIO_STATE_T::MARIO_STANDING_LEFT);
@@ -420,14 +505,14 @@ void UnitTest3::CreateMario() {
 
 			if (new_vel_x > mario_max_speed_x)
 				new_vel_x = mario_max_speed_x;
-			
+
 			if (new_vel_x < -(double)mario_max_speed_x)
 				new_vel_x = -(double)mario_max_speed_x;
-			
+
 			auto tmpx = dx = new_vel_x * delay;
 			auto tmpy = dy = new_vel_y * delay;
 			FilterGridMotion(mario->GetBoxF(), dx, dy);
-			
+
 			if (x < view_win.x)
 				x = view_win.x;
 
@@ -486,7 +571,7 @@ void UnitTest3::SetMarioGravity(Sprite* sprite, TickAnimation* fall_update) {
 				[sprite, gravity_animator, this]() {
 					mario_jump_cd.Start(*(TickAnimation*)AnimationHolder::Get().GetAnimation("JUMP_CD"), SystemClock::Get().milli_secs());
 					animator_manager.AddGarbage(gravity_animator);
-					if(mario->GetVelocity().x < 0)
+					if (mario->GetVelocity().x < 0)
 						start_animator(MARIO_STATE_T::MARIO_STANDING_LEFT);
 					else
 						start_animator(MARIO_STATE_T::MARIO_STANDING_RIGHT);
@@ -534,7 +619,7 @@ void UnitTest3::SetDefaultGravity(Sprite* sprite, TickAnimation* fall_update) {
 			gravity.SetOnStopFalling(
 				[sprite, gravity_animator]() {
 					auto current_vel = sprite->main_animator->GetAnim().GetVelocity();
-					if(sprite->GetTypeId() != "MARIO") // please fix me
+					if (sprite->GetTypeId() != "MARIO") // please fix me
 						sprite->SetVelocity({ current_vel.x, 0 });
 
 					AnimatorManager::GetSingleton().AddGarbage(gravity_animator);
@@ -553,19 +638,6 @@ void UnitTest3::SetDefaultGravity(Sprite* sprite, TickAnimation* fall_update) {
 			return false;
 		}
 	);
-}
-
-
-
-
-// true = left, false = right
-static inline void DefaultOrientationSet(Sprite* sprite, bool orientation) {
-	if(!orientation)	// go right
-		sprite->main_animator->Start(	(MovingAnimation*)(AnimationHolder::Get().GetAnimation(sprite->GetState() + "R")),
-										SystemClock::Get().milli_secs());
-	else				// go left
-		sprite->main_animator->Start(	(MovingAnimation*)(AnimationHolder::Get().GetAnimation(sprite->GetState() + "L")),
-										SystemClock::Get().milli_secs());
 }
 
 template <class T1, class T2>
@@ -618,8 +690,8 @@ static void DefaultCollisionHandler(Sprite* s1, Sprite* s2) {
 /*
 * T1: Animator sub class
 * T2: Animation sub class
-* 
-* For each sprite in list, creates new Animator, 
+*
+* For each sprite in list, creates new Animator,
 * add animation to the animator.
 */
 template <class T1, class T2>
@@ -632,6 +704,7 @@ void CreateStaticAnimators(std::list<Sprite*> sprites, T2* animation) {
 			}
 		);
 		animator->Start(animation, SystemClock::Get().milli_secs());
+		sprite->main_animator = (MovingAnimator*)animator;
 	}
 }
 
@@ -653,7 +726,8 @@ void CreateMovingAnimators(std::list<Sprite*> sprites, T2* animation) {
 					auto& sprite_vel = sprite->GetVelocity();
 					sprite->SetVelocity({ 0, sprite_vel.y });
 				}
-				else {sprite->SetVelocity(anim_vel);
+				else {
+					sprite->SetVelocity(anim_vel);
 				}
 				//TODO: change film
 				//sprite->
@@ -671,7 +745,7 @@ void CreateMovingAnimators(std::list<Sprite*> sprites, T2* animation) {
 	}
 }
 
-void UnitTest3::CreatePipeInstances(){
+void UnitTest3::CreatePipeInstances() {
 	auto hpipes = map_info_parser.GetList("HPIPE");
 	for (auto& hpipe : hpipes) {
 		auto info = map_info_parser.GetList(hpipe);
@@ -711,14 +785,14 @@ std::list<Sprite*> UnitTest3::LoadSpriteList(std::vector<std::string>& list, con
 void UnitTest3::SpriteLoader() {
 	auto& film_holder = AnimationFilmHolder::Get();
 	auto& anim_holder = AnimationHolder::Get();
-	
+
 	auto npc_type_list = main_config.GetList("NPCS");
 	for (auto& npc_type : npc_type_list) {
 		auto npc_type_info = main_config.GetList(npc_type); // [0] = type(range/list), [1] = is_static, [2] = init_state, [3] = init_anim
 		auto sprite_list_str = map_info_parser.GetList(npc_type);
 		auto sprite_film = film_holder.GetFilm(npc_type);
 		auto sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, npc_type, npc_type_info[2]);
-		
+
 		if (npc_type_info[0] == "range") { // if sprite is range
 			auto* fr_animation = (FrameRangeAnimation*)anim_holder.GetAnimation(npc_type_info[3]);
 			if (npc_type_info[1] == "false") { // if sprite is moving:
@@ -744,10 +818,10 @@ void UnitTest3::SpriteLoader() {
 
 	auto sprites = sprite_manager.GetDisplayList();
 	for (auto* sprite : sprites) {
-		if(!sprite->IsMovingSprite())
+		if (!sprite->IsMovingSprite())
 			continue;
 		for (auto* other_sprite : sprites) {
-			if(!other_sprite->IsMovingSprite())
+			if (!other_sprite->IsMovingSprite())
 				continue;
 			if (sprite != other_sprite) {
 				collision_checker.Register(sprite, other_sprite, DefaultCollisionHandler);
@@ -756,15 +830,23 @@ void UnitTest3::SpriteLoader() {
 	}
 
 	for (auto* sprite : sprites)
-		if(sprite->IsMovingSprite())
+		if (sprite->IsMovingSprite())
 			SetDefaultGravity(sprite);
 }
 
-UnitTest3::UnitTest3() : 
-			sprite_manager(SpriteManager::GetSingleton()), 
-			animator_manager(AnimatorManager::GetSingleton()), 
-			collision_checker(CollisionChecker::GetSingleton()),
-			pipe_manager(PipeManager::GetSingleton()){
+
+
+void UnitTest3::GarbageCollect() {
+	animator_manager.GarbageCollect();
+	collision_checker.GarbageCollect();
+	sprite_manager.GarbageCollect();
+}
+
+UnitTest3::UnitTest3() :
+	sprite_manager(SpriteManager::GetSingleton()),
+	animator_manager(AnimatorManager::GetSingleton()),
+	collision_checker(CollisionChecker::GetSingleton()),
+	pipe_manager(PipeManager::GetSingleton()) {
 
 	main_config.SetNewParser(MAIN_CONFIG_PATH);
 	max_fall_speed = main_config.GetDouble("MAX_FALL_SPEED");
@@ -780,7 +862,7 @@ UnitTest3::UnitTest3() :
 			}
 		}
 	};
-	
+
 	display_texts = [&] {
 		// ----- static -----
 		al_draw_text(font0, font0_color, 96, 5, ALLEGRO_ALIGN_CENTRE, "SCORE");
@@ -802,12 +884,12 @@ UnitTest3::UnitTest3() :
 
 	display_sprites = [&] {
 		auto& display_list = sprite_manager.GetDisplayList();
-		for(auto& i: display_list){
+		for (auto& i : display_list) {
 			i->Display(NULL, view_win, default_clipper);
 		}
 	};
-	
-	
+
+
 	rect_movement = [&] {
 		ALLEGRO_EVENT timer_event;
 		if (al_get_next_event(timer_queue0, &timer_event)) {
@@ -843,6 +925,10 @@ UnitTest3::UnitTest3() :
 			}
 		}
 	};
+
+	destruct = [&] {
+		GarbageCollect();
+	};
 }
 
 
@@ -872,7 +958,7 @@ void UnitTest3::Initialise(void) {
 	}
 
 	mario_small = main_config.GetDim("mario");
-	mario_big	= main_config.GetDim("MARIO");
+	mario_big = main_config.GetDim("MARIO");
 
 	CreatePipeInstances();
 
@@ -894,6 +980,7 @@ void UnitTest3::Load(void) {
 	//game.PushbackPhysics(physics_rect);
 	//game.PushbackPhysics(rect_movement);
 	game.PushbackAnim(animator_refresh);
+	game.PushbackDestruct(destruct);
 	SpriteLoader();
 	SetMarioCollisions();
 
@@ -901,13 +988,13 @@ void UnitTest3::Load(void) {
 	auto* default_mover_refresh = (TickAnimation*)AnimationHolder::Get().GetAnimation("DEFAULT_MOVER");
 	float time_delay = (float)default_mover_refresh->GetDelay() / 1000;
 	std::cout << time_delay << std::endl;
-		//new TickAnimation("timer", 16, 0, true);
+	//new TickAnimation("timer", 16, 0, true);
 	auto* mover_animator = new TickAnimator();
 	mover_animator->SetOnAction(
 		[&, time_delay](Animator* animator, const Animation& anim) {
 			auto sprites = sprite_manager.GetDisplayList();
 			for (auto* sprite : sprites) {
-				if(!sprite->IsMovingSprite())
+				if (!sprite->IsMovingSprite())
 					continue;
 				float dx, dy, x, y;
 				sprite->GetPos(x, y);

@@ -12,7 +12,7 @@ namespace app {
 	void Game::PushbackInput(std::function<void(void)>& f) { input.push_back(f); }
 	void Game::PushbackPhysics(std::function<void(void)>& f) { physics.push_back(f); }
 	void Game::PushbackAnim(std::function<void(void)>& f) { anim.push_back(f); }
-	
+	void Game::PushbackDestruct(std::function<void(void)>& f) { destruct.push_back(f); }
 	
 	void Game::SetDone(Pred& f) { done = f; }
 	

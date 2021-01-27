@@ -13,7 +13,7 @@ private:
     AnimatorManager(const AnimatorManager&) = delete;
     AnimatorManager(AnimatorManager&&) = delete;
 
-    void GarbageCollect();
+    
 
 public:
     void                            Register(Animator*);
@@ -24,4 +24,5 @@ public:
     static AnimatorManager&         GetSingleton(void);
     static const AnimatorManager&   GetSingletonConst(void);
     void                            AddGarbage(Animator*);
+    void                            GarbageCollect();
 };

@@ -35,6 +35,8 @@ typedef enum class MarioState {
 	MARIO_JUMPING_LEFT,
 	MARIO_BREAKING_LEFT,
 	MARIO_BREAKING_RIGHT,
+	MARIO_DUCKING_RIGHT,
+	MARIO_DUCKING_LEFT,
 	MARIO_DYING
 } MARIO_STATE_T;
 
@@ -53,10 +55,11 @@ private:
 	std::function<void(void)> display_texts;
 	std::function<void(void)> animator_refresh;
 	std::function<void(void)> input_mario;
+	std::function<void(void)> destruct;
 	
 	std::function<void(MARIO_STATE_T)> start_animator;
 
-	std::list<Sprite*> moving_sprites;
+	//std::list<Sprite*> moving_sprites;
 	std::map<std::string, CamMarioPos> scenes;
 
 	CollisionChecker&	collision_checker;
@@ -87,6 +90,7 @@ private:
 	//static bool			OnSolidGround(const Rect&);
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
 
+	void GarbageCollect();
 	void CreateMario();
 	void SetMarioCollisions();
 	void CreatePipeInstances();

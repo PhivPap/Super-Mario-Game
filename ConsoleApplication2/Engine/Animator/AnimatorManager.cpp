@@ -28,7 +28,6 @@ void AnimatorManager::Progress(timestamp_t curr_time) {
     auto copied(running);
     for (auto* a : copied)
         a->Progress(curr_time);
-    GarbageCollect();
 }
 
 AnimatorManager& AnimatorManager::GetSingleton(void) {
