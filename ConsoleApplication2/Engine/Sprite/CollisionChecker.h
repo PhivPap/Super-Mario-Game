@@ -13,6 +13,7 @@ public:
 	void Register(Sprite*, Sprite*, Action);
 	void Cancel(Sprite*, Sprite*);
 	void Check(void) const;
+	void RemoveAllCollisionWith(Sprite*);
 	static CollisionChecker& GetSingleton(void);
 	static const CollisionChecker& GetSingletonConst(void);
 };

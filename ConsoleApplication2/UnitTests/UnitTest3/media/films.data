@@ -43,18 +43,22 @@ drect3: 50, 0, 16, 22
 drect4: 66, 0, 14, 22
 drect5: 81, 0, 14, 22
 
-##SUPER_SHROOM: SUPER_SHROOM, UnitTests/UnitTest3/media/bmps/misc.bmp, super_shroom_rects
-##super_shroom_rects: ssrect0
-##ssrect0: 0, 0, 16, 16
-##
-##STAR: STAR, UnitTests/UnitTest3/media/bmps/misc.bmp, star_rects
-##star_rects: starrect0
-##starrect0: 16, 0, 14, 16
-##
-##UP_SHROOM: UP_SHROOM, UnitTests/UnitTest3/media/bmps/misc.bmp, up_shroom_rects
-##up_shroom_rects: upsrect0
-##upsrect0: 16, 0, 30, 16
-##PLANT:
+SUPER_SHROOM: SUPER_SHROOM, UnitTests/UnitTest3/media/bmps/misc.bmp, super_shroom_rects
+super_shroom_rects: ssrect0
+ssrect0: 0, 0, 16, 16
+
+STAR: STAR, UnitTests/UnitTest3/media/bmps/misc.bmp, star_rects
+star_rects: starrect0
+starrect0: 16, 0, 14, 16
+
+UP_SHROOM: UP_SHROOM, UnitTests/UnitTest3/media/bmps/misc.bmp, up_shroom_rects
+up_shroom_rects: upsrect0
+upsrect0: 30, 0, 16, 16
+
+PLANT: PLANT, UnitTests/UnitTest3/media/bmps/misc.bmp, plant_rects
+plant_rects: plantrect0, plantrect1
+plantrect0: 0, 17, 16, 23
+plantrect1: 16, 17, 16, 23
 
 
 ## ------------------------------- MARIO ---------------------------------

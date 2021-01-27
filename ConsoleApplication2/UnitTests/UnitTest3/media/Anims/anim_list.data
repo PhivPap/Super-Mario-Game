@@ -11,12 +11,12 @@ id: GKT_WL , GKT_WR, GKT_S, GKT_KR, GKT_KL
 
 ## GKT walking right ->
 GKT_WR: gkt_info_wr, gkt_list_wr 
-gkt_info_wr: 120, 0, 0, 500
+gkt_info_wr: 50, 0, 0, 500
 gkt_list_wr: 0, 1
 
 ## GKT walking right <-
 GKT_WL: gkt_info_wl, gkt_list_wl
-gkt_info_wl: -120, 0, 0, 500
+gkt_info_wl: -50, 0, 0, 500
 gkt_list_wl: 2, 3
 
 ## GKT stunned -

@@ -76,43 +76,39 @@ void UnitTest3::MarioEnterVPipe(Pipe* pipe) {
 
 //returns true if rect1 sits on rect2
 static inline bool RectAboveRect(const Rect& rect1, const Rect& rect2){
-	return (rect1.y + rect1.h == rect2.y);
+	return (rect1.y + rect1.h < rect2.y + 4);
+}
+
+static void KillSprite(Sprite* sprite) {
+	AnimatorManager::GetSingleton().AddGarbage(sprite->main_animator);
+	CollisionChecker::GetSingleton().RemoveAllCollisionWith(sprite);
+	delete sprite;
+}
+
+static void SpriteHop(Sprite* sprite) {
+	//sprite->SetVelocity()
 }
 
 static void GoombaDeath(Sprite* goomba){
-	
-		goomba->main_animator->Start((MovingAnimation*)(AnimationHolder::Get().GetAnimation("GOOMBA_DEATH")),
-										SystemClock::Get().milli_secs());
-		goomba->main_animator->SetOnFinish(
-			[goomba](Animator* animator){
-				
-			}
-		);
+	((FrameRangeAnimator*)goomba->main_animator)->Start((FrameRangeAnimation*)(AnimationHolder::Get().GetAnimation("GOOMBA_DEATH")),
+									SystemClock::Get().milli_secs());
+	goomba->main_animator->SetOnFinish(
+		[goomba](Animator* animator){
+			KillSprite(goomba);
+		}
+	);
 }
 
-//s1 should always be mario
-static void MarioGoombaCollision(Sprite* mario, Sprite* goomba){
-	// if mario invincible: kill goomba and return
-#pragma message("SET ???????????? to invincible")
-	if(mario->GetState() == "invincible"){
-		//kill goomba
-		return;
-	}
+static void StunGKT(Sprite* goomba) {
 
-	if(RectAboveRect(mario->GetBox(), goomba->GetBox())){
-		// mario hop
-		//kill goomba
-	}
-	else {
-		//damage mario
-	}
 }
+
 
 static void MarioGKTCollision(Sprite* mario, Sprite* gkt){
 	// if mario invincible: kill gkt and return
-#pragma message("SET ???????????? to invincible")
-	if(mario->GetState() == "???????????"){
+	if(mario->GetState() == "invincible"){
 		// kill gkt
+		assert(0);
 		return;
 	}
 
@@ -140,7 +136,26 @@ static void MarioGKTCollision(Sprite* mario, Sprite* gkt){
 void UnitTest3::SetMarioCollisions(){
 	auto goomba_sprites = sprite_manager.GetTypeList("GOOMBA");
 	for(auto* goomba: goomba_sprites){
-		collision_checker.Register(mario, goomba, MarioGoombaCollision);
+		collision_checker.Register(mario, goomba, 
+			[&](Sprite* mario, Sprite* goomba) {
+					// if mario invincible: kill goomba and return
+				if (mario->GetState() == "invincible") {
+					GoombaDeath(goomba);
+					score += 100;
+					return;
+				}
+
+				if (RectAboveRect(mario->GetBox(), goomba->GetBox())) {
+					// mario hop
+					GoombaDeath(goomba);
+					score += 100;
+				}
+				else {
+					//damage mario
+				}
+			}
+			
+		);
 	}
 	
 	auto gkt_sprites = sprite_manager.GetTypeList("GKT");
@@ -165,7 +180,7 @@ void UnitTest3::SetMarioCollisions(){
 	for(auto* coin: coin_sprites){
 		collision_checker.Register(mario, coin, 
 			[&](Sprite* mario, Sprite* coin) {
-				assert(0);
+				//assert(0);
 				score += 100;
 				coins += 1;
 				// kill coin.
@@ -177,31 +192,50 @@ void UnitTest3::SetMarioCollisions(){
 	for (auto* star : star_sprites) {
 		collision_checker.Register(mario, star,
 			[&](Sprite* mario, Sprite* star) {
-				mario->SetState("invincible");
+				//mario->SetState("invincible");
 				// new tick animator 30"
 				// kill star.
 			}
 		);
 	}
 
-	auto super_shroom_sprites = sprite_manager.GetTypeList("super_shroom");
+	auto super_shroom_sprites = sprite_manager.GetTypeList("SUPER_SHROOM");
 	for (auto* shroom : super_shroom_sprites) {
 		collision_checker.Register(mario, shroom,
 			[&](Sprite* mario, Sprite* star) {
-				mario->SetState("supermario");
+				if (mario->GetState() == "MARIO")
+					return;
+				auto* super_mario_transition_film = (TickAnimation*)AnimationHolder::Get().GetAnimation("SUPERMARIO_TRANSITION");
+				auto* super_mario_transition = new TickAnimator();
+				super_mario_transition->SetOnStart(
+					[&, mario](Animator* animator, const Animation& anim) {
+						mario->SetState("MARIO"); // == supermario 	
+						mario->SetUniformBox({ mario_big.w, mario_big.h });
+						mario->SetVelocity({ 0,0 });
+						mario->SetPos();
+						mario->SetHasDirectMotion(true);
+					}
+				);
+				super_mario_transition->SetOnFinish(
+					[&](Animator* animator, const Animation& anim) {
+						mario->SetHasDirectMotion(false);
+					}
+				);
+
 				score += 1000;
-				// kill shroom.
+				KillSprite(shroom);
+				super_mario_transition->Start(*super_mario_transition_film, SystemClock::Get().milli_secs());
 			}
 		);
 	}
 	
-	auto up_shroom_sprites = sprite_manager.GetTypeList("up_shroom");
-	for (auto* shroom : up_shroom_sprites) {
+	auto up_shroom_sprites = sprite_manager.GetTypeList("UP_SHROOM");
+	for (auto* shroom: up_shroom_sprites) {
 		collision_checker.Register(mario, shroom,
 			[&](Sprite* mario, Sprite* star) {
 				score += 1000;
 				lives += 1;
-				// kill shroom.
+				KillSprite(star);
 			}
 		);
 	}
@@ -292,9 +326,16 @@ void UnitTest3::CreateMario() {
 				{
 					start_animator(MARIO_STATE_T::MARIO_JUMPING_LEFT);
 				}
-				else
+				else if(mario_vel.x > 0)
 				{
 					start_animator(MARIO_STATE_T::MARIO_JUMPING_RIGHT);
+				}
+				else
+				{
+					if(mario_state == MARIO_STATE_T::MARIO_STANDING_RIGHT)
+						start_animator(MARIO_STATE_T::MARIO_JUMPING_RIGHT);
+					else
+						start_animator(MARIO_STATE_T::MARIO_JUMPING_LEFT);
 				}
 			}
 
@@ -871,12 +912,12 @@ void UnitTest3::Load(void) {
 				float dx, dy, x, y;
 				sprite->GetPos(x, y);
 				auto velocity = sprite->GetVelocity();
-				dx = velocity.x * time_delay;
+				auto tmp_dx = dx = velocity.x * time_delay;
 				dy = velocity.y * time_delay;
 				FilterGridMotion(sprite->GetBoxF(), dx, dy);
 				sprite->SetPos(x + dx, y + dy);
 				// remove this.
-				if ((velocity.x != 0) && (dx == 0)) { // motion denied
+				if ((velocity.x != 0) && (tmp_dx != dx)) { // motion denied
 					DefaultOrientationSet(sprite, velocity.x > 0);
 				}
 				sprite->SetUpdateBoundAreaPos((dx != 0) || (dy != 0));

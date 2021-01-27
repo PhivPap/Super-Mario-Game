@@ -2,18 +2,24 @@
 ## vel_x , vel_y, reps, delay, start_frame, end_frame
 
 
-id: COIN, QMARK, GOOMBA_WR, GOOMBA_WL, GOOMBA_DEATH, VPIPE, HPIPE, mario_rl, mario_rr, mario_sr, mario_sl, mario_jl, mario_jr, mario_bl, mario_br, mario_dead, MARIO_rl, MARIO_rr, MARIO_sr, MARIO_sl, MARIO_jl, MARIO_jr, MARIO_bl, MARIO_br
+id: COIN, QMARK, GOOMBA_WR, GOOMBA_WL, GOOMBA_DEATH, VPIPE, HPIPE, SUPER_SHROOM, UP_SHROOM, STAR, mario_rl, mario_rr, mario_sr, mario_sl, mario_jl, mario_jr, mario_bl, mario_br, mario_dead, MARIO_rl, MARIO_rr, MARIO_sr, MARIO_sl, MARIO_jl, MARIO_jr, MARIO_bl, MARIO_br
 
 VPIPE: 0, 0, 0, 10000, 0, 0
 HPIPE: 0, 0, 0, 10000, 0, 0
+
+SUPER_SHROOM: 0, 0, 0, 10000, 0, 0
+
+UP_SHROOM: 0, 0, 0, 10000, 0, 0
+
+STAR: 0, 0, 0, 10000, 0, 0
 
 ## COINS
 COIN: 0, 0, 0, 500, 0, 2
 QMARK: 0, 0, 0, 250, 0, 2
 
 ## GOOMBAS
-GOOMBA_WR: 70, 0, 0, 400, 0, 1
-GOOMBA_WL: -70, 0, 0, 400, 0, 1
+GOOMBA_WR: 30, 0, 0, 400, 0, 1
+GOOMBA_WL: -30, 0, 0, 400, 0, 1
 GOOMBA_DEATH: 0, 0, 1, 400, 2, 2
 
 ## ----------------------------

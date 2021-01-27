@@ -37,3 +37,19 @@ CollisionChecker& CollisionChecker::GetSingleton(void) {
 const CollisionChecker& CollisionChecker::GetSingletonConst(void) {
 	return singleton;
 }
+
+void CollisionChecker::RemoveAllCollisionWith(Sprite* sprite) {
+	while (true) { // this is bad ik...
+		auto i = std::find_if(
+			entries.begin(),
+			entries.end(),
+			[sprite](const Entry& e) {
+				return	(std::get<0>(e) == sprite) || (std::get<1>(e) == sprite);
+			}
+		);
+		if (i != entries.end())
+			entries.erase(i);
+		else
+			break;
+	}
+}
