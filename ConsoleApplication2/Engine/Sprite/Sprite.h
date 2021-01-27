@@ -14,6 +14,7 @@ public:
 
 protected:
 	int horiz_max = 0, vert_max = 0; // quantum
+	bool moving_sprite = false;
 	bool quantizer_used = false;
 	byte frame_no = 0;
 	Rect frame_box;
@@ -36,6 +37,8 @@ public:
 	MovingAnimator*		main_animator;
 	Sprite(int, int, const AnimationFilm*, const std::string&);
 	~Sprite();
+	void				SetMovingSprite(bool);
+	bool				IsMovingSprite();
 	void				SetUniformBox(const Dim&);
 	const Dim&			GetUniformBox();
 	void				SetState(const std::string&);

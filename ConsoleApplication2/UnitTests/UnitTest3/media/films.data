@@ -5,16 +5,16 @@
 ## rectangles: <comma separted list of all rect id's to be read>
 ## rect: x , y, w, h
 
-FILMS: COIN, QMARK, GOOMBA, GKT, MARIO, VPIPE, HPIPE
+FILMS: COIN, QMARK, GOOMBA, GKT, MARIO, VPIPE, HPIPE, SUPER_SHROOM, UP_SHROOM, STAR, PLANT
 
-VPIPE: VPIPE, UnitTests/UnitTest3/media/bmps/pipe.bmp, vrect
-HPIPE: HPIPE, UnitTests/UnitTest3/media/bmps/pipe.bmp, hrect
+VPIPE: VPIPE, UnitTests/UnitTest3/media/bmps/pipes_updated.bmp, vrect
+HPIPE: HPIPE, UnitTests/UnitTest3/media/bmps/pipes_updated.bmp, hrect
 
 vrect: vrect0
-vrect0: 0, 0, 32, 16
+vrect0: 0, 0, 32, 32
 
 hrect: hrect0
-hrect0: 0, 16, 16, 32
+hrect0: 32, 0, 32, 32
 
 COIN: COIN, UnitTests/UnitTest3/media/bmps/coins.bmp, arects
 arects: arect0, arect1, arect2
@@ -43,7 +43,18 @@ drect3: 50, 0, 16, 22
 drect4: 66, 0, 14, 22
 drect5: 81, 0, 14, 22
 
-
+##SUPER_SHROOM: SUPER_SHROOM, UnitTests/UnitTest3/media/bmps/misc.bmp, super_shroom_rects
+##super_shroom_rects: ssrect0
+##ssrect0: 0, 0, 16, 16
+##
+##STAR: STAR, UnitTests/UnitTest3/media/bmps/misc.bmp, star_rects
+##star_rects: starrect0
+##starrect0: 16, 0, 14, 16
+##
+##UP_SHROOM: UP_SHROOM, UnitTests/UnitTest3/media/bmps/misc.bmp, up_shroom_rects
+##up_shroom_rects: upsrect0
+##upsrect0: 16, 0, 30, 16
+##PLANT:
 
 
 ## ------------------------------- MARIO ---------------------------------

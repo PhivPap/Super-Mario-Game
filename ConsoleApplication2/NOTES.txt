@@ -1,37 +1,29 @@
-> Motion denied (mario & other sprites) doesnt work as expected (cuz 0.00000001 is not 0).
-	Fainetai kiollas an paikseis ligo,
-	Possible solution: 
-
-		#include <cmath>  /* for std::abs(double) */
-
-		template <typename T>
-		inline bool isNearlyEqual(double x, double y)
-		{
-		  const double epsilon = /* some small number such as 1e-5 */;
-		  return std::abs(x - y) <= epsilon * std::abs(x);
-		  // see Knuth section 4.2.2 pages 217-218
-		}
-	// from https://stackoverflow.com/questions/19837576/comparing-floating-point-number-to-zero
+> Movement:
+	+ higher jump while running.
+	+ hop.
 
 
-> Maybe eventually split files like dis (no rush):
-	-> Media
-	-> Engine
-		-> Film
-			-> ...
-		-> Animation
-			-> ...
-		-> Types.h
-		-> App.cpp
-		-> ...
+> Animation:
+	+ death animations.
 
-	-> Logic
-		-> UnitTest1
-			-> Level1.h
-			-> Level1.cpp
-		-> UnitTest2
-			-> Level2.h
-			-> Level2.cpp
-		-> UnitTest3
-			-> Level3.h
-			-> Level3.cpp
+> Collisions:
+	+ add a function: bool RectAboveRect(Rect a, Rect b);
+	+ add mario collisions.
+	+ when mario kills from above trigger hop.
+
+> Map:
+	+ add brick blocks
+
+> General
+	+ Add score when needed.
+	+ Delete sprites that fall off the map.
+	+ Pause
+
+
+>>>> NOTES:
+    + when mario hitting block -> block goes up and set collision detection (to kill any sprite) -> block goes down and drops collision detection.
+	+ when mario hits left side display windows, vel_x is must be set to 0.
+
+
+
+

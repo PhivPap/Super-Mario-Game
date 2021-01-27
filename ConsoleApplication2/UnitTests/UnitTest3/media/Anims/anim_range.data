@@ -2,7 +2,7 @@
 ## vel_x , vel_y, reps, delay, start_frame, end_frame
 
 
-id: COIN, QMARK, GOOMBA_WR, GOOMBA_WL, GOOMBA_DEATH, VPIPE, HPIPE, mario_rl, mario_rr, mario_sr, mario_sl, mario_jl, mario_jr, mario_bl, mario_br, MARIO_rl, MARIO_rr, MARIO_sr, MARIO_sl, MARIO_jl, MARIO_jr, MARIO_bl, MARIO_br, MARIOW_rl, MARIOW_rr, MARIOW_sr, MARIOW_sl, MARIOW_jl, MARIOW_jr, MARIOW_bl, MARIOW_br
+id: COIN, QMARK, GOOMBA_WR, GOOMBA_WL, GOOMBA_DEATH, VPIPE, HPIPE, mario_rl, mario_rr, mario_sr, mario_sl, mario_jl, mario_jr, mario_bl, mario_br, mario_dead, MARIO_rl, MARIO_rr, MARIO_sr, MARIO_sl, MARIO_jl, MARIO_jr, MARIO_bl, MARIO_br
 
 VPIPE: 0, 0, 0, 10000, 0, 0
 HPIPE: 0, 0, 0, 10000, 0, 0
@@ -14,7 +14,7 @@ QMARK: 0, 0, 0, 250, 0, 2
 ## GOOMBAS
 GOOMBA_WR: 70, 0, 0, 400, 0, 1
 GOOMBA_WL: -70, 0, 0, 400, 0, 1
-GOOMBA_DEATH: 0, 0, 0, 400, 2, 2
+GOOMBA_DEATH: 0, 0, 1, 400, 2, 2
 
 ## ----------------------------
 ## ------- small dude ---------
@@ -36,8 +36,10 @@ mario_jr: 0, 0, 0, 5000, 11, 11
 mario_bl: 0, 0, 0, 500, 4, 4
 mario_br: 0, 0, 0, 500, 10, 10
 
+mario_dead: 0, 0, 0, 5000, 38, 38
+
 ## ----------------------------
-## ------- big dude ---------
+## ------- big dude -----------
 ## ----------------------------
 
 MARIO_rl: 0, 0, 0, 200, 13, 15
@@ -51,19 +53,3 @@ MARIO_jr: 0, 0, 0, 5000, 23, 23
 
 MARIO_bl: 0, 0, 0, 500, 16, 16
 MARIO_br: 0, 0, 0, 500, 22, 22
-
-## ----------------------------
-## ------- big white dude -----
-## ----------------------------
-
-MARIOW_rl: 0, 0, 0, 200, 25, 27
-MARIOW_rr: 0, 0, 0, 200, 31, 33
-
-MARIOW_sl: 0, 0, 0, 200, 24, 24
-MARIOW_sr: 0, 0, 0, 200, 30, 30
-
-MARIOW_jl: 0, 0, 0, 5000, 29, 29
-MARIOW_jr: 0, 0, 0, 5000, 35, 35
-
-MARIOW_bl: 0, 0, 0, 500, 28, 28
-MARIOW_br: 0, 0, 0, 500, 34, 34

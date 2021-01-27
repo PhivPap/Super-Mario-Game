@@ -24,7 +24,19 @@
 #define ANIMS_FRAME_LIST_PATH	"UnitTests/UnitTest3/media/Anims/anim_list.data"
 #define ANIMS_TICK_PATH			"UnitTests/UnitTest3/media/Anims/anim_tick.data"
 
-#define MAIN_CONFIG_PATH "UnitTests/UnitTest3/cfg/main_config.cfg"
+#define MAIN_CONFIG_PATH		"UnitTests/UnitTest3/cfg/main_config.cfg"
+
+typedef enum class MarioState {
+	MARIO_STANDING_RIGHT,
+	MARIO_STANDING_LEFT,
+	MARIO_RUNNING_RIGHT,
+	MARIO_RUNNING_LEFT,
+	MARIO_JUMPING_RIGHT,
+	MARIO_JUMPING_LEFT,
+	MARIO_BREAKING_LEFT,
+	MARIO_BREAKING_RIGHT,
+	MARIO_DYING
+} MARIO_STATE_T;
 
 class UnitTest3 : protected UnitTest2 {
 public:
@@ -33,6 +45,8 @@ public:
 		Point mario;
 	};
 
+	MARIO_STATE_T mario_state;
+
 private:
 	std::function<void(void)> rect_movement;
 	std::function<void(void)> display_sprites;
@@ -40,7 +54,7 @@ private:
 	std::function<void(void)> animator_refresh;
 	std::function<void(void)> input_mario;
 	
-	std::function<void(const std::string)> start_animator;
+	std::function<void(MARIO_STATE_T)> start_animator;
 
 	std::list<Sprite*> moving_sprites;
 	std::map<std::string, CamMarioPos> scenes;
@@ -74,6 +88,7 @@ private:
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
 
 	void CreateMario();
+	void SetMarioCollisions();
 	void CreatePipeInstances();
 	void MarioEnterVPipe(Pipe*);
 	void MarioEnterHPipe(Pipe*);

@@ -13,7 +13,6 @@ Sprite::Sprite(int x, int y, const AnimationFilm* film, const std::string& type_
 
 	SpriteManager::GetSingleton().Add(this);
 
-#pragma message ("Remove this. BoundingArea not the same with frame_box :(.")
 	SetBoundingArea(new BoundingBox(uint(x), uint(y), x + frame_box.w, y + frame_box.h));
 	uniform_box.w = frame_box.w;
 	uniform_box.h = frame_box.h;
@@ -23,6 +22,15 @@ Sprite::~Sprite() {
 	// do things here?
 	delete bounding_area;
 	SpriteManager::GetSingleton().Remove(this);
+}
+
+
+void Sprite::SetMovingSprite(bool moving_sprite){
+	this->moving_sprite = moving_sprite;
+}
+
+bool Sprite::IsMovingSprite(){
+	return moving_sprite;
 }
 
 void Sprite::SetTypeId(const std::string& _type_id) {
@@ -166,7 +174,7 @@ bool Sprite::CollisionCheck(Sprite* sprite) {
 void Sprite::Display(ALLEGRO_BITMAP* dest, const Rect& dpy_area, const Clipper& clipper) const {
 	Rect_i clipped_box;
 	Point dpy_pos;
-	if (clipper.Clip(GetBox(), dpy_area, &dpy_pos, &clipped_box)) {
+	if (clipper.Clip({uint(x), uint(y), frame_box.w, frame_box.h}, dpy_area, &dpy_pos, &clipped_box)) {
 		Rect clipped_frame{
 			frame_box.x + clipped_box.x,
 			frame_box.y + clipped_box.y,
