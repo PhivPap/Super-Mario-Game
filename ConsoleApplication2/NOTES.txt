@@ -1,8 +1,8 @@
 > Movement:
-
+shrooms,star
 
 > Animation:
-	+ death animations.
+
 
 > Collisions:
 

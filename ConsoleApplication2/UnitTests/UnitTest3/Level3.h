@@ -61,11 +61,13 @@ private:
 	std::function<void(void)> animator_refresh;
 	std::function<void(void)> input_mario;
 	std::function<void(void)> destruct;
+	std::function<void(Sprite* s1, Sprite* s2)> gkt_collision_handler;
 	
 	std::function<void(MARIO_STATE_T)> start_animator;
 	
 	//std::list<Sprite*> moving_sprites;
 	std::map<std::string, CamMarioPos> scenes;
+	std::vector<std::string> checkpoints;
 
 	CollisionChecker&	collision_checker;
 	SpriteManager&		sprite_manager;
@@ -91,11 +93,15 @@ private:
 
 	Dim					mario_small, mario_big, mario_duck;
 	Point				last_checkpoint;
+	bool				reset = false;
 
 	void				SpriteLoader(void);
 	//static bool			OnSolidGround(const Rect&);
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
 
+
+	void SetScene(const std::string&);
+	std::string GetLastCheckpoint(uint);
 	void ReloadAllSprites();
 	void InstallPauseResumeHandler();
 	void DamageMario();

@@ -74,6 +74,6 @@ void AnimatorManager::DestroyAll(){
     for (auto it = suspended.begin(); it != suspended.end(); ) {
         auto save = *it;
         it = suspended.erase(it);
-        delete save;
+        //delete save;
     }
 }
