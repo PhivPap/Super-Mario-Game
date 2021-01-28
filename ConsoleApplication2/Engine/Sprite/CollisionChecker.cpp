@@ -10,6 +10,19 @@ void CollisionChecker::Register(Sprite* s1, Sprite* s2, Action f) {
 	std::cout << entries.size() << std::endl;
 }
 
+CollisionChecker::Action CollisionChecker::Get(Sprite* s1, Sprite* s2) {
+	auto i = std::find_if(
+		entries.begin(),
+		entries.end(),
+		[s1, s2](const Entry& e) {
+			return	std::get<0>(e) == s1 && std::get<1>(e) == s2 ||
+					std::get<0>(e) == s2 && std::get<0>(e) == s1;
+		}
+	);
+	assert(i != entries.end());
+	return std::get<2>(*i); //ok m8
+}
+
 void CollisionChecker::Cancel(Sprite* s1, Sprite* s2) {
 	auto i = std::find_if(
 		entries.begin(),
@@ -55,6 +68,10 @@ void CollisionChecker::RemoveAllCollisionWith(Sprite* sprite) {
 	}
 }
 
+void CollisionChecker::AddGarbage(Sprite* s1, Sprite* s2) {
+	garbage_sprite_couple.push_front({ s1,s2 });
+}
+
 void CollisionChecker::AddGarbage(Sprite* sprite){
 	garbage.push_front(sprite);
 }
@@ -64,5 +81,11 @@ void CollisionChecker::GarbageCollect(){
 		auto* sprite = garbage.front();
 		garbage.pop_front();
 		RemoveAllCollisionWith(sprite);
+	}
+
+	while (!garbage_sprite_couple.empty()) {
+		auto couple = garbage_sprite_couple.front();
+		garbage_sprite_couple.pop_front();
+		Cancel(couple.s1, couple.s2);
 	}
 }

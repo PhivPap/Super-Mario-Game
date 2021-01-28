@@ -84,7 +84,7 @@ private:
 	Sprite*				mario;
 	TickAnimator		mario_jump_cd;
 
-	Dim					mario_small, mario_big, mario_white;
+	Dim					mario_small, mario_big, mario_duck;
 
 	void				SpriteLoader(void);
 	//static bool			OnSolidGround(const Rect&);

@@ -1,23 +1,22 @@
 > Movement:
-	+ higher jump while running.
 
 
 > Animation:
 	+ death animations.
 
 > Collisions:
-	+ add a function: bool RectAboveRect(Rect a, Rect b);
-	+ add mario collisions.
-	+ when mario kills from above trigger hop.
+
 
 > Map:
 	+ add brick blocks
+	+ copy level 1
 
 > General
-	+ Add score when needed.
-	+ Delete sprites that fall off the map.
+	+ ADD 1-2 VERTICAL TILES TO THE MAP.
 	+ Pause
-
+	+ Checkpoints
+	+ Invincible mario state flag(level3.h)
+	+ 
 
 >>>> NOTES:
     + when mario hitting block -> block goes up and set collision detection (to kill any sprite) -> block goes down and drops collision detection.
