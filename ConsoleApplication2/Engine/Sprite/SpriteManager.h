@@ -17,5 +17,6 @@ public:
 	static const SpriteManager& GetSingletonConst(void);
 	void AddGarbage(Sprite*);
 	void GarbageCollect();
+	void DestroyAll();
 };
 

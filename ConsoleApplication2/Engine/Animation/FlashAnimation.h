@@ -9,8 +9,8 @@ private:
 	uint showDelay = 0;
 public:
 	using Me = FlashAnimation;
-	Me&			SetRepetitions(uint n);
-	uint		GetRepetitions(void) const;
+	Me&			SetReps(uint n);
+	uint		GetReps(void) const;
 	Me&			SetHideDelay(uint);
 	uint		GetHideDelay(void) const;
 	Me&			SetShowDelay(uint);

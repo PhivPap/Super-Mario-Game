@@ -27,5 +27,6 @@ public:
 	void AddGarbage(Sprite*, Sprite*);
 	void AddGarbage(Sprite*);
 	void GarbageCollect();
+	void DestroyAll();
 };
 

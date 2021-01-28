@@ -48,3 +48,9 @@ void SpriteManager::GarbageCollect(){
 		delete sprite;
 	}
 }
+
+void SpriteManager::DestroyAll(){
+	types.clear();
+	for (auto it = dpy_list.begin(); it != dpy_list.end(); )
+		it = dpy_list.erase(it);
+}

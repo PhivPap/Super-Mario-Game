@@ -10,7 +10,7 @@ Sprite::Sprite(int x, int y, const AnimationFilm* film, const std::string& type_
 
 	frame_no = curr_film->GetTotalFrames(); 
 	SetFrame(0);
-
+	
 	SpriteManager::GetSingleton().Add(this);
 
 	SetBoundingArea(new BoundingBox(uint(x), uint(y), x + frame_box.w, y + frame_box.h));
@@ -174,6 +174,8 @@ bool Sprite::CollisionCheck(Sprite* sprite) {
 void Sprite::Display(ALLEGRO_BITMAP* dest, const Rect& dpy_area, const Clipper& clipper) const {
 	Rect_i clipped_box;
 	Point dpy_pos;
+	if (!is_visible)
+		return;
 	if (clipper.Clip({uint(x), uint(y), frame_box.w, frame_box.h}, dpy_area, &dpy_pos, &clipped_box)) {
 		Rect clipped_frame{
 			frame_box.x + clipped_box.x,

@@ -1,11 +1,11 @@
 #include "FlashAnimation.h"
 
-FlashAnimation& FlashAnimation::SetRepetitions(uint n) {
+FlashAnimation& FlashAnimation::SetReps(uint n) {
 	repetitions = n;
 	return *this;
 }
 
-uint FlashAnimation::GetRepetitions(void) const {
+uint FlashAnimation::GetReps(void) const {
 	return repetitions;
 }
 

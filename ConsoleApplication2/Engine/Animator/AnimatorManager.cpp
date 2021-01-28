@@ -1,4 +1,5 @@
 #include "AnimatorManager.h"
+#include <iostream>
 
 AnimatorManager AnimatorManager::singleton;
 
@@ -55,4 +56,24 @@ void AnimatorManager::GarbageCollect() {
 void AnimatorManager::AddGarbage(Animator* anim) {
     assert(anim);
     garbage.push_front(anim);
+}
+
+void AnimatorManager::TimeShift(uint dt){
+    for(auto* a : running){
+        a->TimeShift(dt);
+    }
+}
+
+void AnimatorManager::DestroyAll(){
+    for (auto it = running.begin(); it != running.end(); ) {
+        auto save = *it;
+        it = running.erase(it);
+        delete save;
+    }
+
+    for (auto it = suspended.begin(); it != suspended.end(); ) {
+        auto save = *it;
+        it = suspended.erase(it);
+        delete save;
+    }
 }

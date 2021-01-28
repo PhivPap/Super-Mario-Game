@@ -169,7 +169,8 @@
   <ItemGroup>
     <ClCompile Include="Engine\Sprite\GravityHandler.cpp" />
     <ClCompile Include="Engine\Animation\AnimationHolder.cpp" />
-    <ClCompile Include="FlashAnimation.cpp" />
+    <ClCompile Include="Engine\Animation\FlashAnimation.cpp" />
+    <ClCompile Include="Engine\Animator\FlashAnimator.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Pipe\PipeManager.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Pipe\HPipe.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Pipe\Pipe.cpp" />
@@ -209,7 +210,8 @@
   <ItemGroup>
     <ClInclude Include="Engine\Sprite\GravityHandler.h" />
     <ClInclude Include="Engine\Animation\AnimationHolder.h" />
-    <ClInclude Include="FlashAnimation.h" />
+    <ClInclude Include="Engine\Animation\FlashAnimation.h" />
+    <ClInclude Include="Engine\Animator\FlashAnimator.h" />
     <ClInclude Include="UnitTests\UnitTest3\Pipe\PipeManager.h" />
     <ClInclude Include="UnitTests\UnitTest3\Pipe\HPipe.h" />
     <ClInclude Include="UnitTests\UnitTest3\Pipe\Pipe.h" />

@@ -21,7 +21,7 @@ protected:
 	Dim uniform_box = { 0 };
 	float x = 0, y = 0;
 	Velocity velocity;
-	bool is_visible = false;
+	bool is_visible = true;
 	const AnimationFilm* curr_film = nullptr;
 	BoundingArea* bounding_area = nullptr;
 	uint z_order = 0;

@@ -31,6 +31,12 @@ void GravityHandler::Check(const Rect_f& r) {
 			}
 		}
 	}
+	else{
+		if(is_falling){
+			is_falling = false;
+			on_stop_falling();
+		}
+	}
 }
 
 void GravityHandler::SetGravity() {

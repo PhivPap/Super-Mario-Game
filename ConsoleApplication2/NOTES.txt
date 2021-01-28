@@ -13,14 +13,10 @@
 
 > General
 	+ ADD 1-2 VERTICAL TILES TO THE MAP.
-	+ Pause
 	+ Checkpoints
-	+ Invincible mario state flag(level3.h)
-	+ 
 
 >>>> NOTES:
     + when mario hitting block -> block goes up and set collision detection (to kill any sprite) -> block goes down and drops collision detection.
-	+ when mario hits left side display windows, vel_x is must be set to 0.
 
 
 

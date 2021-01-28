@@ -43,9 +43,6 @@
     <ClCompile Include="Engine\App.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Engine.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="UnitTests\UnitTest1\Level1.cpp">
       <Filter>UnitTests\UnitTest1\Source Files</Filter>
     </ClCompile>
@@ -93,7 +90,11 @@
     <ClCompile Include="UnitTests\UnitTest3\Pipe\Pipe.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Pipe\VPipe.cpp" />
     <ClCompile Include="UnitTests\UnitTest3\Pipe\PipeManager.cpp" />
-    <ClCompile Include="FlashAnimation.cpp" />
+    <ClCompile Include="Engine\Animation\FlashAnimation.cpp" />
+    <ClCompile Include="Engine\Animator\FlashAnimator.cpp" />
+    <ClCompile Include="Engine\Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -145,6 +146,7 @@
     <ClInclude Include="UnitTests\UnitTest3\Pipe\Pipe.h" />
     <ClInclude Include="UnitTests\UnitTest3\Pipe\VPipe.h" />
     <ClInclude Include="UnitTests\UnitTest3\Pipe\PipeManager.h" />
-    <ClInclude Include="FlashAnimation.h" />
+    <ClInclude Include="Engine\Animation\FlashAnimation.h" />
+    <ClInclude Include="Engine\Animator\FlashAnimator.h" />
   </ItemGroup>
 </Project>

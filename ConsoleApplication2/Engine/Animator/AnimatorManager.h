@@ -1,5 +1,6 @@
 #pragma once
 #include "Animator.h"
+#include "Types.h"
 #include <assert.h>
 #include <set>
 #include <list>
@@ -25,4 +26,6 @@ public:
     static const AnimatorManager&   GetSingletonConst(void);
     void                            AddGarbage(Animator*);
     void                            GarbageCollect();
+    void                            DestroyAll();
+    void                            TimeShift(uint);
 };

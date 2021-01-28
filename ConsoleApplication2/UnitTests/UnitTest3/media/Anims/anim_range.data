@@ -2,7 +2,7 @@
 ## vel_x , vel_y, reps, delay, start_frame, end_frame
 
 
-id: COIN, QMARK, GOOMBA_WR, GOOMBA_WL, GOOMBA_DEATH, VPIPE, HPIPE, SUPER_SHROOM, UP_SHROOM, STAR, mario_rl, mario_rr, mario_sr, mario_sl, mario_jl, mario_jr, mario_bl, mario_br, mario_dead, MARIO_rl, MARIO_rr, MARIO_sr, MARIO_sl, MARIO_jl, MARIO_jr, MARIO_bl, MARIO_br, MARIO_dr, MARIO_dl
+id: COIN, QMARK, GOOMBA_WR, GOOMBA_WL, GOOMBA_DEATH, VPIPE, HPIPE, SUPER_SHROOM, UP_SHROOM, STAR, mario_rl, mario_rr, mario_sr, mario_sl, mario_jl, mario_jr, mario_bl, mario_br, mario_dead, MARIO_rl, MARIO_rr, MARIO_sr, MARIO_sl, MARIO_jl, MARIO_jr, MARIO_bl, MARIO_br, MARIO_dr, MARIO_dl, PIRANHA
 
 VPIPE: 0, 0, 0, 10000, 0, 0
 HPIPE: 0, 0, 0, 10000, 0, 0
@@ -21,6 +21,8 @@ QMARK: 0, 0, 0, 250, 0, 2
 GOOMBA_WR: 30, 0, 0, 400, 0, 1
 GOOMBA_WL: -30, 0, 0, 400, 0, 1
 GOOMBA_DEATH: 0, 0, 1, 400, 2, 2
+
+PIRANHA: 0, 0, 0, 400, 0, 1
 
 ## ----------------------------
 ## ------- small dude ---------
@@ -41,6 +43,8 @@ mario_jr: 0, 0, 0, 5000, 11, 11
 ## break
 mario_bl: 0, 0, 0, 500, 4, 4
 mario_br: 0, 0, 0, 500, 10, 10
+
+##mario_tranform: 0, 0, 0, 200, 
 
 mario_dead: 0, 0, 0, 5000, 26, 26
 

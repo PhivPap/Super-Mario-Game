@@ -27,6 +27,29 @@ namespace app {
 	void Game::UserCode(void) { Invoke(user); }
 	bool Game::IsFinished(void) const { return done(); }
 	
+	void Game::SetOnPauseResume(std::function<void(void)>& f){
+		pause_resume = f;
+	}
+
+	void Game::Pause(long long unsigned int t){
+		is_paused = true;
+		pause_time = t;
+		pause_resume();
+	}
+
+	void Game::Resume(void){
+		is_paused = false;
+		pause_resume();
+		pause_time = 0;
+	}
+
+	bool Game::IsPaused(void) const{
+		return is_paused;
+	}
+
+	long long unsigned int Game::GetPauseTime(void) const{
+		return pause_time;
+	}
 
 
 	void Game::MainLoop(void) {
@@ -37,12 +60,13 @@ namespace app {
 	void Game::MainLoopIteration(void) {
 		Render();
 		Input();
-		ProgressAnimations();
-		AI();
-		Physics();
-		CollisionChecking();
-		CommitDestructions();
-		UserCode();
-		// FPS calculation ?
+		if(!IsPaused()){
+			ProgressAnimations();
+			AI();
+			Physics();
+			CollisionChecking();
+			CommitDestructions();
+			UserCode();
+		}
 	};
 };

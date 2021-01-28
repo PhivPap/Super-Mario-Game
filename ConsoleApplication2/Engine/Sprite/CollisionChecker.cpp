@@ -89,3 +89,10 @@ void CollisionChecker::GarbageCollect(){
 		Cancel(couple.s1, couple.s2);
 	}
 }
+
+
+void CollisionChecker::DestroyAll(){
+	for(auto it = entries.begin(); it != entries.end(); ){
+		it = entries.erase(it);
+	}
+}

@@ -10,7 +10,10 @@ namespace app {
 
 	private:
 		Action render, anim, input, ai, physics, destruct, collisions, user;
+		std::function<void(void)> pause_resume = [] {};
 		Pred done;
+		bool is_paused = false;
+		long long unsigned int pause_time = 0;
 		void Invoke(const Action& );
 	
 	public:
@@ -21,6 +24,12 @@ namespace app {
 		void PushbackDestruct(std::function<void(void)>&);
 
 		void SetDone(Pred&);
+
+		void SetOnPauseResume(std::function<void(void)>&);
+		void Pause(long long unsigned int);
+		void Resume(void);
+		bool IsPaused(void) const;
+		long long unsigned int GetPauseTime(void) const;
 		
 		// rest of setters are similary defined
 		void Render(void);

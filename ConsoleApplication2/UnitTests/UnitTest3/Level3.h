@@ -16,6 +16,7 @@
 #include "CollisionChecker.h"
 #include "PipeManager.h"
 #include "BoundingArea/BoundingBox.h"
+#include "Types.h"
 
 
 // TODO get from config file
@@ -37,6 +38,7 @@ typedef enum class MarioState {
 	MARIO_BREAKING_RIGHT,
 	MARIO_DUCKING_RIGHT,
 	MARIO_DUCKING_LEFT,
+	//MARIO_TRANFORMATION,
 	MARIO_DYING
 } MARIO_STATE_T;
 
@@ -46,19 +48,22 @@ public:
 		Point camera;
 		Point mario;
 	};
-
+	// mario specific vars
 	MARIO_STATE_T mario_state;
+	bool		  is_invincible = false;
+	bool		  is_flashing	= false;
 
 private:
 	std::function<void(void)> rect_movement;
 	std::function<void(void)> display_sprites;
 	std::function<void(void)> display_texts;
+	std::function<void(void)> display_center_text;
 	std::function<void(void)> animator_refresh;
 	std::function<void(void)> input_mario;
 	std::function<void(void)> destruct;
 	
 	std::function<void(MARIO_STATE_T)> start_animator;
-
+	
 	//std::list<Sprite*> moving_sprites;
 	std::map<std::string, CamMarioPos> scenes;
 
@@ -85,13 +90,20 @@ private:
 	TickAnimator		mario_jump_cd;
 
 	Dim					mario_small, mario_big, mario_duck;
+	Point				last_checkpoint;
 
 	void				SpriteLoader(void);
 	//static bool			OnSolidGround(const Rect&);
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
 
+	void ReloadAllSprites();
+	void InstallPauseResumeHandler();
+	void DamageMario();
+	void MarioDeath();
+	void GoombaDeath(Sprite*, bool);
+	void SetPiranhas();
 	void GarbageCollect();
-	void CreateMario();
+	void CreateMario(Point);
 	void SetMarioCollisions();
 	void CreatePipeInstances();
 	void MarioEnterVPipe(Pipe*);

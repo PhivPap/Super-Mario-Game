@@ -5,7 +5,7 @@
 ## rectangles: <comma separted list of all rect id's to be read>
 ## rect: x , y, w, h
 
-FILMS: COIN, QMARK, GOOMBA, GKT, MARIO, VPIPE, HPIPE, SUPER_SHROOM, UP_SHROOM, STAR, PLANT
+FILMS: COIN, QMARK, GOOMBA, GKT, MARIO, VPIPE, HPIPE, SUPER_SHROOM, UP_SHROOM, STAR, PIRANHA
 
 VPIPE: VPIPE, UnitTests/UnitTest3/media/bmps/pipes_updated.bmp, vrect
 HPIPE: HPIPE, UnitTests/UnitTest3/media/bmps/pipes_updated.bmp, hrect
@@ -55,7 +55,7 @@ UP_SHROOM: UP_SHROOM, UnitTests/UnitTest3/media/bmps/misc.bmp, up_shroom_rects
 up_shroom_rects: upsrect0
 upsrect0: 30, 0, 16, 16
 
-PLANT: PLANT, UnitTests/UnitTest3/media/bmps/misc.bmp, plant_rects
+PIRANHA: PIRANHA, UnitTests/UnitTest3/media/bmps/misc.bmp, plant_rects
 plant_rects: plantrect0, plantrect1
 plantrect0: 0, 17, 16, 23
 plantrect1: 16, 17, 16, 23
