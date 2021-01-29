@@ -67,7 +67,10 @@ private:
 	
 	//std::list<Sprite*> moving_sprites;
 	std::map<std::string, CamMarioPos> scenes;
+	std::map<Sprite*, std::list<Sprite*>> qmark_map;
+
 	std::vector<std::string> checkpoints;
+	std::string			last_checkpoint;
 
 	CollisionChecker&	collision_checker;
 	SpriteManager&		sprite_manager;
@@ -92,14 +95,19 @@ private:
 	TickAnimator		mario_jump_cd;
 
 	Dim					mario_small, mario_big, mario_duck;
-	Point				last_checkpoint;
+	
 	bool				reset = false;
 
 	void				SpriteLoader(void);
 	//static bool			OnSolidGround(const Rect&);
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
+	std::list<Sprite*>	LoadQmarkSpriteList(std::vector<std::string>&, const std::string&);
 
 
+	void SetMarioTossedCoinCollision(Sprite*, Sprite*);
+	void SetMarioUpShroomCollision(Sprite* , Sprite* );
+	void SetMarioSuperShroomCollision(Sprite*, Sprite*);
+	void SetMarioStarCollision(Sprite*, Sprite*);
 	void SetScene(const std::string&);
 	std::string GetLastCheckpoint(uint);
 	void ReloadAllSprites();
@@ -109,7 +117,7 @@ private:
 	void GoombaDeath(Sprite*, bool);
 	void SetPiranhas();
 	void GarbageCollect();
-	void CreateMario(Point);
+	void CreateMario();
 	void SetMarioCollisions();
 	void CreatePipeInstances();
 	void MarioEnterVPipe(Pipe*);

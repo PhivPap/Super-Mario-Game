@@ -23,10 +23,11 @@ arect1: 16, 0, 16, 16
 arect2: 32, 0, 16, 16
 
 QMARK: QMARK, UnitTests/UnitTest3/media/bmps/question_marks.bmp, brects
-brects: brect0, brect1, brect2
+brects: brect0, brect1, brect2, brect3
 brect0: 0, 0, 16, 16
 brect1: 16, 0, 16, 16
 brect2: 32, 0, 16, 16
+brect3: 48, 0, 16, 16
 
 GOOMBA: GOOMBA, UnitTests/UnitTest3/media/bmps/goomba.bmp, crects
 crects: crect0, crect1, crect2

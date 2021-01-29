@@ -36,6 +36,7 @@ protected:
 public:
 	MovingAnimator*		main_animator = nullptr;
 	Sprite(int, int, const AnimationFilm*, const std::string&);
+	Sprite(int, int, const AnimationFilm*, uint, const std::string&);
 	~Sprite();
 	void				SetMovingSprite(bool);
 	bool				IsMovingSprite();

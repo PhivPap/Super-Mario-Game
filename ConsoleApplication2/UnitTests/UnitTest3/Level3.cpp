@@ -66,10 +66,17 @@ void UnitTest3::SetScene(const std::string& scene_id) {
 	view_win.x = scene.camera.x;
 	view_win.y = scene.camera.y;
 	auto mario_box = mario->GetBox();
-	mario->SetPos(scene.mario.x, scene.mario.y - mario_box.h);
-	tile_view_win.x = view_win.x - TILE_WIDTH;
+	if((int)scene.mario.y - (int)mario_box.h < 0)
+		mario->SetPos(scene.mario.x, 0);
+	else
+		mario->SetPos(scene.mario.x, scene.mario.y - mario_box.h);
+	tile_view_win.x = view_win.x;
 	tile_view_win.y = 0;
 	tile_win_moved = true;
+
+	/*FilterScrollDistance(view_win.x, view_win.w, dist_to_mid, map_dim.w);
+	view_win.x += dist_to_mid;
+	tile_win_moved = TileAllignedViewBoundCheck();*/
 }
 
 void UnitTest3::MarioEnterHPipe(Pipe* pipe) {
@@ -251,7 +258,8 @@ void UnitTest3::MarioDeath() {
 				reset = true;
 				float x,y;
 				mario->GetPos(x,y);
-				SetScene(GetLastCheckpoint(x));
+				last_checkpoint = GetLastCheckpoint(x);
+
 			}
 			mario->SetHasDirectMotion(false);
 			animator_manager.AddGarbage(animator);
@@ -306,6 +314,121 @@ void UnitTest3::GoombaDeath(Sprite* goomba, bool death_animation) {
 	}
 }
 
+void UnitTest3::SetMarioTossedCoinCollision(Sprite* mario, Sprite* coin) {
+	collision_checker.Register(mario, coin,
+		[&](Sprite* mario, Sprite* coin) {
+			if (coin->main_animator->HasFinished())
+				return;
+			score += 100;
+			coins += 1;
+			KillSprite(coin);
+		}
+	);
+}
+
+void UnitTest3::SetMarioUpShroomCollision(Sprite* mario, Sprite* shroom) {
+	collision_checker.Register(mario, shroom,
+		[&](Sprite* mario, Sprite* shroom) {
+			if (shroom->main_animator->HasFinished())
+				return;
+			score += 1000;
+			lives += 1;
+			KillSprite(shroom);
+		}
+	);
+}
+
+void UnitTest3::SetMarioSuperShroomCollision(Sprite* mario, Sprite* shroom) {
+	collision_checker.Register(mario, shroom,
+		[&](Sprite* mario, Sprite* shroom) {
+
+			if (shroom->main_animator->HasFinished())
+				return;
+
+			score += 1000;
+			KillSprite(shroom);
+
+			if (mario->GetState() == "MARIO") {
+				return;
+			}
+
+			auto* super_mario_transition_anim = (TickAnimation*)AnimationHolder::Get().GetAnimation("SUPERMARIO_TRANSITION");
+			auto* super_mario_transition = new TickAnimator();
+			super_mario_transition->SetOnStart(
+				[&, mario](Animator* animator, const Animation& anim) {
+					mario->SetState("MARIO"); // == supermario 	
+					mario->SetUniformBox({ mario_big.w, mario_big.h });
+					float x, y;
+					mario->GetPos(x, y);
+					mario->SetPos(x, y - 16);
+					auto vel = mario->GetVelocity();
+					if (vel.x < 0)
+						start_animator(MARIO_STATE_T::MARIO_STANDING_LEFT);
+					else
+						start_animator(MARIO_STATE_T::MARIO_STANDING_RIGHT);
+					mario->SetVelocity({ 0,0 });
+					mario->GetGravityHandler().RemoveGravity();
+					mario->GetGravityHandler().Check(mario->GetBoxF());
+					mario->SetHasDirectMotion(true);
+				}
+			);
+			super_mario_transition->SetOnAction(
+				[&, mario](Animator* animator, const Animation& anim) {
+					mario->SetVisibility(!mario->isVisible());
+				}
+			);
+			super_mario_transition->SetOnFinish(
+				[&, mario](Animator* animator) {
+					mario->SetVisibility(true);
+					mario->SetHasDirectMotion(false);
+					mario->GetGravityHandler().SetGravity();
+					animator_manager.AddGarbage(animator);
+				}
+			);
+			super_mario_transition->Start(*super_mario_transition_anim, SystemClock::Get().milli_secs());
+		}
+	);
+}
+
+void UnitTest3::SetMarioStarCollision(Sprite* mario, Sprite* star) {
+	collision_checker.Register(mario, star,
+		[&](Sprite* mario, Sprite* star) {
+
+			if (star->main_animator->HasFinished())
+				return;
+
+			score += 1000;
+			KillSprite(star);
+
+			auto* invincible_mario_tick_anim = (TickAnimation*)AnimationHolder::Get().GetAnimation("INVINCIBLE_TIMER");
+			auto* invincible_mario_tick_animator = new TickAnimator(); //INVINCIBLE_TIMER
+
+			invincible_mario_tick_animator->SetOnStart(
+				[&, mario](Animator* animator, const Animation& anim) {
+					std::cout << " invincible " << std::endl;
+					is_invincible = true;
+				}
+			);
+
+			invincible_mario_tick_animator->SetOnAction(
+				[&, mario](Animator* animator, const Animation& anim) {
+#pragma warning ("TODO")
+					// some special effect maybe flashing 
+				}
+			);
+
+			invincible_mario_tick_animator->SetOnFinish(
+				[&, mario](Animator* animator) {
+					// render not invicible
+					std::cout << "Not invincible anymore" << std::endl;
+					is_invincible = false;
+					animator_manager.AddGarbage(animator);
+				}
+			);
+			invincible_mario_tick_animator->Start(*invincible_mario_tick_anim, SystemClock::Get().milli_secs());
+		}
+	);
+}
 
 // pre: all sprites are created first.
 void UnitTest3::SetMarioCollisions() {
@@ -349,19 +472,9 @@ void UnitTest3::SetMarioCollisions() {
 						SpriteHop(mario);
 						gkt->SetState("GKT_S"); // gkt stunned now
 						((FrameListAnimator*)gkt->main_animator)->Start((FrameListAnimation*)AnimationHolder::Get().GetAnimation("GKT_S"), SystemClock::Get().milli_secs());
-						//auto* animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("GKT_RESET_TIMER");
-						//auto* gkt_reset = new TickAnimator();
-						//gkt_reset->SetOnFinish(
-						//	[&, gkt](Animator* animator) {
-						//		animator_manager.AddGarbage(animator);
-						//		if (gkt->GetState() == "GKT_S")
-						//			gkt->SetState("GKT_W");
-						//	}
-						//);
-						//gkt_reset->Start(*animation, SystemClock::Get().milli_secs());
 						return;
 					}
-
+					DamageMario();
 				}
 				else if (gkt_state == "GKT_S") { // GKT stunned
 					// knock it
@@ -418,17 +531,78 @@ void UnitTest3::SetMarioCollisions() {
 			[&](Sprite* mario, Sprite* qmark) {
 				if (!RectAboveRect(qmark->GetBox(), mario->GetBox())) // if mario not under qmark return.
 					return;
-				// qmark hop.
-				// powerup comes out
-				// qmark invalidated
+				
+				auto i = qmark_map.find(qmark);
+				assert(i != qmark_map.end());
+				auto list = i->second;
+				
+				auto* hidden = list.front();
+				list.pop_front();
+
+				if (hidden->GetTypeId() == "COIN") {
+					((FrameRangeAnimator*)hidden->main_animator)->Start((FrameRangeAnimation*)AnimationHolder::Get().GetAnimation("COIN"), SystemClock::Get().milli_secs());
+
+				}
+				else {
+					((FrameRangeAnimator*)hidden->main_animator)->Start((FrameRangeAnimation*)AnimationHolder::Get().GetAnimation(hidden->GetState() + "R"), SystemClock::Get().milli_secs());
+
+				}
+				hidden->SetMovingSprite(true);
+				SpriteHop(hidden);
+				SetDefaultGravity(hidden);
+
+				bool qmark_emptied = list.empty();
+
+
+				auto action = collision_checker.Get(mario, qmark);
+				collision_checker.AddGarbage(mario, qmark);
+				
+				
+				auto* up_qmark_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("QMARK_HOP");
+				auto* up_qmark_animator = new TickAnimator();
+
+				up_qmark_animator->SetOnStart(
+					[&, qmark](Animator* animator, const Animation& animation) {
+						qmark->SetVelocity({ 0, -16 });
+					}
+				);
+
+				up_qmark_animator->SetOnFinish(
+					[mario, qmark, hidden, qmark_emptied, action](Animator* animator) {
+
+						AnimatorManager::GetSingleton().AddGarbage(animator);
+						auto* down_qmark_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("QMARK_HOP");
+						auto* down_qmark_animator = new TickAnimator();
+
+						down_qmark_animator->SetOnStart(
+							[qmark](Animator* animator, const Animation& animation) {
+								qmark->SetVelocity({ 0, 16 });
+							}
+						);
+						down_qmark_animator->SetOnFinish(
+							[mario, qmark, qmark_emptied, action](Animator* animator) {
+								if (qmark_emptied)
+									((FrameRangeAnimator*)qmark->main_animator)->Start((FrameRangeAnimation*)AnimationHolder::Get().GetAnimation("QMARK_DED"), SystemClock::Get().milli_secs());
+								else
+									CollisionChecker::GetSingleton().Register(mario, qmark, action);
+								AnimatorManager::GetSingleton().AddGarbage(animator);
+							}
+						);
+						down_qmark_animator->Start(*down_qmark_animation, SystemClock::Get().milli_secs());
+					}
+				);
+				up_qmark_animator->Start(*up_qmark_animation, SystemClock::Get().milli_secs());
 			}
 		);
+
 	}
 
 	auto coin_sprites = sprite_manager.GetTypeList("COIN");
 	for (auto* coin : coin_sprites) {
 		collision_checker.Register(mario, coin,
 			[&](Sprite* mario, Sprite* coin) {
+				if (coin->main_animator->HasFinished())
+					return;
 				score += 100;
 				coins += 1;
 				KillSprite(coin);
@@ -436,106 +610,115 @@ void UnitTest3::SetMarioCollisions() {
 		);
 	}
 
-	auto star_sprites = sprite_manager.GetTypeList("STAR");
-	for (auto* star : star_sprites) {
-		collision_checker.Register(mario, star,
-			[&](Sprite* mario, Sprite* star) {
-				score += 1000;
-				KillSprite(star);
+//	auto star_sprites = sprite_manager.GetTypeList("STAR");
+//	for (auto* star : star_sprites) {
+//		collision_checker.Register(mario, star,
+//			[&](Sprite* mario, Sprite* star) {
+//				
+//				if(star->main_animator->HasFinished())
+//					return;
+//				
+//				score += 1000;
+//				KillSprite(star);
+//
+//				auto* invincible_mario_tick_anim = (TickAnimation*)AnimationHolder::Get().GetAnimation("INVINCIBLE_TIMER");
+//				auto* invincible_mario_tick_animator = new TickAnimator(); //INVINCIBLE_TIMER
+//
+//				invincible_mario_tick_animator->SetOnStart(
+//					[&, mario](Animator* animator, const Animation& anim) {
+//						std::cout << " invincible " << std::endl;
+//						is_invincible = true;
+//					}
+//				);
+//
+//				invincible_mario_tick_animator->SetOnAction(
+//					[&, mario](Animator* animator, const Animation& anim) {
+//#pragma warning ("TODO")
+//						// some special effect maybe flashing 
+//					}
+//				);
+//
+//				invincible_mario_tick_animator->SetOnFinish(
+//					[&, mario](Animator* animator) {
+//						// render not invicible
+//						std::cout << "Not invincible anymore" << std::endl;
+//						is_invincible = false;
+//						animator_manager.AddGarbage(animator);
+//					}
+//				);
+//				invincible_mario_tick_animator->Start(*invincible_mario_tick_anim, SystemClock::Get().milli_secs());
+//			}
+//		);
+//	}
 
-				auto* invincible_mario_tick_anim = (TickAnimation*)AnimationHolder::Get().GetAnimation("INVINCIBLE_TIMER");
-				auto* invincible_mario_tick_animator = new TickAnimator(); //INVINCIBLE_TIMER
+	//auto super_shroom_sprites = sprite_manager.GetTypeList("SUPER_SHROOM");
+	//for (auto* shroom : super_shroom_sprites) {
+	//	collision_checker.Register(mario, shroom,
+	//		[&](Sprite* mario, Sprite* shroom) {
 
-				invincible_mario_tick_animator->SetOnStart(
-					[&, mario](Animator* animator, const Animation& anim) {
-						std::cout << " invincible " << std::endl;
-						is_invincible = true;
-					}
-				);
+	//			if(shroom->main_animator->HasFinished())
+	//				return;
 
-				invincible_mario_tick_animator->SetOnAction(
-					[&, mario](Animator* animator, const Animation& anim) {
-#pragma warning ("TODO")
-						// some special effect maybe flashing 
-					}
-				);
+	//			score += 1000;
+	//			KillSprite(shroom);
 
-				invincible_mario_tick_animator->SetOnFinish(
-					[&, mario](Animator* animator) {
-						// render not invicible
-						std::cout << "Not invincible anymore" << std::endl;
-						is_invincible = false;
-						animator_manager.AddGarbage(animator);
-					}
-				);
-				invincible_mario_tick_animator->Start(*invincible_mario_tick_anim, SystemClock::Get().milli_secs());
-			}
-		);
-	}
+	//			if (mario->GetState() == "MARIO") {
+	//				return;
+	//			}
 
-	auto super_shroom_sprites = sprite_manager.GetTypeList("SUPER_SHROOM");
-	for (auto* shroom : super_shroom_sprites) {
-		collision_checker.Register(mario, shroom,
-			[&](Sprite* mario, Sprite* shroom) {
+	//			auto* super_mario_transition_anim = (TickAnimation*)AnimationHolder::Get().GetAnimation("SUPERMARIO_TRANSITION");
+	//			auto* super_mario_transition = new TickAnimator();
+	//			super_mario_transition->SetOnStart(
+	//				[&, mario](Animator* animator, const Animation& anim) {
+	//					mario->SetState("MARIO"); // == supermario 	
+	//					mario->SetUniformBox({ mario_big.w, mario_big.h });
+	//					float x, y;
+	//					mario->GetPos(x, y);
+	//					mario->SetPos(x, y - 16);
+	//					auto vel = mario->GetVelocity();
+	//					if (vel.x < 0)
+	//						start_animator(MARIO_STATE_T::MARIO_STANDING_LEFT);
+	//					else
+	//						start_animator(MARIO_STATE_T::MARIO_STANDING_RIGHT);
+	//					mario->SetVelocity({ 0,0 });
+	//					mario->GetGravityHandler().RemoveGravity();
+	//					mario->GetGravityHandler().Check(mario->GetBoxF());
+	//					mario->SetHasDirectMotion(true);
+	//				}
+	//			);
+	//			super_mario_transition->SetOnAction(
+	//				[&, mario](Animator* animator, const Animation& anim) {
+	//					mario->SetVisibility(!mario->isVisible());
+	//				}
+	//			);
+	//			super_mario_transition->SetOnFinish(
+	//				[&, mario](Animator* animator) {
+	//					mario->SetVisibility(true);
+	//					mario->SetHasDirectMotion(false);
+	//					mario->GetGravityHandler().SetGravity();
+	//					animator_manager.AddGarbage(animator);
+	//				}
+	//			);
+	//			super_mario_transition->Start(*super_mario_transition_anim, SystemClock::Get().milli_secs());
+	//		}
+	//	);
+	//}
 
-				score += 1000;
-				KillSprite(shroom);
-
-				if (mario->GetState() == "MARIO") {
-					return;
-				}
-
-				auto* super_mario_transition_anim = (TickAnimation*)AnimationHolder::Get().GetAnimation("SUPERMARIO_TRANSITION");
-				auto* super_mario_transition = new TickAnimator();
-				super_mario_transition->SetOnStart(
-					[&, mario](Animator* animator, const Animation& anim) {
-						mario->SetState("MARIO"); // == supermario 	
-						mario->SetUniformBox({ mario_big.w, mario_big.h });
-						float x, y;
-						mario->GetPos(x, y);
-						mario->SetPos(x, y - 16);
-						auto vel = mario->GetVelocity();
-						if (vel.x < 0)
-							start_animator(MARIO_STATE_T::MARIO_STANDING_LEFT);
-						else
-							start_animator(MARIO_STATE_T::MARIO_STANDING_RIGHT);
-						mario->SetVelocity({ 0,0 });
-						mario->GetGravityHandler().RemoveGravity();
-						mario->GetGravityHandler().Check(mario->GetBoxF());
-						mario->SetHasDirectMotion(true);
-					}
-				);
-				super_mario_transition->SetOnAction(
-					[&, mario](Animator* animator, const Animation& anim) {
-						mario->SetVisibility(!mario->isVisible());
-					}
-				);
-				super_mario_transition->SetOnFinish(
-					[&, mario](Animator* animator) {
-						mario->SetVisibility(true);
-						mario->SetHasDirectMotion(false);
-						mario->GetGravityHandler().SetGravity();
-						animator_manager.AddGarbage(animator);
-					}
-				);
-				super_mario_transition->Start(*super_mario_transition_anim, SystemClock::Get().milli_secs());
-			}
-		);
-	}
-
-	auto up_shroom_sprites = sprite_manager.GetTypeList("UP_SHROOM");
+	/*auto up_shroom_sprites = sprite_manager.GetTypeList("UP_SHROOM");
 	for (auto* shroom : up_shroom_sprites) {
 		collision_checker.Register(mario, shroom,
 			[&](Sprite* mario, Sprite* shroom) {
+				if(shroom->main_animator->HasFinished())
+					return;
 				score += 1000;
 				lives += 1;
 				KillSprite(shroom);
 			}
 		);
-	}
+	}*/
 }
 
-void UnitTest3::CreateMario(Point pos) {
+void UnitTest3::CreateMario() {
 	uint mario_max_speed_x = main_config.GetUint("M_MAX_SPEED_X");
 	uint mario_acceleration_x = main_config.GetUint("M_ACCELERATION_X");
 	uint mario_air_acceleration_x = main_config.GetUint("M_AIR_ACCELERATION_X");
@@ -543,11 +726,12 @@ void UnitTest3::CreateMario(Point pos) {
 	int mario_initial_jump_speed = -main_config.GetInt("M_INIT_JUMP_SPEED");
 	uint mario_jump_sustained_loops = main_config.GetUint("MAX_M_JUMP_SUSTAIN");
 
-	auto mario_pos = pos;
 	auto mario_film = AnimationFilmHolder::Get().GetFilm("MARIO");
 	auto* mario_start_animation = (FrameRangeAnimation*)AnimationHolder::Get().GetAnimation("mario_sr");
-	mario = new Sprite(mario_pos.x, mario_pos.y, mario_film, "mario");
+	mario = new Sprite(0, 0, mario_film, "mario");
+	
 	mario->SetUniformBox({ mario_small.w, mario_small.h });
+	SetScene(last_checkpoint);
 	mario->SetVelocity({ 0,0 });
 
 	mario->SetState("mario");
@@ -964,8 +1148,6 @@ void CreateMovingAnimators(std::list<Sprite*> sprites, T2* animation) {
 				else {
 					sprite->SetVelocity(anim_vel);
 				}
-				//TODO: change film
-				//sprite->
 			}
 		);
 		animator->SetOnAction(
@@ -978,6 +1160,32 @@ void CreateMovingAnimators(std::list<Sprite*> sprites, T2* animation) {
 		sprite->main_animator = (MovingAnimator*)animator;
 		sprite->SetMovingSprite(true);
 	}
+}
+
+
+void CreateSpecialMovingAnimators(Sprite* sprite) {
+	
+	auto* animator = new FrameRangeAnimator();
+	animator->SetOnStart(
+		[sprite](Animator* animator, const Animation& anim) {
+			auto& anim_vel = ((const FrameRangeAnimation&)anim).GetVelocity();
+			if (sprite->GetGravityHandler().IsFalling()) {
+				auto& sprite_vel = sprite->GetVelocity();
+				sprite->SetVelocity({ 0, sprite_vel.y });
+			}
+			else {
+				sprite->SetVelocity(anim_vel);
+			}
+		}
+	);
+	animator->SetOnAction(
+		[sprite](Animator* animator, const Animation& anim) {
+			sprite->SetFrame(((FrameRangeAnimator*)animator)->GetCurrFrame());
+		}
+	);
+	//sprite->SetVelocity(animation->GetVelocity());
+	sprite->main_animator = (MovingAnimator*)animator;
+	sprite->SetMovingSprite(false);
 }
 
 void UnitTest3::CreatePipeInstances() {
@@ -1021,6 +1229,41 @@ std::list<Sprite*> UnitTest3::LoadSpriteList(std::vector<std::string>& list, con
 	return sprites;
 }
 
+std::list<Sprite*> UnitTest3::LoadQmarkSpriteList(std::vector<std::string>& list, const std::string& default_state) {
+	std::list<Sprite*> sprites;
+	auto* sprite_film = AnimationFilmHolder::Get().GetFilm("QMARK");
+	std::list<Sprite*> qmark_list;
+	Sprite* sprite;
+	for (auto& str : list) {
+		auto point = map_info_parser.GetPoint(str);
+		sprite = new Sprite(point.x, point.y, sprite_film, "QMARK");
+		sprite->SetHasDirectMotion(true);
+		sprites.push_front(sprite);
+		auto qmark_list = map_info_parser.GetList(str);
+		std::list<Sprite*> qmark_sprite_list;
+		
+		for (int i = 2; i < qmark_list.size(); ++i) {
+			auto item_inside = new Sprite(point.x, point.y, AnimationFilmHolder::Get().GetFilm(qmark_list[i]), 150, qmark_list[i]); // z_order 50 < 100
+			qmark_sprite_list.push_back(item_inside);
+			auto inside_qmark_info = main_config.GetList(qmark_list[i]); // [0] = type(range/list), [1] = is_static, [2] = init_state, [3] = init_anim
+			assert(inside_qmark_info[0] == "range");
+			item_inside->SetState(inside_qmark_info[2]);
+			item_inside->SetHasDirectMotion(true); // disable latr
+			
+			if (inside_qmark_info[1] == "false" ) {
+				CreateSpecialMovingAnimators(item_inside);
+			}
+			else {
+				assert(0);
+			}
+		}
+
+		qmark_map[sprite] = qmark_sprite_list;
+	}
+	return sprites;
+}
+
+
 static void SetCollisions(const std::string& type1, const std::string& type2, std::function<void(Sprite* s1, Sprite* s2)> handler) {
 	auto type1_sprites = SpriteManager::GetSingleton().GetTypeList(type1);
 	auto type2_sprites = SpriteManager::GetSingleton().GetTypeList(type2);
@@ -1042,12 +1285,17 @@ void UnitTest3::SpriteLoader() {
 		auto npc_type_info = main_config.GetList(npc_type); // [0] = type(range/list), [1] = is_static, [2] = init_state, [3] = init_anim
 		auto sprite_list_str = map_info_parser.GetList(npc_type);
 		auto sprite_film = film_holder.GetFilm(npc_type);
-		auto sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, npc_type, npc_type_info[2]);
+		
+		std::list<Sprite*> sprites_loaded;
+		if (npc_type == "QMARK")
+			sprites_loaded = LoadQmarkSpriteList(sprite_list_str, npc_type_info[2]);
+
+		else
+			sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, npc_type, npc_type_info[2]);
 
 		if (npc_type_info[0] == "range") { // if sprite is range
 			auto* fr_animation = (FrameRangeAnimation*)anim_holder.GetAnimation(npc_type_info[3]);
 			if (npc_type_info[1] == "false") { // if sprite is moving:
-				//moving_sprites.insert(moving_sprites.end(), sprites_loaded.begin(), sprites_loaded.end());
 				CreateMovingAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);
 			}
 			else
@@ -1066,6 +1314,29 @@ void UnitTest3::SpriteLoader() {
 			assert(0);
 		}
 	}
+
+	//auto npc_type_list = main_config.GetList("SPECIAL");
+	//for (auto& npc_type : npc_type_list) {
+	//	auto npc_type_info = main_config.GetList(npc_type); // [0] = type(range/list), [1] = is_static, [2] = init_state, [3] = init_anim
+	//	auto sprite_list_str = map_info_parser.GetList(npc_type);
+	//	auto sprite_film = film_holder.GetFilm(npc_type);
+	//	
+	//	auto sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, npc_type, npc_type_info[2]);
+
+	//	if (npc_type_info[0] == "range") { // if sprite is range
+	//		auto* fr_animation = (FrameRangeAnimation*)anim_holder.GetAnimation(npc_type_info[3]);
+	//		if (npc_type_info[1] == "false") { // if sprite is moving:
+	//			//moving_sprites.insert(moving_sprites.end(), sprites_loaded.begin(), sprites_loaded.end());
+	//			CreateMovingAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);
+	//		}
+	//		else
+	//			CreateStaticAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);
+	//	}
+	//	else { // if type is not range or list
+	//		assert(0);
+	//	}
+	//}
+
 
 
 	SetCollisions("GOOMBA", "GOOMBA", DefaultCollisionHandler);
@@ -1118,6 +1389,7 @@ void UnitTest3::ReloadAllSprites() {
 	animator_manager.DestroyAll();
 	collision_checker.DestroyAll();
 	sprite_manager.DestroyAll();
+	qmark_map.clear();
 	Load();
 }
 
@@ -1303,7 +1575,7 @@ void UnitTest3::Initialise(void) {
 
 	mario_small = main_config.GetDim("mario");
 	mario_big = main_config.GetDim("MARIO");
-	mario_duck = main_config.GetDim("MARIO_duck");
+	
 	CreatePipeInstances();
 
 
@@ -1318,14 +1590,14 @@ void UnitTest3::Initialise(void) {
 	game.PushbackDestruct(destruct);
 
 
-	last_checkpoint = map_info_parser.GetPoint("MARIO");
+	last_checkpoint = checkpoints[0];
 }
 
 
 void UnitTest3::Load(void) {
 
 
-	CreateMario(last_checkpoint);
+	CreateMario();
 	SpriteLoader();
 	SetMarioCollisions();
 
@@ -1378,6 +1650,7 @@ void UnitTest3::Load(void) {
 		[&](Animator* animator, const Animation& anim) {
 			time_left--;
 			if (time_left == 0) {
+				MarioDeath();
 				time_is_up = true;
 				game_finished = true;
 				std::cout << "YOU NOOB\n";
@@ -1388,6 +1661,10 @@ void UnitTest3::Load(void) {
 }
 
 void UnitTest3::Clear(void) {
+	animator_manager.DestroyAll();
+	collision_checker.DestroyAll();
+	sprite_manager.DestroyAll();
+	qmark_map.clear();
 	al_destroy_font(font0);
 	UnitTest2::Clear();
 	auto b = AnimationFilmHolder::Get().GetBitmapLoader();

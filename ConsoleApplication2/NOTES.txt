@@ -14,6 +14,7 @@ shrooms,star
 > General
 	+ ADD 1-2 VERTICAL TILES TO THE MAP.
 	+ Checkpoints
+	+ Game over text
 
 >>>> NOTES:
     + when mario hitting block -> block goes up and set collision detection (to kill any sprite) -> block goes down and drops collision detection.

@@ -8,9 +8,24 @@ static inline int number_sign(Tnum x) { return x > 0 ? 1 : x < 0 ? -1 : 0; }
 Sprite::Sprite(int x, int y, const AnimationFilm* film, const std::string& type_id = "")
 	: x(x), y(y), curr_film(film), type_id(type_id){
 
+	SetZorder(100);
 	frame_no = curr_film->GetTotalFrames(); 
 	SetFrame(0);
 	
+	SpriteManager::GetSingleton().Add(this);
+
+	SetBoundingArea(new BoundingBox(uint(x), uint(y), x + frame_box.w, y + frame_box.h));
+	uniform_box.w = frame_box.w;
+	uniform_box.h = frame_box.h;
+}
+
+Sprite::Sprite(int x, int y, const AnimationFilm* film, uint z, const std::string& type_id = "")
+	: x(x), y(y), curr_film(film), z_order(z), type_id(type_id){
+	
+	//SetZorder(z);
+	frame_no = curr_film->GetTotalFrames();
+	SetFrame(0);
+
 	SpriteManager::GetSingleton().Add(this);
 
 	SetBoundingArea(new BoundingBox(uint(x), uint(y), x + frame_box.w, y + frame_box.h));
