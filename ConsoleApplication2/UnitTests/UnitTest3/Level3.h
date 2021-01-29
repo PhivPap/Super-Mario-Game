@@ -69,8 +69,8 @@ private:
 	std::map<std::string, CamMarioPos> scenes;
 	std::map<Sprite*, std::list<Sprite*>> qmark_map;
 
-	std::vector<std::string> checkpoints;
-	std::string			last_checkpoint;
+	std::vector<std::string>	checkpoints;
+	std::string					last_checkpoint;
 
 	CollisionChecker&	collision_checker;
 	SpriteManager&		sprite_manager;
@@ -97,14 +97,13 @@ private:
 	Dim					mario_small, mario_big, mario_duck;
 	
 	bool				reset = false;
-
+	uint				game_over_x;
 	void				SpriteLoader(void);
 	//static bool			OnSolidGround(const Rect&);
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
 	std::list<Sprite*>	LoadQmarkSpriteList(std::vector<std::string>&, const std::string&);
 
 
-	void SetMarioTossedCoinCollision(Sprite*, Sprite*);
 	void SetMarioUpShroomCollision(Sprite* , Sprite* );
 	void SetMarioSuperShroomCollision(Sprite*, Sprite*);
 	void SetMarioStarCollision(Sprite*, Sprite*);

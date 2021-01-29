@@ -3,6 +3,7 @@
 #include "SystemClock.h"
 
 #define HOP_Y_SPEED -220 // px/s
+#define HOP_Y_SPEED_SMALL -130
 
 static inline const std::string GetMarioStateId(MARIO_STATE_T mario_state_t) {
 	switch (mario_state_t) {
@@ -164,9 +165,13 @@ static void KillSprite(Sprite* sprite) {
 }
 
 static void SpriteHop(Sprite* sprite) {
-	std::cout << "Sprite HOP!\n";
 	auto& current_vel = sprite->GetVelocity();
 	sprite->SetVelocity({ current_vel.x, HOP_Y_SPEED });
+}
+
+static void SpriteHopSmall(Sprite* sprite) {
+	auto& current_vel = sprite->GetVelocity();
+	sprite->SetVelocity({ current_vel.x, HOP_Y_SPEED_SMALL });
 }
 
 void UnitTest3::DamageMario() {
@@ -314,18 +319,6 @@ void UnitTest3::GoombaDeath(Sprite* goomba, bool death_animation) {
 	}
 }
 
-void UnitTest3::SetMarioTossedCoinCollision(Sprite* mario, Sprite* coin) {
-	collision_checker.Register(mario, coin,
-		[&](Sprite* mario, Sprite* coin) {
-			if (coin->main_animator->HasFinished())
-				return;
-			score += 100;
-			coins += 1;
-			KillSprite(coin);
-		}
-	);
-}
-
 void UnitTest3::SetMarioUpShroomCollision(Sprite* mario, Sprite* shroom) {
 	collision_checker.Register(mario, shroom,
 		[&](Sprite* mario, Sprite* shroom) {
@@ -412,8 +405,7 @@ void UnitTest3::SetMarioStarCollision(Sprite* mario, Sprite* star) {
 
 			invincible_mario_tick_animator->SetOnAction(
 				[&, mario](Animator* animator, const Animation& anim) {
-#pragma warning ("TODO")
-					// some special effect maybe flashing 
+					mario->SetVisibility(!mario->isVisible());
 				}
 			);
 
@@ -534,11 +526,12 @@ void UnitTest3::SetMarioCollisions() {
 				
 				auto i = qmark_map.find(qmark);
 				assert(i != qmark_map.end());
-				auto list = i->second;
+				auto& list = i->second;
 				
 				auto* hidden = list.front();
 				list.pop_front();
 
+				std::cout << hidden->GetTypeId() << std::endl;
 				if (hidden->GetTypeId() == "COIN") {
 					((FrameRangeAnimator*)hidden->main_animator)->Start((FrameRangeAnimation*)AnimationHolder::Get().GetAnimation("COIN"), SystemClock::Get().milli_secs());
 
@@ -548,7 +541,7 @@ void UnitTest3::SetMarioCollisions() {
 
 				}
 				hidden->SetMovingSprite(true);
-				SpriteHop(hidden);
+				SpriteHopSmall(hidden);
 				SetDefaultGravity(hidden);
 
 				bool qmark_emptied = list.empty();
@@ -568,9 +561,27 @@ void UnitTest3::SetMarioCollisions() {
 				);
 
 				up_qmark_animator->SetOnFinish(
-					[mario, qmark, hidden, qmark_emptied, action](Animator* animator) {
+					[&, mario, qmark, hidden, qmark_emptied, action](Animator* animator) {
+						hidden->SetHasDirectMotion(false);
+						if (hidden->GetTypeId() == "COIN") {
+							score += 100;
+							coins += 1;
+							KillSprite(hidden);
+						}
+						else if (hidden->GetTypeId() == "UP_SHROOM") {
+							SetMarioUpShroomCollision(mario, hidden);
+						}
+						else if (hidden->GetTypeId() == "SUPER_SHROOM") {
+							SetMarioSuperShroomCollision(mario, hidden);
+						}
+						else if (hidden->GetTypeId() == "STAR") {
+							SetMarioStarCollision(mario, hidden);
+						}
+						else
+							assert(0);
 
-						AnimatorManager::GetSingleton().AddGarbage(animator);
+
+						//AnimatorManager::GetSingleton().AddGarbage(animator);
 						auto* down_qmark_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("QMARK_HOP");
 						auto* down_qmark_animator = new TickAnimator();
 
@@ -581,10 +592,14 @@ void UnitTest3::SetMarioCollisions() {
 						);
 						down_qmark_animator->SetOnFinish(
 							[mario, qmark, qmark_emptied, action](Animator* animator) {
+								
 								if (qmark_emptied)
 									((FrameRangeAnimator*)qmark->main_animator)->Start((FrameRangeAnimation*)AnimationHolder::Get().GetAnimation("QMARK_DED"), SystemClock::Get().milli_secs());
-								else
+								else {
+									qmark->SetVelocity({ 0,0 });
 									CollisionChecker::GetSingleton().Register(mario, qmark, action);
+								}
+									
 								AnimatorManager::GetSingleton().AddGarbage(animator);
 							}
 						);
@@ -597,12 +612,23 @@ void UnitTest3::SetMarioCollisions() {
 
 	}
 
-	auto coin_sprites = sprite_manager.GetTypeList("COIN");
+	/*auto coin_sprites = sprite_manager.GetTypeList("COIN");
 	for (auto* coin : coin_sprites) {
 		collision_checker.Register(mario, coin,
 			[&](Sprite* mario, Sprite* coin) {
 				if (coin->main_animator->HasFinished())
 					return;
+				score += 100;
+				coins += 1;
+				KillSprite(coin);
+			}
+		);
+	}*/
+
+	auto coin_sprites = sprite_manager.GetTypeList("COIN_FLOAT");
+	for (auto* coin : coin_sprites) {
+		collision_checker.Register(mario, coin,
+			[&](Sprite* mario, Sprite* coin) {
 				score += 100;
 				coins += 1;
 				KillSprite(coin);
@@ -910,6 +936,11 @@ void UnitTest3::CreateMario() {
 			auto tmpx = dx = new_vel_x * delay;
 			auto tmpy = dy = new_vel_y * delay;
 			FilterGridMotion(mario->GetBoxF(), dx, dy);
+			
+			
+			if (x + dx >= game_over_x && x + dx < scenes["underground_scene"].camera.x){
+				game_finished = true;
+			}
 
 			if (x < view_win.x) {
 				x = view_win.x;
@@ -940,6 +971,8 @@ void UnitTest3::CreateMario() {
 			}
 
 			mario->GetGravityHandler().Check(mario->GetBoxF());
+
+			
 		}
 	);
 	SetMarioGravity(mario);
@@ -1315,33 +1348,11 @@ void UnitTest3::SpriteLoader() {
 		}
 	}
 
-	//auto npc_type_list = main_config.GetList("SPECIAL");
-	//for (auto& npc_type : npc_type_list) {
-	//	auto npc_type_info = main_config.GetList(npc_type); // [0] = type(range/list), [1] = is_static, [2] = init_state, [3] = init_anim
-	//	auto sprite_list_str = map_info_parser.GetList(npc_type);
-	//	auto sprite_film = film_holder.GetFilm(npc_type);
-	//	
-	//	auto sprites_loaded = LoadSpriteList(sprite_list_str, sprite_film, npc_type, npc_type_info[2]);
-
-	//	if (npc_type_info[0] == "range") { // if sprite is range
-	//		auto* fr_animation = (FrameRangeAnimation*)anim_holder.GetAnimation(npc_type_info[3]);
-	//		if (npc_type_info[1] == "false") { // if sprite is moving:
-	//			//moving_sprites.insert(moving_sprites.end(), sprites_loaded.begin(), sprites_loaded.end());
-	//			CreateMovingAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);
-	//		}
-	//		else
-	//			CreateStaticAnimators<FrameRangeAnimator, FrameRangeAnimation>(sprites_loaded, fr_animation);
-	//	}
-	//	else { // if type is not range or list
-	//		assert(0);
-	//	}
-	//}
-
-
 
 	SetCollisions("GOOMBA", "GOOMBA", DefaultCollisionHandler);
 	SetCollisions("GKT", "GKT", gkt_collision_handler);
 	SetCollisions("GOOMBA", "GKT", gkt_collision_handler);
+
 
 
 	auto gkts = sprite_manager.GetTypeList("GKT");
@@ -1576,6 +1587,8 @@ void UnitTest3::Initialise(void) {
 	mario_small = main_config.GetDim("mario");
 	mario_big = main_config.GetDim("MARIO");
 	
+	game_over_x = map_info_parser.GetInt("GAME_OVER_X");
+
 	CreatePipeInstances();
 
 
