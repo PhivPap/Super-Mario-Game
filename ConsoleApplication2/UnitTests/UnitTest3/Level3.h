@@ -96,6 +96,7 @@ private:
 
 	Dim					mario_small, mario_big, mario_duck;
 	
+	int					game_done = 0; // 0 not done, 1 won, 2 lost
 	bool				reset = false;
 	uint				game_over_x;
 	void				SpriteLoader(void);
@@ -103,7 +104,7 @@ private:
 	std::list<Sprite*> 	LoadSpriteList(std::vector<std::string>&, const AnimationFilm*, const std::string&, const std::string&);
 	std::list<Sprite*>	LoadQmarkSpriteList(std::vector<std::string>&, const std::string&);
 
-
+	void GameOver();
 	void SetMarioUpShroomCollision(Sprite* , Sprite* );
 	void SetMarioSuperShroomCollision(Sprite*, Sprite*);
 	void SetMarioStarCollision(Sprite*, Sprite*);

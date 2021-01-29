@@ -7,7 +7,7 @@ void CollisionChecker::Register(Sprite* s1, Sprite* s2, Action f) {
 	Cancel(s1, s2);
 	Cancel(s2, s1);
 	entries.push_back(std::make_tuple(s1, s2, f));
-	std::cout << entries.size() << std::endl;
+	//std::cout << entries.size() << std::endl;
 }
 
 CollisionChecker::Action CollisionChecker::Get(Sprite* s1, Sprite* s2) {

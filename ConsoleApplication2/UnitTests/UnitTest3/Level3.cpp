@@ -20,6 +20,22 @@ static inline const std::string GetMarioStateId(MARIO_STATE_T mario_state_t) {
 	}
 }
 
+void UnitTest3::GameOver() {
+
+	auto* game_over_animation = (TickAnimation*)AnimationHolder::Get().GetAnimation("GAME_OVER");
+	auto* game_over_animator = new TickAnimator();
+	
+
+	game_over_animator->SetOnFinish(
+		[&](Animator* animator) {
+			game_finished = true;
+			AnimatorManager::GetSingleton().AddGarbage(animator);
+		}
+	);
+
+	game_over_animator->Start(*game_over_animation, SystemClock::Get().milli_secs());
+}
+
 std::string UnitTest3::GetLastCheckpoint(uint x) {
 	//std::string last_cp = "";
 	auto cp_count = checkpoints.size();
@@ -256,7 +272,8 @@ void UnitTest3::MarioDeath() {
 			if (lives == 0)
 			{
 				std::cout << "Game over" << std::endl;
-				game_finished = true;
+				game_done = 2;
+				GameOver();
 			}
 			else
 			{
@@ -398,7 +415,7 @@ void UnitTest3::SetMarioStarCollision(Sprite* mario, Sprite* star) {
 
 			invincible_mario_tick_animator->SetOnStart(
 				[&, mario](Animator* animator, const Animation& anim) {
-					std::cout << " invincible " << std::endl;
+					//std::cout << " invincible " << std::endl;
 					is_invincible = true;
 				}
 			);
@@ -412,8 +429,9 @@ void UnitTest3::SetMarioStarCollision(Sprite* mario, Sprite* star) {
 			invincible_mario_tick_animator->SetOnFinish(
 				[&, mario](Animator* animator) {
 					// render not invicible
-					std::cout << "Not invincible anymore" << std::endl;
+					//std::cout << "Not invincible anymore" << std::endl;
 					is_invincible = false;
+					mario->SetVisibility(true);
 					animator_manager.AddGarbage(animator);
 				}
 			);
@@ -531,7 +549,7 @@ void UnitTest3::SetMarioCollisions() {
 				auto* hidden = list.front();
 				list.pop_front();
 
-				std::cout << hidden->GetTypeId() << std::endl;
+				//std::cout << hidden->GetTypeId() << std::endl;
 				if (hidden->GetTypeId() == "COIN") {
 					((FrameRangeAnimator*)hidden->main_animator)->Start((FrameRangeAnimation*)AnimationHolder::Get().GetAnimation("COIN"), SystemClock::Get().milli_secs());
 
@@ -939,7 +957,8 @@ void UnitTest3::CreateMario() {
 			
 			
 			if (x + dx >= game_over_x && x + dx < scenes["underground_scene"].camera.x){
-				game_finished = true;
+				game_done = 1;
+				GameOver();
 			}
 
 			if (x < view_win.x) {
@@ -1432,6 +1451,14 @@ UnitTest3::UnitTest3() :
 		if (game.IsPaused()) {
 			al_draw_text(font0, font0_color, 500, 200, ALLEGRO_ALIGN_CENTRE, "PAUSED");
 		}
+		if (game_done != 0) {
+			if (game_done == 1) {
+				al_draw_text(font0, font0_color, 500, 200, ALLEGRO_ALIGN_CENTRE, "WIN!!!");
+			}
+			else { // lost
+				al_draw_text(font0, font0_color, 500, 200, ALLEGRO_ALIGN_CENTRE, "GAME OVER");
+			}
+		}
 	};
 
 	display_texts = [&] {
@@ -1665,8 +1692,10 @@ void UnitTest3::Load(void) {
 			if (time_left == 0) {
 				MarioDeath();
 				time_is_up = true;
-				game_finished = true;
-				std::cout << "YOU NOOB\n";
+				game_done = 2;
+				GameOver();
+				//game_finished = true;
+				//std::cout << "YOU NOOB\n";
 			}
 		}
 	);
